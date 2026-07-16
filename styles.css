@@ -79,3 +79,13 @@ body{background:#fcfcfb}
 /* Tighten the space below the masthead. */
 .hero{transform:translateY(-72px);margin-bottom:-48px}
 @media(max-width:820px){.hero{transform:translateY(-40px);margin-bottom:-16px}}
+
+/* Airier hero balance: earlier start, quieter scale. */
+.hero-copy{transform:translateY(-56px)}
+.hero h1{font-size:clamp(4.6rem,6.4vw,7.6rem);margin-bottom:3rem}
+.hero-eyebrow{margin-bottom:2.4rem}
+.hero-intro{margin-bottom:3rem}
+.hero-intro strong{margin-bottom:1.6rem;font-size:clamp(1.35rem,1.55vw,1.65rem)}
+.hero-intro span{font-size:.8125rem;line-height:1.78;max-width:400px}
+@media(max-width:1439px) and (min-width:821px){.hero h1{font-size:clamp(4.4rem,6.35vw,6.7rem)}.hero-copy{transform:translateY(-44px)}}
+@media(max-width:820px){.hero-copy{transform:translateY(-16px)}.hero h1{font-size:clamp(3.6rem,17vw,5.6rem);margin-bottom:2.6rem}.hero-eyebrow{margin-bottom:2rem}.hero-intro{margin-bottom:2.6rem}.hero-intro strong{font-size:1.28rem;margin-bottom:1.35rem}.hero-intro span{font-size:.775rem;line-height:1.75}}
