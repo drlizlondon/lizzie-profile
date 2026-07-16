@@ -10,6 +10,7 @@ test('homepage contains the required positioning and project links', () => {
   assert.match(html, /Impact\./);
   assert.match(html, /In real life\./);
   assert.equal((html.match(/class="project-card/g) ?? []).length, 6);
+  assert.match(html, /data-projects-toggle/);
 });
 
 test('homepage exposes semantic navigation and a single h1', () => {

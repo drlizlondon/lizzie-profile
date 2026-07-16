@@ -2,6 +2,8 @@ const header = document.querySelector('[data-header]');
 const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.site-nav');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const projectsToggle = document.querySelector('[data-projects-toggle]');
+const additionalProjects = document.querySelectorAll('.additional-project');
 
 /** @param {boolean} open */
 const setMenu = (open) => {
@@ -13,6 +15,17 @@ const setMenu = (open) => {
 navToggle?.addEventListener('click', () => setMenu(navToggle.getAttribute('aria-expanded') !== 'true'));
 nav?.addEventListener('click', (event) => {
   if (event.target instanceof HTMLAnchorElement) setMenu(false);
+});
+
+projectsToggle?.addEventListener('click', () => {
+  const expanding = projectsToggle.getAttribute('aria-expanded') !== 'true';
+  projectsToggle.setAttribute('aria-expanded', String(expanding));
+  const labelNode = projectsToggle.firstChild;
+  if (labelNode) labelNode.textContent = expanding ? 'Show less ' : 'See more ';
+  additionalProjects.forEach((project) => {
+    project.toggleAttribute('hidden', !expanding);
+    if (expanding) requestAnimationFrame(() => project.classList.add('is-visible'));
+  });
 });
 
 window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 48), { passive: true });
