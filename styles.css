@@ -110,3 +110,11 @@ body{background:#fff}
 .image-card img{z-index:0}
 .image-card::after{z-index:1}
 .image-card span,.image-card p,.image-card b{position:relative;z-index:2}
+
+/* Closing invitation. */
+.contact-copy{max-width:58rem}
+.contact-copy h2{font-size:clamp(2.8rem,4.2vw,5rem);max-width:15ch}
+.contact-copy h2 em{font-weight:400}
+.contact-description{max-width:48rem;margin:2rem 0 0;font-family:var(--serif);font-size:clamp(1.25rem,1.8vw,1.7rem);line-height:1.35;color:#4f4b53}
+.contact-description em{font-weight:400}
+@media(max-width:820px){.contact-copy h2{font-size:clamp(2.8rem,9vw,3.8rem)}.contact-description{font-size:1.2rem}.contact-inner{align-items:flex-start}}
