@@ -104,3 +104,9 @@ body{background:#fff}
 .portrait-field{background:radial-gradient(circle at 30% 25%,rgba(217,208,241,.92) 0 26%,transparent 58%),radial-gradient(circle at 75% 30%,rgba(244,193,173,.92) 0 24%,transparent 57%),#fff}
 .portrait-wrap{bottom:6px}
 @media(max-width:820px){.site-header{padding-top:.75rem;padding-bottom:.75rem}.site-header .masthead{font-size:1rem}.site-nav a{font-size:1.75rem}.text-link{font-size:.825rem}.portrait-wrap{bottom:4px}}
+
+/* Keep editorial photography stable after reveal transforms complete. */
+.image-card{isolation:isolate}
+.image-card img{z-index:0}
+.image-card::after{z-index:1}
+.image-card span,.image-card p,.image-card b{position:relative;z-index:2}
