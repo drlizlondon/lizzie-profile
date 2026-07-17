@@ -6,6 +6,7 @@ const projects = {
   'mission-control': ['Mission Control', 'Complex systems made easier to understand.', 'Verified project details and visuals will be added here.'],
   'common-ground': ['Common Ground', 'Better questions. Stronger connections.', 'Verified project details and visuals will be added here.'],
   'big-picture-planner': ['Big Picture Planner', 'See your week. Focus on what fits.', 'Verified project details and visuals will be added here.'],
+  mybishbash: ['myBishBash', 'Helping you use your phone intentionally, so it supports the life you actually want.', 'Verified project details and visuals will be added here.'],
 };
 
 const slug = location.pathname.split('/').pop()?.replace('.html', '') ?? '';

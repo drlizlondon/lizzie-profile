@@ -116,3 +116,26 @@ body{background:#fff}
 .contact-copy h2{font-size:clamp(2.8rem,4.2vw,5rem);max-width:15ch}
 .contact-description{max-width:48rem;margin:2rem 0 0;font-family:var(--serif);font-size:clamp(1.25rem,1.8vw,1.7rem);line-height:1.35;color:#4f4b53}
 @media(max-width:820px){.contact-copy h2{font-size:clamp(2.8rem,9vw,3.8rem)}.contact-description{font-size:1.2rem}.contact-inner{align-items:flex-start}}
+
+/* Featured project covers using verified product screenshots. */
+.featured-project-card{grid-column:1/-1;display:grid;grid-template-columns:minmax(18rem,42%) 1fr;min-height:25rem;overflow:hidden;background:#f5f1fb}
+.featured-project-card+.featured-project-card{margin-top:.25rem}
+.featured-planner{background:#fbf5ec}
+.featured-mybishbash{background:#f1f5ef}
+.featured-project-copy{z-index:2;display:flex;flex-direction:column;align-items:flex-start;padding:clamp(2rem,4vw,4rem)}
+.featured-project-copy h3{margin:auto 0 .8rem;font-family:var(--serif);font-size:clamp(2.7rem,4vw,4.5rem);font-weight:400;line-height:.95;letter-spacing:-.025em}
+.featured-project-copy>p{max-width:22rem;margin:0;color:#4f4f4b;font-size:1rem;line-height:1.6}
+.project-actions{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.8rem;margin-top:2.4rem}
+.project-actions a{display:inline-flex;align-items:center;gap:.7rem;padding:.75rem 1.15rem;border-radius:999px;background:#29262d;color:#fff;font-size:.78rem;font-weight:500;letter-spacing:.04em;transition:transform .25s,background .25s}
+.featured-bumpnotes .project-actions a:first-child{background:#cc728e}
+.featured-planner .project-actions a:first-child{background:#b77a49}
+.featured-mybishbash .project-actions a:first-child{background:#607c62}
+.project-actions a:hover,.project-actions a:focus-visible{transform:translateY(-2px)}
+.project-actions .project-site-link{padding:.65rem 0;border-radius:0;border-bottom:1px solid currentColor;background:transparent;color:var(--ink)}
+.project-screen{position:relative;min-width:0;overflow:hidden;background:rgba(255,255,255,.45)}
+.project-screen img{width:100%;height:100%;object-fit:cover;object-position:center 62%;transform:scale(1.16);transition:transform .6s ease}
+.featured-bumpnotes .project-screen img{object-position:70% 63%}
+.featured-planner .project-screen img{object-position:60% 72%}
+.featured-mybishbash .project-screen img{object-position:72% 62%}
+.featured-project-card:hover .project-screen img{transform:scale(1.19)}
+@media(max-width:820px){.featured-project-card{display:flex;min-height:0;flex-direction:column}.featured-project-copy{min-height:20rem;padding:2rem}.featured-project-copy h3{margin:auto 0 .7rem;font-size:clamp(2.6rem,11vw,3.8rem)}.featured-project-copy>p{font-size:.9rem}.project-actions{margin-top:1.8rem}.project-screen{height:18rem}.project-screen img{transform:scale(1.12)}.featured-project-card:hover .project-screen img{transform:scale(1.14)}}

@@ -8,6 +8,7 @@ const projectPages = [
   'mission-control',
   'common-ground',
   'big-picture-planner',
+  'mybishbash',
 ];
 
 export default defineConfig({

@@ -9,7 +9,8 @@ test('homepage contains the required positioning and project links', () => {
   assert.match(html, /Ideas\./);
   assert.match(html, /Impact\./);
   assert.match(html, /In real life\./);
-  assert.equal((html.match(/class="project-card/g) ?? []).length, 6);
+  assert.equal((html.match(/class="featured-project-card/g) ?? []).length, 3);
+  assert.equal((html.match(/class="project-card/g) ?? []).length, 3);
   assert.match(html, /data-projects-toggle/);
 });
 
