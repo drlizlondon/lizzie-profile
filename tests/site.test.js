@@ -23,6 +23,7 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.match(primaryNav, />Projects</);
   assert.match(primaryNav, />Public Voice</);
   assert.match(primaryNav, />Contact</);
+  assert.ok(primaryNav.indexOf('>Projects<') < primaryNav.indexOf('>About<'));
   assert.doesNotMatch(primaryNav, />Work<|>Portfolio<|>Media</);
   assert.match(js, /aria-current/);
   assert.match(html, /href="https:\/\/instagram\.com\/drlizlondon"/);
