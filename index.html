@@ -18,8 +18,10 @@
         <span>Menu</span><i aria-hidden="true"></i>
       </button>
       <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-        <a href="#about">About</a><a href="#work">Work</a><a href="#writing">Writing</a>
-        <a href="#speaking">Speaking</a><a href="#contact">Contact</a>
+        <a href="#about" data-nav-section="about">About</a>
+        <a href="#projects" data-nav-section="projects">Projects</a>
+        <a href="#public-voice" data-nav-section="public-voice">Public Voice</a>
+        <a href="#contact" data-nav-section="contact">Contact</a>
       </nav>
     </header>
 
@@ -29,7 +31,7 @@
           <p class="eyebrow hero-eyebrow">Doctor <span>·</span> Builder <span>·</span> Creator</p>
           <h1 id="hero-title"><span>Ideas.</span><span>Impact.</span><span class="accent-text">In real life.</span></h1>
           <p class="hero-intro"><strong>I’m an emergency medicine doctor, product strategist and founder.</strong><span>I build products, challenge assumptions and turn ambitious ideas into reality. My work spans technology, AI and entrepreneurship, informed by a background in medicine and focused on building products that solve real problems.</span></p>
-          <a class="text-link scroll-link" href="#work">View featured projects <span aria-hidden="true">→</span></a>
+          <a class="text-link scroll-link" href="#projects">View featured projects <span aria-hidden="true">→</span></a>
         </div>
 
         <div class="hero-visual" data-parallax>
@@ -40,9 +42,17 @@
         </div>
       </section>
 
-      <section class="section projects-section" id="work" aria-labelledby="work-title">
+      <section class="section about-section" id="about" aria-labelledby="about-title" data-nav-target="about">
+        <p class="eyebrow reveal">About</p>
+        <div class="about-grid reveal">
+          <h2 id="about-title">A doctor with a builder’s instinct and a curious mind.</h2>
+          <p>I build products at the intersection of medicine, technology and AI. My work focuses on turning complex ideas into practical tools that people genuinely want to use.</p>
+        </div>
+      </section>
+
+      <section class="section projects-section" id="projects" aria-labelledby="projects-title" data-nav-target="projects">
         <div class="section-heading reveal">
-          <div><h2 id="work-title">Featured Projects</h2></div>
+          <div><h2 id="projects-title">Featured Projects</h2></div>
           <p>A selection of products I've built, each solving a different real-world problem.</p>
         </div>
         <div class="project-carousel reveal" data-project-carousel tabindex="0" role="region" aria-roledescription="carousel" aria-label="Featured projects">
@@ -58,26 +68,19 @@
         </div>
       </section>
 
-      <section class="section editorial-section" aria-labelledby="editorial-title">
-        <div class="section-heading reveal"><div><p class="eyebrow">A wider view</p><h2 id="editorial-title">Notes from real life</h2></div></div>
+      <section class="section editorial-section" id="public-voice" aria-labelledby="public-voice-title" data-nav-target="public-voice">
+        <div class="section-heading reveal"><div><p class="eyebrow">A wider view</p><h2 id="public-voice-title">Public Voice</h2></div><p>I also create public-facing content and speak as Dr Liz London.</p></div>
         <div class="editorial-grid">
-          <a class="editorial-card health reveal" href="#about"><span>Health</span><p>Body, mind and everyday habits.</p><b aria-hidden="true">↗</b></a>
-          <a class="editorial-card image-card travel reveal" href="#travel"><img src="/assets/images/lizzie-japan.jpeg" alt="Dr Lizzie Soyode overlooking Mount Fuji in Japan" width="1200" height="1600" loading="lazy" /><span>Travel</span><p>New places, fresh perspective.</p><b aria-hidden="true">↗</b></a>
-          <a class="editorial-card writing reveal" id="writing" href="#writing"><span>Writing</span><p>Thoughts, essays and notes.</p><b aria-hidden="true">↗</b></a>
-          <a class="editorial-card speaking reveal" id="speaking" href="#speaking"><span>Speaking</span><p>Talks, panels and conversations.</p><b aria-hidden="true">↗</b></a>
-          <a class="editorial-card image-card instagram reveal" id="instagram" href="#instagram"><img src="/assets/images/lizzie-coast.jpeg" alt="Dr Lizzie Soyode enjoying a sunny day by the coast" width="1536" height="2048" loading="lazy" /><span>Instagram</span><p>Moments, ideas and life.</p><b aria-hidden="true">↗</b></a>
+          <article class="editorial-card speaking reveal"><span>Speaking</span><p>Talks, panels and conversations.</p></article>
+          <article class="editorial-card health reveal"><span>Charity &amp; community</span><p>Useful conversations with wider communities.</p></article>
+          <article class="editorial-card writing reveal"><span>Writing</span><p>Thoughts, essays and notes.</p></article>
+          <a class="editorial-card image-card instagram reveal" href="https://instagram.com/drlizlondon" target="_blank" rel="noreferrer" aria-label="Follow Dr Liz London on Instagram (opens in a new tab)"><img src="/assets/images/lizzie-coast.jpeg" alt="Dr Lizzie Soyode enjoying a sunny day by the coast" width="1536" height="2048" loading="lazy" /><span>Instagram</span><p>Follow Dr Liz London.</p><b aria-hidden="true">↗</b></a>
+          <article class="editorial-card travel reveal"><span>YouTube</span><p>Public education and practical ideas.</p></article>
+          <article class="editorial-card writing reveal"><span>Podcasts &amp; features</span><p>Interviews, appearances and shared perspectives.</p></article>
         </div>
       </section>
 
-      <section class="section about-section" id="about" aria-labelledby="about-title">
-        <p class="eyebrow reveal">About</p>
-        <div class="about-grid reveal">
-          <h2 id="about-title">A doctor with a builder’s instinct and a curious mind.</h2>
-          <p>I build products at the intersection of medicine, technology and AI. My work focuses on turning complex ideas into practical tools that people genuinely want to use.</p>
-        </div>
-      </section>
-
-      <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <section class="contact-section" id="contact" aria-labelledby="contact-title" data-nav-target="contact">
         <p class="eyebrow reveal">Let’s build something</p>
         <div class="contact-inner reveal">
           <div class="contact-copy">

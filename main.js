@@ -16,6 +16,30 @@ nav?.addEventListener('click', (event) => {
   if (event.target instanceof HTMLAnchorElement) setMenu(false);
 });
 
+const navLinks = [...document.querySelectorAll('[data-nav-section]')];
+const navSections = [...document.querySelectorAll('[data-nav-target]')];
+
+/** @param {string} sectionId */
+const setActiveNav = (sectionId) => {
+  navLinks.forEach((link) => {
+    const active = link.getAttribute('data-nav-section') === sectionId;
+    link.classList.toggle('is-active', active);
+    if (active) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  });
+};
+
+const updateActiveNav = () => {
+  const marker = window.scrollY + Math.min(window.innerHeight * 0.34, 280);
+  let activeSection = navSections[0]?.id || '';
+  navSections.forEach((section) => {
+    if (section instanceof HTMLElement && section.offsetTop <= marker) activeSection = section.id;
+  });
+  setActiveNav(activeSection);
+};
+
+updateActiveNav();
+
 /** @typedef {{ name: string, description: string, website: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
 /** @type {CarouselProject[]} */
 const carouselProjects = [
@@ -162,7 +186,11 @@ if (projectCarousel) {
 }
 
 
-window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 48), { passive: true });
+window.addEventListener('scroll', () => {
+  header?.classList.toggle('is-scrolled', window.scrollY > 48);
+  updateActiveNav();
+}, { passive: true });
+window.addEventListener('resize', updateActiveNav, { passive: true });
 
 const revealObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach((entry) => {
