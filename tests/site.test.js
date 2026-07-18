@@ -33,7 +33,10 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.ok(primaryNav.indexOf('>Projects<') < primaryNav.indexOf('>About<'));
   assert.doesNotMatch(primaryNav, />Work<|>Portfolio<|>Media</);
   assert.match(js, /aria-current/);
+  assert.match(js, /new IntersectionObserver\(scheduleActiveNavUpdate/);
+  assert.doesNotMatch(js, /window\.scrollY \+ Math\.min/);
   assert.match(html, /data-nav-target="home"/);
+  assert.match(html, /data-nav-target="contact" data-nav-neutral/);
   assert.match(css, /body\.menu-open \.nav-scrim/);
   assert.match(html, /href="https:\/\/instagram\.com\/drlizlondon"/);
   assert.match(html, /I also create public-facing content online as Dr Liz London\./);

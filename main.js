@@ -39,16 +39,50 @@ const setActiveNav = (sectionId) => {
   });
 };
 
-const updateActiveNav = () => {
-  const marker = window.scrollY + Math.min(window.innerHeight * 0.34, 280);
-  let activeSection = navSections[0]?.id || '';
-  navSections.forEach((section) => {
-    if (section instanceof HTMLElement && section.offsetTop <= marker) activeSection = section.id;
-  });
-  setActiveNav(activeSection);
+let dominantSectionId = '';
+let activeSectionFrame = 0;
+
+/** @param {Element} section */
+const visibleViewportShare = (section) => {
+  const bounds = section.getBoundingClientRect();
+  const headerBottom = header instanceof HTMLElement ? Math.max(0, header.getBoundingClientRect().bottom) : 0;
+  const availableHeight = Math.max(1, window.innerHeight - headerBottom);
+  const visibleTop = Math.max(bounds.top, headerBottom);
+  const visibleBottom = Math.min(bounds.bottom, window.innerHeight);
+  return Math.max(0, visibleBottom - visibleTop) / availableHeight;
 };
 
-updateActiveNav();
+const updateActiveNavFromViewport = () => {
+  activeSectionFrame = 0;
+  const visibleSections = navSections
+    .filter((section) => section instanceof HTMLElement)
+    .map((section) => ({ section, share: visibleViewportShare(section) }))
+    .filter(({ share }) => share > 0)
+    .sort((a, b) => b.share - a.share);
+
+  if (visibleSections.length === 0) {
+    dominantSectionId = '';
+    setActiveNav('');
+    return;
+  }
+
+  let dominant = visibleSections[0];
+  const current = visibleSections.find(({ section }) => section.id === dominantSectionId);
+  if (current && dominant.section.id !== current.section.id && dominant.share < current.share + 0.04) dominant = current;
+
+  dominantSectionId = dominant.section.id;
+  setActiveNav(dominant.section.hasAttribute('data-nav-neutral') ? '' : dominantSectionId);
+};
+
+const scheduleActiveNavUpdate = () => {
+  if (!activeSectionFrame) activeSectionFrame = requestAnimationFrame(updateActiveNavFromViewport);
+};
+
+const activeSectionObserver = new IntersectionObserver(scheduleActiveNavUpdate, {
+  threshold: Array.from({ length: 21 }, (_, index) => index / 20),
+});
+navSections.forEach((section) => activeSectionObserver.observe(section));
+scheduleActiveNavUpdate();
 
 /** @typedef {{ name: string, description: string, impact: string, website: string, websiteLabel?: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
 /** @type {CarouselProject[]} */
@@ -284,9 +318,8 @@ if (window.location.hash) {
 
 window.addEventListener('scroll', () => {
   header?.classList.toggle('is-scrolled', window.scrollY > 48);
-  updateActiveNav();
 }, { passive: true });
-window.addEventListener('resize', updateActiveNav, { passive: true });
+window.addEventListener('resize', scheduleActiveNavUpdate, { passive: true });
 
 const revealObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach((entry) => {
