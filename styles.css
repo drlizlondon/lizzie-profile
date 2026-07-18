@@ -207,5 +207,5 @@ footer{padding-top:1.6rem;padding-bottom:1.6rem}
 @media(max-width:820px){body{font-size:16px}.hero h1{font-size:clamp(3.9rem,18.35vw,6rem);line-height:.75}.portrait-wrap{left:18%;width:64%;height:91%}.projects-section{padding-top:5.5rem}.projects-section .section-heading{margin-bottom:1.75rem}.featured-project-card{display:flex;border-radius:14px}.featured-project-copy{padding:2rem}.project-screen{width:calc(100% - 2rem);height:auto;aspect-ratio:12/5;margin:0 1rem 1rem;border-radius:12px}.contact-section{padding-top:4rem;padding-bottom:4rem}.contact-inner{gap:2rem}.contact-action{margin-top:2rem}footer{padding-top:1.35rem;padding-bottom:1.35rem}}
 
 /* Readable professional positioning line. */
-.hero-intro strong{font-family:var(--sans);font-size:clamp(1.05rem,1.25vw,1.22rem);font-weight:400;line-height:1.45;letter-spacing:-.005em;color:#222}
+.hero-intro strong{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;font-size:clamp(1.05rem,1.25vw,1.22rem);font-weight:400;line-height:1.45;letter-spacing:-.015em;color:#222}
 @media(max-width:820px){.hero-intro strong{font-size:1.05rem;line-height:1.5}}
