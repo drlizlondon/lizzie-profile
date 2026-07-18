@@ -262,5 +262,5 @@ footer{padding-top:1.6rem;padding-bottom:1.6rem}
 .portrait-wrap{left:19%;width:min(58%,460px);height:auto;max-height:92%;aspect-ratio:613/894}
 .portrait-wrap img{object-position:50% 50%;transform:scale(1.035)}
 @media(max-width:1200px){.portrait-wrap{left:16%;width:min(68%,440px)}.portrait-wrap img{transform:scale(1.01)}}
-@media(max-width:820px){.portrait-wrap{left:12%;width:76%;height:auto;max-height:91%}.portrait-wrap img{object-position:50% 50%;transform:none}}
-@media(max-width:420px){.portrait-wrap{left:9%;width:82%;max-height:92%}}
+@media(max-width:820px){.hero-visual{min-height:calc(111vw + 1rem)}.portrait-wrap{left:12%;width:76%;height:auto;max-height:91%}.portrait-wrap img{object-position:50% 50%;transform:none}}
+@media(max-width:420px){.hero-visual{min-height:calc(120vw + 1rem)}.portrait-wrap{left:9%;width:82%;max-height:92%}}
