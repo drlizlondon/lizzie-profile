@@ -45,33 +45,17 @@
           <div><h2 id="work-title">Featured Projects</h2></div>
           <p>A selection of products I've built, each solving a different real-world problem.</p>
         </div>
-        <div class="project-grid">
-          <article class="featured-project-card featured-bumpnotes reveal">
-            <div class="featured-project-copy"><span class="project-index">01</span><h3>BumpNotes</h3><p>Helping women capture what matters and communicate it clearly throughout pregnancy.</p><div class="project-actions"><a href="https://www.bumpnotes.co.uk" target="_blank" rel="noreferrer">Visit website <span aria-hidden="true">→</span></a><a class="project-case-link" href="/projects/bumpnotes.html">Read case study <span aria-hidden="true">→</span></a></div></div>
-            <a class="project-screen" href="https://www.bumpnotes.co.uk" target="_blank" rel="noreferrer" aria-label="Visit the BumpNotes website"><img src="/assets/images/project-bumpnotes.webp" alt="BumpNotes pregnancy summary interface" width="1600" height="1041" loading="lazy" /></a>
-          </article>
-          <article class="featured-project-card featured-planner reveal">
-            <div class="featured-project-copy"><span class="project-index">02</span><h3>Big Picture Planner</h3><p>Weekly planning that helps you focus on what actually matters.</p><div class="project-actions"><a href="https://www.bigpictureplanner.app" target="_blank" rel="noreferrer">Visit website <span aria-hidden="true">→</span></a><a class="project-case-link" href="/projects/big-picture-planner.html">Read case study <span aria-hidden="true">→</span></a></div></div>
-            <a class="project-screen" href="https://www.bigpictureplanner.app" target="_blank" rel="noreferrer" aria-label="Visit the Big Picture Planner website"><img src="/assets/images/project-big-picture-planner.webp" alt="Big Picture Planner weekly planning interface" width="1600" height="1041" loading="lazy" /></a>
-          </article>
-          <article class="featured-project-card featured-mybishbash reveal">
-            <div class="featured-project-copy"><span class="project-index">03</span><h3>myBishBash</h3><p>Helping you use your phone intentionally, so it supports the life you actually want.</p><div class="project-actions"><a href="https://mybishbash.app" target="_blank" rel="noreferrer">Visit website <span aria-hidden="true">→</span></a><a class="project-case-link" href="/projects/mybishbash.html">Read case study <span aria-hidden="true">→</span></a></div></div>
-            <a class="project-screen" href="https://mybishbash.app" target="_blank" rel="noreferrer" aria-label="Visit the myBishBash website"><img src="/assets/images/project-mybishbash.webp" alt="myBishBash intentional phone app preview" width="1600" height="1041" loading="lazy" /></a>
-          </article>
-          <a class="project-card blue reveal additional-project" href="/projects/mission-control.html" hidden>
-            <span class="project-index">04</span><div><h3>Mission Control</h3><p>Complex systems made easier to understand.</p></div><span class="card-arrow" aria-hidden="true">↗</span>
-            <div class="project-art grid-art" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          </a>
-          <a class="project-card butter reveal additional-project" href="/projects/common-ground.html" hidden>
-            <span class="project-index">05</span><div><h3>Common Ground</h3><p>Better questions. Stronger connections.</p></div><span class="card-arrow" aria-hidden="true">↗</span>
-            <div class="project-art circles-art" aria-hidden="true"><i></i><i></i><i></i></div>
-          </a>
-          <a class="project-card rose reveal additional-project" href="/projects/aurelle.html" hidden>
-            <span class="project-index">06</span><div><h3>Aurelle</h3><p>Learning by doing, not just reading.</p></div><span class="card-arrow" aria-hidden="true">↗</span>
-            <div class="project-art pages-art" aria-hidden="true"><i></i><i></i></div>
-          </a>
+        <div class="project-carousel reveal" data-project-carousel tabindex="0" role="region" aria-roledescription="carousel" aria-label="Featured projects">
+          <div class="project-carousel-viewport">
+            <div class="project-carousel-track" data-carousel-track></div>
+          </div>
+          <button class="carousel-arrow carousel-previous" type="button" data-carousel-previous aria-label="Show previous project">←</button>
+          <button class="carousel-arrow carousel-next" type="button" data-carousel-next aria-label="Show next project">→</button>
+          <div class="carousel-footer">
+            <div class="carousel-dots" data-carousel-dots aria-label="Choose a project"></div>
+            <p class="carousel-status" data-carousel-status aria-live="polite" aria-atomic="true"></p>
+          </div>
         </div>
-        <button class="projects-toggle" type="button" aria-expanded="false" data-projects-toggle>See more <span aria-hidden="true">↓</span></button>
       </section>
 
       <section class="section editorial-section" aria-labelledby="editorial-title">

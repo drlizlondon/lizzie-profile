@@ -4,14 +4,14 @@ import { readFile } from 'node:fs/promises';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
+const js = await readFile(new URL('../main.js', import.meta.url), 'utf8');
 
 test('homepage contains the required positioning and project links', () => {
   assert.match(html, /Ideas\./);
   assert.match(html, /Impact\./);
   assert.match(html, /In real life\./);
-  assert.equal((html.match(/class="featured-project-card/g) ?? []).length, 3);
-  assert.equal((html.match(/class="project-card/g) ?? []).length, 3);
-  assert.match(html, /data-projects-toggle/);
+  assert.match(html, /data-project-carousel/);
+  assert.equal((js.match(/caseStudy: '\/projects\//g) ?? []).length, 6);
 });
 
 test('homepage exposes semantic navigation and a single h1', () => {
