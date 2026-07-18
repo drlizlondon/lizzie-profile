@@ -13,8 +13,11 @@ test('homepage contains the required positioning and project links', () => {
   assert.match(html, /data-project-carousel/);
   assert.equal((js.match(/caseStudy: '\/projects\//g) ?? []).length, 6);
   assert.match(html, /A selection of products built to solve real-world problems\./);
-  assert.match(js, /Helping women capture and communicate what matters throughout pregnancy\./);
+  assert.match(js, /Helping women capture what matters during pregnancy\./);
+  assert.match(js, /Built from my own pregnancy\./);
   assert.match(js, /websiteLabel: 'View BumpNotes'/);
+  assert.match(html, /aria-label="Previous project"/);
+  assert.match(html, /aria-label="Next project"/);
 });
 
 test('homepage exposes semantic navigation and a single h1', () => {
@@ -39,4 +42,6 @@ test('homepage exposes semantic navigation and a single h1', () => {
 test('styles include mobile and reduced motion treatments', () => {
   assert.match(css, /@media\(max-width:820px\)/);
   assert.match(css, /prefers-reduced-motion:reduce/);
+  assert.match(css, /touch-action:pan-y/);
+  assert.match(js, /Math\.abs\(distanceX\) >= 48/);
 });

@@ -50,12 +50,13 @@ const updateActiveNav = () => {
 
 updateActiveNav();
 
-/** @typedef {{ name: string, description: string, website: string, websiteLabel?: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
+/** @typedef {{ name: string, description: string, impact: string, website: string, websiteLabel?: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
 /** @type {CarouselProject[]} */
 const carouselProjects = [
   {
     name: 'BumpNotes',
-    description: 'Helping women capture and communicate what matters throughout pregnancy.',
+    description: 'Helping women capture what matters during pregnancy.',
+    impact: 'Built from my own pregnancy.',
     website: 'https://www.bumpnotes.co.uk',
     websiteLabel: 'View BumpNotes',
     caseStudy: '/projects/bumpnotes.html',
@@ -67,6 +68,7 @@ const carouselProjects = [
   {
     name: 'Big Picture Planner',
     description: 'Weekly planning that helps you focus on what actually matters.',
+    impact: 'Designed for real weeks.',
     website: 'https://www.bigpictureplanner.app',
     caseStudy: '/projects/big-picture-planner.html',
     tone: 'cream',
@@ -77,6 +79,7 @@ const carouselProjects = [
   {
     name: 'myBishBash',
     description: 'Helping you use your phone intentionally, so it supports the life you actually want.',
+    impact: 'Built for more intentional attention.',
     website: 'https://mybishbash.app',
     caseStudy: '/projects/mybishbash.html',
     tone: 'sage',
@@ -87,6 +90,7 @@ const carouselProjects = [
   {
     name: 'Mission Control',
     description: 'Complex systems made easier to understand.',
+    impact: 'Making complexity legible.',
     website: '',
     caseStudy: '/projects/mission-control.html',
     tone: 'cool',
@@ -97,6 +101,7 @@ const carouselProjects = [
   {
     name: 'Common Ground',
     description: 'Better questions. Stronger connections.',
+    impact: 'Created for better conversations.',
     website: '',
     caseStudy: '/projects/common-ground.html',
     tone: 'butter',
@@ -107,6 +112,7 @@ const carouselProjects = [
   {
     name: 'Aurelle',
     description: 'Learning by doing, not just reading.',
+    impact: 'Learning through active practice.',
     website: '',
     caseStudy: '/projects/aurelle.html',
     tone: 'peach',
@@ -117,35 +123,37 @@ const carouselProjects = [
 ];
 
 if (projectCarousel) {
+  const viewport = /** @type {HTMLElement | null} */ (projectCarousel.querySelector('.project-carousel-viewport'));
   const track = /** @type {HTMLElement | null} */ (projectCarousel.querySelector('[data-carousel-track]'));
   const previous = projectCarousel.querySelector('[data-carousel-previous]');
   const next = projectCarousel.querySelector('[data-carousel-next]');
   const dots = projectCarousel.querySelector('[data-carousel-dots]');
   const status = projectCarousel.querySelector('[data-carousel-status]');
 
-  /** @param {CarouselProject} project */
-  const visualMarkup = (project) => {
+  /** @param {CarouselProject} project @param {number} index */
+  const visualMarkup = (project, index) => {
     if (project.image) {
-      return `<div class="carousel-visual-frame ${project.visual}"><img src="${project.image}" alt="${project.alt}" width="1600" height="1041" loading="lazy"></div>`;
+      return `<div class="carousel-visual-frame ${project.visual}"><img src="${project.image}" alt="${project.alt}" width="1600" height="1041" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"></div>`;
     }
     if (project.visual.includes('abstract-grid')) return '<div class="carousel-visual-frame abstract"><div class="carousel-window-grid" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>';
     if (project.visual.includes('abstract-circles')) return '<div class="carousel-visual-frame abstract"><div class="carousel-window-circles" aria-hidden="true"><i></i><i></i><i></i></div></div>';
     return '<div class="carousel-visual-frame abstract"><div class="carousel-window-pages" aria-hidden="true"><i></i><i></i></div></div>';
   };
 
-  if (track && dots && previous instanceof HTMLButtonElement && next instanceof HTMLButtonElement && status) {
+  if (viewport && track && dots && previous instanceof HTMLButtonElement && next instanceof HTMLButtonElement && status) {
     track.innerHTML = carouselProjects.map((project, index) => `
       <article class="carousel-slide tone-${project.tone}" aria-roledescription="slide" aria-label="${index + 1} of ${carouselProjects.length}: ${project.name}" aria-hidden="${index !== 0}">
         <div class="carousel-project-copy">
           <span class="project-index">${String(index + 1).padStart(2, '0')}</span>
           <h3>${project.name}</h3>
           <p>${project.description}</p>
+          <p class="project-impact"><span aria-hidden="true">✦</span>${project.impact}</p>
           <div class="project-actions">
             ${project.website ? `<a href="${project.website}" target="_blank" rel="noreferrer">${project.websiteLabel || 'Visit website'} <span aria-hidden="true">→</span></a>` : ''}
             <a class="project-case-link" href="${project.caseStudy}">Read case study <span aria-hidden="true">→</span></a>
           </div>
         </div>
-        <div class="carousel-product-stage">${visualMarkup(project)}</div>
+        <div class="carousel-product-stage">${visualMarkup(project, index)}</div>
       </article>`).join('');
 
     dots.innerHTML = carouselProjects.map((project, index) => `<button type="button" aria-label="Show ${project.name}" data-carousel-dot="${index}"></button>`).join('');
@@ -153,12 +161,24 @@ if (projectCarousel) {
     const slides = [...track.querySelectorAll('.carousel-slide')];
     const dotButtons = [...dots.querySelectorAll('button')];
     let activeIndex = 0;
-    let pointerStart = 0;
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+    let activePointer = -1;
+    let horizontalDrag = false;
+    let suppressClick = false;
+
+    const syncViewportHeight = () => {
+      if (window.matchMedia('(max-width: 767px)').matches) {
+        viewport.style.height = `${slides[activeIndex].scrollHeight}px`;
+      } else {
+        viewport.style.removeProperty('height');
+      }
+    };
 
     /** @param {number} index */
     const showProject = (index) => {
       activeIndex = Math.max(0, Math.min(carouselProjects.length - 1, index));
-      track.style.transform = `translateX(-${activeIndex * 100}%)`;
+      track.style.transform = `translate3d(-${activeIndex * 100}%, 0, 0)`;
       slides.forEach((slide, slideIndex) => {
         const active = slideIndex === activeIndex;
         slide.setAttribute('aria-hidden', String(!active));
@@ -170,6 +190,7 @@ if (projectCarousel) {
       previous.disabled = activeIndex === 0;
       next.disabled = activeIndex === carouselProjects.length - 1;
       status.textContent = `Project ${activeIndex + 1} of ${carouselProjects.length}: ${carouselProjects[activeIndex].name}`;
+      requestAnimationFrame(syncViewportHeight);
     };
 
     previous.addEventListener('click', () => showProject(activeIndex - 1));
@@ -186,16 +207,80 @@ if (projectCarousel) {
       }
     });
     projectCarousel.addEventListener('pointerdown', (/** @type {PointerEvent} */ event) => {
-      pointerStart = event.clientX;
+      if (!event.isPrimary || event.button !== 0) return;
+      activePointer = event.pointerId;
+      pointerStartX = event.clientX;
+      pointerStartY = event.clientY;
+      horizontalDrag = false;
     });
-    projectCarousel.addEventListener('pointerup', (/** @type {PointerEvent} */ event) => {
-      const distance = event.clientX - pointerStart;
-      if (Math.abs(distance) > 45) showProject(activeIndex + (distance < 0 ? 1 : -1));
+    projectCarousel.addEventListener('pointermove', (/** @type {PointerEvent} */ event) => {
+      if (event.pointerId !== activePointer) return;
+      const distanceX = event.clientX - pointerStartX;
+      const distanceY = event.clientY - pointerStartY;
+      if (!horizontalDrag && Math.abs(distanceX) > 10 && Math.abs(distanceX) > Math.abs(distanceY) * 1.25) {
+        horizontalDrag = true;
+        try {
+          projectCarousel.setPointerCapture?.(event.pointerId);
+        } catch {
+          // Some embedded browsers do not expose pointer capture for synthetic gestures.
+        }
+      }
+      if (!horizontalDrag) return;
+      event.preventDefault();
+      const atBoundary = (activeIndex === 0 && distanceX > 0) || (activeIndex === carouselProjects.length - 1 && distanceX < 0);
+      const offset = atBoundary ? distanceX * 0.22 : distanceX;
+      track.classList.add('is-dragging');
+      track.style.transform = `translate3d(calc(-${activeIndex * 100}% + ${offset}px), 0, 0)`;
     });
+    const finishPointer = (/** @type {PointerEvent} */ event) => {
+      if (event.pointerId !== activePointer) return;
+      const distanceX = event.clientX - pointerStartX;
+      const distanceY = event.clientY - pointerStartY;
+      const shouldChange = horizontalDrag && Math.abs(distanceX) >= 48 && Math.abs(distanceX) > Math.abs(distanceY) * 1.25;
+      suppressClick = shouldChange;
+      track.classList.remove('is-dragging');
+      activePointer = -1;
+      showProject(activeIndex + (shouldChange ? (distanceX < 0 ? 1 : -1) : 0));
+    };
+    projectCarousel.addEventListener('pointerup', finishPointer);
+    projectCarousel.addEventListener('pointercancel', (/** @type {PointerEvent} */ event) => {
+      if (event.pointerId !== activePointer) return;
+      track.classList.remove('is-dragging');
+      activePointer = -1;
+      showProject(activeIndex);
+    });
+    projectCarousel.addEventListener('click', (event) => {
+      if (!suppressClick) return;
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClick = false;
+    }, true);
+    projectCarousel.addEventListener('lostpointercapture', () => {
+      if (activePointer === -1) return;
+      track.classList.remove('is-dragging');
+      activePointer = -1;
+      showProject(activeIndex);
+    });
+    window.addEventListener('resize', syncViewportHeight, { passive: true });
+    if ('ResizeObserver' in window) {
+      const slideResizeObserver = new ResizeObserver(syncViewportHeight);
+      slides.forEach((slide) => slideResizeObserver.observe(slide));
+    }
+    document.fonts?.ready.then(syncViewportHeight);
     showProject(0);
   }
 }
 
+const alignHashTarget = () => {
+  const id = decodeURIComponent(window.location.hash.slice(1));
+  const target = id ? document.getElementById(id) : null;
+  target?.scrollIntoView({ block: 'start' });
+};
+
+if (window.location.hash) {
+  requestAnimationFrame(() => requestAnimationFrame(alignHashTarget));
+  window.addEventListener('load', alignHashTarget, { once: true });
+}
 
 window.addEventListener('scroll', () => {
   header?.classList.toggle('is-scrolled', window.scrollY > 48);

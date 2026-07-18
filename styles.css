@@ -222,6 +222,8 @@ footer{padding-top:1.6rem;padding-bottom:1.6rem}
 .carousel-project-copy{display:flex;min-width:0;flex-direction:column;align-items:flex-start}
 .carousel-project-copy h3{margin:2.5rem 0 1.1rem;font-family:var(--serif);font-size:clamp(3rem,4.2vw,4.5rem);font-weight:400;line-height:.95;letter-spacing:-.035em}
 .carousel-project-copy>p{max-width:31rem;margin:0;color:#4f4f4b;font-size:1rem;line-height:1.65}
+.carousel-project-copy>.project-impact{display:flex;align-items:center;gap:.55rem;margin-top:.8rem;color:#77716f;font-size:.84rem;line-height:1.4}
+.project-impact span{color:#c77d8d;font-size:.68rem}
 .carousel-product-stage{display:grid;width:100%;max-width:650px;height:460px;place-items:center;justify-self:end;overflow:hidden;border-radius:20px}
 .tone-lavender .carousel-product-stage{background:#f1edf9}.tone-cream .carousel-product-stage{background:#fbf5ec}.tone-sage .carousel-product-stage{background:#eff5ef}.tone-cool .carousel-product-stage{background:#edf3f8}.tone-butter .carousel-product-stage{background:#fbf5df}.tone-peach .carousel-product-stage{background:#faeee8}
 .carousel-visual-frame{position:relative;overflow:hidden;border:1px solid rgba(22,22,22,.14);background:#fff;box-shadow:0 18px 45px rgba(25,23,27,.1)}
@@ -324,3 +326,54 @@ footer{padding-top:1.6rem;padding-bottom:1.6rem}
 }
 @media(max-width:360px){.carousel-visual-frame.phone{width:226px;height:338px}.carousel-product-stage{height:338px}}
 @media(prefers-reduced-motion:reduce){.site-nav,.nav-scrim,.carousel-product-stage{transition:none!important}}
+
+/* Compact editorial project showcase for mobile. */
+@media(max-width:767px){
+  .site-header{min-height:3.25rem;padding:.7rem 1.5rem}
+  .site-header.is-scrolled{padding:.7rem 1.5rem}
+  .projects-section{padding:calc(4.25rem + env(safe-area-inset-top,0px)) 1.5rem 3rem;scroll-margin-top:0}
+  .projects-section .section-heading{display:block;margin:0 0 clamp(1.5rem,3.2dvh,1.9rem)}
+  .projects-section .section-heading h2{color:#c77d8d;font-family:var(--sans);font-size:.7rem;font-weight:600;line-height:1.2;letter-spacing:.16em;text-transform:uppercase;white-space:normal}
+  .projects-section .section-heading>p{max-width:19rem;margin:.7rem 0 0;color:#29272a;font-family:var(--serif);font-size:clamp(1.4rem,6.1vw,1.58rem);line-height:1.08;letter-spacing:-.015em}
+  .project-carousel{width:100%;touch-action:pan-y;overscroll-behavior-x:contain}
+  .project-carousel-viewport{overflow:hidden;border:0}
+  .project-carousel-track{align-items:flex-start;transition:transform .28s cubic-bezier(.22,.61,.36,1)}
+  .project-carousel-track.is-dragging{transition:none}
+  .carousel-slide{display:flex;min-height:0;flex-direction:column;align-items:stretch;gap:clamp(.5rem,1.25dvh,.7rem);padding:0}
+  .carousel-project-copy{min-height:0;padding:0}
+  .project-index{display:none}
+  .carousel-project-copy h3{margin:0 0 clamp(.62rem,1.5dvh,.8rem);padding-right:0;font-size:clamp(2.75rem,11.8vw,3rem);line-height:.94;letter-spacing:-.04em}
+  .carousel-project-copy>p{max-width:20rem;color:#555157;font-size:clamp(.98rem,4.35vw,1.0625rem);line-height:1.34}
+  .carousel-project-copy>.project-impact{max-width:20rem;margin-top:clamp(.35rem,.9dvh,.55rem);gap:.5rem;color:#777176;font-family:var(--sans);font-size:.77rem;line-height:1.35;letter-spacing:.015em}
+  .project-impact span{font-size:.58rem}
+  .project-actions{display:flex;margin-top:clamp(.9rem,2dvh,1.2rem);align-items:center;gap:.55rem 1rem;flex-wrap:nowrap}
+  .project-actions a,.project-actions>a:first-child{min-height:44px;padding:.68rem 1rem;font-size:.7rem;line-height:1;white-space:nowrap}
+  .project-actions .project-case-link{min-height:44px;padding:.68rem 0;border-bottom-color:rgba(21,21,21,.48);color:#5d5960;font-size:.68rem}
+  .carousel-product-stage{width:100%;max-width:none;height:clamp(20.5rem,101.5vw,27.3rem);margin:0;align-self:stretch;border-radius:17px;overflow:hidden;transition:opacity .28s ease,transform .28s ease}
+  .carousel-visual-frame.phone{width:min(78.5%,295px);height:auto;aspect-ratio:.68;padding:7px;border-width:6px;border-radius:36px;transform:none}
+  .carousel-visual-frame.phone::before{top:11px;width:68px;height:18px}
+  .carousel-visual-frame.phone::after{content:"";position:absolute;z-index:4;bottom:10px;left:50%;width:62px;height:4px;border-radius:999px;background:rgba(255,255,255,.9);box-shadow:0 0 0 1px rgba(20,20,20,.12);transform:translateX(-50%)}
+  .carousel-visual-frame.phone img{border-radius:25px}
+  .carousel-visual-frame.screen,.carousel-visual-frame.abstract{width:calc(100% - 1rem);height:calc(100% - 1rem);border-radius:14px}
+  .carousel-slide[aria-hidden="true"] .carousel-project-copy,.carousel-slide[aria-hidden="true"] .carousel-product-stage{opacity:.35;transform:translateX(6px)}
+  .carousel-project-copy,.carousel-product-stage{opacity:1;transform:translateX(0);transition:opacity .28s ease,transform .28s ease}
+  .carousel-footer{display:flex;min-height:44px;margin-top:clamp(.65rem,1.6dvh,.9rem);padding:0;align-items:center;justify-content:center;gap:.9rem;border:0}
+  .carousel-arrow{position:static;display:grid;width:44px;height:44px;flex:0 0 44px;margin:0;border:1px solid rgba(21,21,21,.14);background:#fff;color:#5d5960;font-size:.88rem;opacity:1;transform:none}
+  .carousel-arrow:hover:not(:disabled),.carousel-arrow:focus-visible:not(:disabled){background:#f8f6f9;transform:none}
+  .carousel-arrow:disabled{border-style:dashed;color:#aaa5aa;cursor:not-allowed;opacity:.32}
+  .carousel-previous,.carousel-next{inset:auto}
+  .carousel-dots{min-width:7.5rem;justify-content:center;gap:.48rem}
+  .carousel-dots button{width:6px;height:6px;background:#d6d3d6}
+  .carousel-dots button[aria-current]{width:18px;background:#7a668f}
+}
+@media(max-width:365px){
+  .site-header,.site-header.is-scrolled{padding-left:1.25rem;padding-right:1.25rem}
+  .projects-section{padding-right:1.25rem;padding-left:1.25rem}
+  .project-actions{align-items:flex-start;flex-direction:column;gap:.1rem}
+  .project-actions .project-case-link{min-height:40px}
+  .carousel-product-stage{height:clamp(19.75rem,106vw,24rem)}
+  .carousel-visual-frame.phone{width:min(75%,260px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .project-carousel-track,.carousel-project-copy,.carousel-product-stage{transition:none!important}
+}
