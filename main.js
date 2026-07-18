@@ -40,13 +40,14 @@ const updateActiveNav = () => {
 
 updateActiveNav();
 
-/** @typedef {{ name: string, description: string, website: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
+/** @typedef {{ name: string, description: string, website: string, websiteLabel?: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
 /** @type {CarouselProject[]} */
 const carouselProjects = [
   {
     name: 'BumpNotes',
-    description: 'Helping women capture what matters and communicate it clearly throughout pregnancy.',
+    description: 'Helping women capture and communicate what matters throughout pregnancy.',
     website: 'https://www.bumpnotes.co.uk',
+    websiteLabel: 'View BumpNotes',
     caseStudy: '/projects/bumpnotes.html',
     tone: 'lavender',
     visual: 'phone',
@@ -130,7 +131,7 @@ if (projectCarousel) {
           <h3>${project.name}</h3>
           <p>${project.description}</p>
           <div class="project-actions">
-            ${project.website ? `<a href="${project.website}" target="_blank" rel="noreferrer">Visit website <span aria-hidden="true">→</span></a>` : ''}
+            ${project.website ? `<a href="${project.website}" target="_blank" rel="noreferrer">${project.websiteLabel || 'Visit website'} <span aria-hidden="true">→</span></a>` : ''}
             <a class="project-case-link" href="${project.caseStudy}">Read case study <span aria-hidden="true">→</span></a>
           </div>
         </div>

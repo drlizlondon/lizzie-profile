@@ -12,6 +12,9 @@ test('homepage contains the required positioning and project links', () => {
   assert.match(html, /In real life\./);
   assert.match(html, /data-project-carousel/);
   assert.equal((js.match(/caseStudy: '\/projects\//g) ?? []).length, 6);
+  assert.match(html, /A selection of products built to solve real-world problems\./);
+  assert.match(js, /Helping women capture and communicate what matters throughout pregnancy\./);
+  assert.match(js, /websiteLabel: 'View BumpNotes'/);
 });
 
 test('homepage exposes semantic navigation and a single h1', () => {

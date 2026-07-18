@@ -272,3 +272,18 @@ footer{padding-top:1.6rem;padding-bottom:1.6rem}
 @media(max-width:420px){.hero-visual{min-height:calc(120vw + 1rem)}.portrait-wrap{left:9%;width:82%;max-height:92%}}
 .hero-mobile-link{display:none}
 @media(max-width:820px){.hero-copy>.text-link{display:none}.hero-mobile-link{order:3;display:inline-flex;align-self:flex-start;margin-top:-1rem}}
+
+/* Compact Featured Projects introduction on phone-sized screens. */
+@media(max-width:767px){
+  .projects-section{padding:5.25rem 1.25rem 4.75rem}
+  .projects-section .section-heading{margin-bottom:2.25rem}
+  .projects-section .section-heading h2{font-size:clamp(3rem,13.5vw,3.5rem);line-height:.97;white-space:nowrap}
+  .projects-section .section-heading>p{max-width:21rem;margin-top:1.25rem;font-size:clamp(1.25rem,5.4vw,1.375rem);line-height:1.4}
+  .carousel-slide{min-height:560px;gap:2rem;padding:1.75rem .25rem 2.5rem}
+  .carousel-project-copy h3{margin:clamp(.75rem,3vw,1rem) 0 1rem;font-size:clamp(2.75rem,12vw,3.25rem);line-height:.98}
+  .carousel-project-copy>p{max-width:22rem;font-size:1.125rem;line-height:1.45}
+  .project-actions{margin-top:1.5rem}
+  .project-actions a{min-height:42px;padding:.65rem .9rem}
+  .project-actions .project-case-link{padding:.55rem 0}
+  .carousel-product-stage{margin-top:0}
+}
