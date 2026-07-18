@@ -50,7 +50,7 @@ const carouselProjects = [
     caseStudy: '/projects/bumpnotes.html',
     tone: 'lavender',
     visual: 'phone',
-    image: '/assets/images/project-bumpnotes.webp',
+    image: new URL('./assets/images/project-bumpnotes.webp', import.meta.url).href,
     alt: 'BumpNotes pregnancy summary interface',
   },
   {
@@ -60,7 +60,7 @@ const carouselProjects = [
     caseStudy: '/projects/big-picture-planner.html',
     tone: 'cream',
     visual: 'screen planner-screen',
-    image: '/assets/images/project-big-picture-planner.webp',
+    image: new URL('./assets/images/project-big-picture-planner.webp', import.meta.url).href,
     alt: 'Big Picture Planner weekly planning interface',
   },
   {
@@ -70,7 +70,7 @@ const carouselProjects = [
     caseStudy: '/projects/mybishbash.html',
     tone: 'sage',
     visual: 'phone mybishbash-phone',
-    image: '/assets/images/project-mybishbash.webp',
+    image: new URL('./assets/images/project-mybishbash.webp', import.meta.url).href,
     alt: 'myBishBash intentional phone app preview',
   },
   {
