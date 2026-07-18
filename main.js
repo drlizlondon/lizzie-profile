@@ -1,6 +1,8 @@
 const header = document.querySelector('[data-header]');
 const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.site-nav');
+const navScrim = document.querySelector('.nav-scrim');
+const masthead = document.querySelector('.site-header .masthead');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const projectCarousel = /** @type {HTMLElement | null} */ (document.querySelector('[data-project-carousel]'));
 
@@ -12,8 +14,16 @@ const setMenu = (open) => {
 };
 
 navToggle?.addEventListener('click', () => setMenu(navToggle.getAttribute('aria-expanded') !== 'true'));
+navScrim?.addEventListener('click', () => setMenu(false));
+masthead?.addEventListener('click', () => setMenu(false));
 nav?.addEventListener('click', (event) => {
   if (event.target instanceof HTMLAnchorElement) setMenu(false);
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && navToggle?.getAttribute('aria-expanded') === 'true') {
+    setMenu(false);
+    if (navToggle instanceof HTMLElement) navToggle.focus();
+  }
 });
 
 const navLinks = [...document.querySelectorAll('[data-nav-section]')];

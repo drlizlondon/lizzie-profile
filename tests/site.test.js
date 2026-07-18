@@ -22,6 +22,7 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.equal((html.match(/<h1/g) ?? []).length, 1);
   assert.match(html, /class="skip-link"/);
   const primaryNav = html.match(/<nav id="site-nav"[\s\S]*?<\/nav>/)?.[0] ?? '';
+  assert.match(primaryNav, />Home</);
   assert.match(primaryNav, />About</);
   assert.match(primaryNav, />Projects</);
   assert.match(primaryNav, />Public Voice</);
@@ -29,6 +30,8 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.ok(primaryNav.indexOf('>Projects<') < primaryNav.indexOf('>About<'));
   assert.doesNotMatch(primaryNav, />Work<|>Portfolio<|>Media</);
   assert.match(js, /aria-current/);
+  assert.match(html, /data-nav-target="home"/);
+  assert.match(css, /body\.menu-open \.nav-scrim/);
   assert.match(html, /href="https:\/\/instagram\.com\/drlizlondon"/);
   assert.match(html, /I also create public-facing content online as Dr Liz London\./);
 });
