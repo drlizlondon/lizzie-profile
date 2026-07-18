@@ -26,6 +26,7 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.doesNotMatch(primaryNav, />Work<|>Portfolio<|>Media</);
   assert.match(js, /aria-current/);
   assert.match(html, /href="https:\/\/instagram\.com\/drlizlondon"/);
+  assert.match(html, /I also create public-facing content online as Dr Liz London\./);
 });
 
 test('styles include mobile and reduced motion treatments', () => {
