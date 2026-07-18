@@ -18,6 +18,10 @@ test('homepage contains the required positioning and project links', () => {
   assert.match(js, /websiteLabel: 'View BumpNotes'/);
   assert.match(html, /aria-label="Previous project"/);
   assert.match(html, /aria-label="Next project"/);
+  assert.match(html, /class="intro-panel intro-panel-left"><span>Dr Lizzie<\/span>/);
+  assert.match(html, /class="intro-panel intro-panel-right"><span>Soyode<\/span>/);
+  assert.match(html, /sessionStorage\.getItem\('lizzie-home-intro'\)/);
+  assert.match(html, /prefers-reduced-motion: reduce/);
 });
 
 test('homepage exposes semantic navigation and a single h1', () => {
@@ -50,4 +54,7 @@ test('styles include mobile and reduced motion treatments', () => {
   assert.match(css, /max-height:34svh/);
   assert.match(css, /max-width:480px\) and \(max-height:780px/);
   assert.match(js, /Math\.abs\(distanceX\) >= 48/);
+  assert.match(css, /@keyframes intro-door-left/);
+  assert.match(css, /@keyframes intro-door-right/);
+  assert.match(js, /intro-complete/);
 });

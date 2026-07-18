@@ -6,11 +6,33 @@
     <meta name="description" content="Dr Lizzie Soyode explores problems, builds solutions and shares what she is learning along the way." />
     <meta name="theme-color" content="#fbfaf7" />
     <title>Dr Lizzie Soyode — Ideas. Impact. In real life.</title>
+    <script>
+      (() => {
+        try {
+          const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const navigation = performance.getEntriesByType('navigation')[0];
+          const isReload = navigation?.type === 'reload' || performance.navigation?.type === 1;
+          const isHomepage = !window.location.hash || window.location.hash === '#home';
+          const seen = sessionStorage.getItem('lizzie-home-intro');
+          if (isHomepage && !reducedMotion && (!seen || isReload)) {
+            document.documentElement.classList.add('has-intro');
+            sessionStorage.setItem('lizzie-home-intro', String(Date.now()));
+            window.setTimeout(() => document.documentElement.classList.remove('has-intro', 'intro-running'), 2400);
+          }
+        } catch {
+          document.documentElement.classList.remove('has-intro', 'intro-running');
+        }
+      })();
+    </script>
     <link rel="preload" href="/assets/images/lizzie-portrait.jpg" as="image" />
     <link rel="stylesheet" href="/styles.css" />
     <script type="module" src="/main.js"></script>
   </head>
   <body>
+    <div class="intro-gate" data-intro-gate aria-hidden="true">
+      <div class="intro-panel intro-panel-left"><span>Dr Lizzie</span></div>
+      <div class="intro-panel intro-panel-right"><span>Soyode</span></div>
+    </div>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" data-header>
       <a class="masthead" href="#home" aria-label="Dr Lizzie Soyode, home">Dr Lizzie Soyode</a>
