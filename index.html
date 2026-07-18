@@ -17,7 +17,7 @@
           if (isHomepage && !reducedMotion && (!seen || isReload)) {
             document.documentElement.classList.add('has-intro');
             sessionStorage.setItem('lizzie-home-intro', String(Date.now()));
-            window.setTimeout(() => document.documentElement.classList.remove('has-intro', 'intro-running'), 2400);
+            window.setTimeout(() => document.documentElement.classList.remove('has-intro', 'intro-running'), 3400);
           }
         } catch {
           document.documentElement.classList.remove('has-intro', 'intro-running');

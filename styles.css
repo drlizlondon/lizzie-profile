@@ -421,9 +421,9 @@ html.has-intro .intro-gate{position:fixed;inset:0;z-index:10000;display:block;ov
 .intro-panel{position:absolute;top:0;width:50%;height:100%;overflow:hidden;background:#fff;will-change:transform}
 .intro-panel-left{left:0}
 .intro-panel-right{right:0}
-.intro-panel span{position:absolute;top:50%;font-family:var(--sans);font-size:clamp(1.4rem,1.7vw,1.6rem);font-weight:600;line-height:1;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;transform:translateY(-50%)}
-.intro-panel-left span{right:.16em}
-.intro-panel-right span{left:.16em}
+.intro-panel span{position:absolute;top:50%;font-family:var(--serif);font-size:clamp(2.4rem,4.2vw,4rem);font-weight:400;line-height:.92;letter-spacing:-.025em;white-space:nowrap;text-rendering:optimizeLegibility;transform:translateY(-50%)}
+.intro-panel-left span{right:.11em}
+.intro-panel-right span{left:.11em}
 html.has-intro .skip-link{visibility:hidden}
 html.has-intro .site-header,
 html.has-intro .hero-eyebrow,
@@ -432,17 +432,17 @@ html.has-intro .hero-intro,
 html.has-intro .hero-copy>.text-link,
 html.has-intro .hero-visual,
 html.has-intro .hero-mobile-link{opacity:0;animation:none;transform:none}
-html.intro-running .intro-panel-left{animation:intro-door-left .82s .35s cubic-bezier(.76,0,.24,1) forwards}
-html.intro-running .intro-panel-right{animation:intro-door-right .82s .35s cubic-bezier(.76,0,.24,1) forwards}
-html.intro-running .site-header{animation:intro-soft-fade .46s .58s ease-out forwards}
-html.intro-running .hero-eyebrow{animation:intro-soft-fade .48s .5s ease-out forwards}
-html.intro-running .hero h1 span:nth-child(1){animation:intro-soft-fade .52s .5s ease-out forwards}
-html.intro-running .hero h1 span:nth-child(2){animation:intro-soft-fade .52s .58s ease-out forwards}
-html.intro-running .hero h1 span:nth-child(3){animation:intro-soft-fade .52s .66s ease-out forwards}
-html.intro-running .hero-visual{animation:intro-soft-fade .6s .58s ease-out forwards}
-html.intro-running .hero-intro{animation:intro-soft-fade .5s .76s ease-out forwards}
+html.intro-running .intro-panel-left{animation:intro-door-left 1.3s .5s cubic-bezier(.7,0,.3,1) forwards}
+html.intro-running .intro-panel-right{animation:intro-door-right 1.3s .5s cubic-bezier(.7,0,.3,1) forwards}
+html.intro-running .site-header{animation:intro-soft-fade .5s 1.56s ease-out forwards}
+html.intro-running .hero-eyebrow{animation:intro-soft-fade .7s .92s ease-out forwards}
+html.intro-running .hero h1 span:nth-child(1){animation:intro-soft-fade .82s .86s ease-out forwards}
+html.intro-running .hero h1 span:nth-child(2){animation:intro-soft-fade .82s .96s ease-out forwards}
+html.intro-running .hero h1 span:nth-child(3){animation:intro-soft-fade .82s 1.06s ease-out forwards}
+html.intro-running .hero-visual{animation:intro-soft-fade .88s 1.02s ease-out forwards}
+html.intro-running .hero-intro{animation:intro-soft-fade .68s 1.24s ease-out forwards}
 html.intro-running .hero-copy>.text-link,
-html.intro-running .hero-mobile-link{animation:intro-soft-fade .46s .84s ease-out forwards}
+html.intro-running .hero-mobile-link{animation:intro-soft-fade .62s 1.34s ease-out forwards}
 html.intro-complete .site-header,
 html.intro-complete .hero-eyebrow,
 html.intro-complete .hero h1 span,
@@ -453,5 +453,5 @@ html.intro-complete .hero-mobile-link{opacity:1;animation:none;transform:none}
 @keyframes intro-door-left{to{transform:translate3d(-100%,0,0)}}
 @keyframes intro-door-right{to{transform:translate3d(100%,0,0)}}
 @keyframes intro-soft-fade{from{opacity:0}to{opacity:1}}
-@media(max-width:820px){.intro-panel span{font-size:1rem}}
+@media(max-width:820px){.intro-panel span{font-size:clamp(2.05rem,10vw,2.65rem)}}
 @media(prefers-reduced-motion:reduce){.intro-gate{display:none!important}}

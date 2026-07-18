@@ -56,5 +56,7 @@ test('styles include mobile and reduced motion treatments', () => {
   assert.match(js, /Math\.abs\(distanceX\) >= 48/);
   assert.match(css, /@keyframes intro-door-left/);
   assert.match(css, /@keyframes intro-door-right/);
+  assert.match(css, /\.intro-panel span\{[^}]*font-family:var\(--serif\)/);
+  assert.match(css, /intro-door-left 1\.3s \.5s/);
   assert.match(js, /intro-complete/);
 });

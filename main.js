@@ -26,9 +26,9 @@ if (introGate && document.documentElement.classList.contains('has-intro')) {
   introContent.forEach((element) => element.setAttribute('inert', ''));
   requestAnimationFrame(() => document.documentElement.classList.add('intro-running'));
   closingPanel?.addEventListener('animationend', (/** @type {AnimationEvent} */ event) => {
-    if (event.animationName === 'intro-door-right') window.setTimeout(finishIntro, 240);
+    if (event.animationName === 'intro-door-right') window.setTimeout(finishIntro, 340);
   }, { once: true });
-  completionTimer = window.setTimeout(finishIntro, 1700);
+  completionTimer = window.setTimeout(finishIntro, 2350);
 }
 
 /** @param {boolean} open */
