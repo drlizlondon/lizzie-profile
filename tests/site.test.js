@@ -59,6 +59,7 @@ test('styles include mobile and reduced motion treatments', () => {
   assert.match(css, /prefers-reduced-motion:reduce/);
   assert.match(css, /touch-action:pan-y/);
   assert.match(css, /min-height:100svh/);
+  assert.match(css, /\.projects-section\{min-height:0;padding-top:calc\(3\.65rem/);
   assert.match(css, /max-height:34svh/);
   assert.match(css, /max-width:480px\) and \(max-height:780px/);
   assert.match(js, /Math\.abs\(distanceX\) >= 48/);

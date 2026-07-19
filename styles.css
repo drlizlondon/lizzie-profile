@@ -384,7 +384,7 @@ footer{padding-top:1.6rem;padding-bottom:1.6rem}
 @media(max-width:767px){
   .site-header,.site-header.is-scrolled{min-height:0;padding:.5rem 1.5rem}
   .nav-toggle{padding:.35rem 0}
-  .projects-section{min-height:100svh;padding-top:calc(3.65rem + env(safe-area-inset-top,0px))}
+  .projects-section{min-height:0;padding-top:calc(3.65rem + env(safe-area-inset-top,0px))}
   .projects-section .section-heading{margin-bottom:clamp(1.25rem,2.6dvh,1.55rem)}
   .projects-section .section-heading h2{font-size:clamp(.75rem,3vw,.8125rem)}
   .projects-section .section-heading>p{max-width:18rem;margin-top:.6rem;font-size:clamp(1.0625rem,4.8vw,1.25rem);line-height:1.15}
