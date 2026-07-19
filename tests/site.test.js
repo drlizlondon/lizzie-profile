@@ -42,6 +42,14 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.match(html, /data-nav-target="home"/);
   assert.match(html, /data-nav-target="contact" data-nav-neutral/);
   assert.match(css, /body\.menu-open \.nav-scrim/);
+  assert.match(css, /\.nav-scrim\{[^}]*inset:0[^}]*rgba\(255,255,255,\.88\)[^}]*-webkit-backdrop-filter:blur\(8px\)/);
+  assert.match(css, /body\.menu-closing \.nav-scrim/);
+  assert.match(js, /navigationLockId/);
+  assert.match(js, /if \(menuOpen \|\| menuClosing \|\| navigationLockId\) return/);
+  assert.match(js, /document\.body\.style\.position = 'fixed'/);
+  assert.match(js, /element\.setAttribute\('inert', ''\)/);
+  assert.match(js, /navigateFromMobileMenu/);
+  assert.match(js, /focusTarget\.focus\(\{ preventScroll: true \}\)/);
   assert.match(html, /href="https:\/\/instagram\.com\/drlizlondon"/);
   assert.match(html, /I also create public-facing content online as Dr Liz London\./);
 });

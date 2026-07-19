@@ -31,31 +31,31 @@ if (introGate && document.documentElement.classList.contains('has-intro')) {
   completionTimer = window.setTimeout(finishIntro, 2350);
 }
 
-/** @param {boolean} open */
-const setMenu = (open) => {
-  navToggle?.setAttribute('aria-expanded', String(open));
-  nav?.classList.toggle('is-open', open);
-  document.body.classList.toggle('menu-open', open);
-};
-
-navToggle?.addEventListener('click', () => setMenu(navToggle.getAttribute('aria-expanded') !== 'true'));
-navScrim?.addEventListener('click', () => setMenu(false));
-masthead?.addEventListener('click', () => setMenu(false));
-nav?.addEventListener('click', (event) => {
-  if (event.target instanceof HTMLAnchorElement) setMenu(false);
-});
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && navToggle?.getAttribute('aria-expanded') === 'true') {
-    setMenu(false);
-    if (navToggle instanceof HTMLElement) navToggle.focus();
-  }
-});
-
 const navLinks = [...document.querySelectorAll('[data-nav-section]')];
 const navSections = [...document.querySelectorAll('[data-nav-target]')];
+const mobileMenuQuery = window.matchMedia('(max-width: 820px)');
+const menuBackground = [document.querySelector('.skip-link'), document.querySelector('main'), document.querySelector('footer')]
+  .filter((element) => element instanceof HTMLElement);
+
+let activeNavSectionId = '';
+let dominantSectionId = '';
+let activeSectionFrame = 0;
+let menuOpen = false;
+let menuClosing = false;
+let menuScrollY = 0;
+let menuCloseTimer = 0;
+let navigationLockId = '';
+let navigationToken = 0;
+let navigationSettleFrame = 0;
+/** @type {HTMLElement | null} */
+let navigationFocusTarget = null;
+/** @type {{ position: string, top: string, left: string, right: string, width: string, menuScrollOffset: string } | null} */
+let savedBodyStyles = null;
 
 /** @param {string} sectionId */
 const setActiveNav = (sectionId) => {
+  if (activeNavSectionId === sectionId) return;
+  activeNavSectionId = sectionId;
   navLinks.forEach((link) => {
     const active = link.getAttribute('data-nav-section') === sectionId;
     link.classList.toggle('is-active', active);
@@ -64,8 +64,91 @@ const setActiveNav = (sectionId) => {
   });
 };
 
-let dominantSectionId = '';
-let activeSectionFrame = 0;
+const lockMenuBackground = () => {
+  menuScrollY = window.scrollY;
+  savedBodyStyles = {
+    position: document.body.style.position,
+    top: document.body.style.top,
+    left: document.body.style.left,
+    right: document.body.style.right,
+    width: document.body.style.width,
+    menuScrollOffset: document.body.style.getPropertyValue('--menu-scroll-y'),
+  };
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${menuScrollY}px`;
+  document.body.style.left = '0';
+  document.body.style.right = '0';
+  document.body.style.width = '100%';
+  document.body.style.setProperty('--menu-scroll-y', `${menuScrollY}px`);
+  menuBackground.forEach((element) => element.setAttribute('inert', ''));
+};
+
+const restoreMenuScroll = () => {
+  const restoreY = menuScrollY;
+  if (savedBodyStyles) {
+    document.body.style.position = savedBodyStyles.position;
+    document.body.style.top = savedBodyStyles.top;
+    document.body.style.left = savedBodyStyles.left;
+    document.body.style.right = savedBodyStyles.right;
+    document.body.style.width = savedBodyStyles.width;
+    if (savedBodyStyles.menuScrollOffset) document.body.style.setProperty('--menu-scroll-y', savedBodyStyles.menuScrollOffset);
+    else document.body.style.removeProperty('--menu-scroll-y');
+  }
+  savedBodyStyles = null;
+
+  const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = 'auto';
+  window.scrollTo(0, restoreY);
+  requestAnimationFrame(() => {
+    window.scrollTo(0, restoreY);
+    document.documentElement.style.scrollBehavior = previousScrollBehavior;
+  });
+};
+
+const finishMenuClose = () => {
+  window.clearTimeout(menuCloseTimer);
+  menuCloseTimer = 0;
+  menuClosing = false;
+  document.body.classList.remove('menu-closing');
+  menuBackground.forEach((element) => element.removeAttribute('inert'));
+  if (navScrim instanceof HTMLElement) navScrim.tabIndex = -1;
+  scheduleActiveNavUpdate();
+};
+
+/**
+ * @param {boolean} open
+ * @param {{ restoreFocus?: boolean, immediate?: boolean }} [options]
+ */
+const setMenu = (open, { restoreFocus = false, immediate = false } = {}) => {
+  const nextOpen = open && mobileMenuQuery.matches;
+  if (nextOpen === menuOpen) {
+    if (!nextOpen && immediate && menuClosing) finishMenuClose();
+    return;
+  }
+
+  menuOpen = nextOpen;
+  navToggle?.setAttribute('aria-expanded', String(nextOpen));
+  nav?.classList.toggle('is-open', nextOpen);
+
+  if (nextOpen) {
+    window.clearTimeout(menuCloseTimer);
+    menuClosing = false;
+    document.body.classList.remove('menu-closing');
+    lockMenuBackground();
+    document.body.classList.add('menu-open');
+    if (navScrim instanceof HTMLElement) navScrim.tabIndex = 0;
+    return;
+  }
+
+  document.body.classList.remove('menu-open');
+  document.body.classList.add('menu-closing');
+  menuClosing = true;
+  restoreMenuScroll();
+  if (restoreFocus && navToggle instanceof HTMLElement) navToggle.focus({ preventScroll: true });
+
+  if (immediate || reduceMotion.matches) finishMenuClose();
+  else menuCloseTimer = window.setTimeout(finishMenuClose, 420);
+};
 
 /** @param {Element} section */
 const visibleViewportShare = (section) => {
@@ -79,6 +162,8 @@ const visibleViewportShare = (section) => {
 
 const updateActiveNavFromViewport = () => {
   activeSectionFrame = 0;
+  if (menuOpen || menuClosing || navigationLockId) return;
+
   const visibleSections = navSections
     .filter((section) => section instanceof HTMLElement)
     .map((section) => ({ section, share: visibleViewportShare(section) }))
@@ -100,8 +185,118 @@ const updateActiveNavFromViewport = () => {
 };
 
 const scheduleActiveNavUpdate = () => {
+  if (menuOpen || menuClosing || navigationLockId) return;
   if (!activeSectionFrame) activeSectionFrame = requestAnimationFrame(updateActiveNavFromViewport);
 };
+
+/** @param {number} token @param {boolean} destinationReached */
+const finishSectionNavigation = (token, destinationReached) => {
+  if (token !== navigationToken) return;
+  cancelAnimationFrame(navigationSettleFrame);
+  navigationSettleFrame = 0;
+  navigationLockId = '';
+  updateActiveNavFromViewport();
+
+  const focusTarget = navigationFocusTarget;
+  navigationFocusTarget = null;
+  if (destinationReached && focusTarget) {
+    const previousTabIndex = focusTarget.getAttribute('tabindex');
+    focusTarget.setAttribute('tabindex', '-1');
+    focusTarget.focus({ preventScroll: true });
+    focusTarget.addEventListener('blur', () => {
+      if (previousTabIndex === null) focusTarget.removeAttribute('tabindex');
+      else focusTarget.setAttribute('tabindex', previousTabIndex);
+    }, { once: true });
+  }
+};
+
+/** @param {HTMLElement} target @param {number} token */
+const waitForSectionNavigation = (target, token) => {
+  let previousScrollY = window.scrollY;
+  let stableFrames = 0;
+  const startedAt = performance.now();
+
+  const checkPosition = () => {
+    if (token !== navigationToken) return;
+    const currentScrollY = window.scrollY;
+    const movement = Math.abs(currentScrollY - previousScrollY);
+    const targetDistance = Math.abs(target.getBoundingClientRect().top);
+    const maximumScrollY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const atDocumentEnd = Math.abs(currentScrollY - maximumScrollY) <= 2;
+    const destinationReached = targetDistance <= 3 || atDocumentEnd;
+    stableFrames = movement < 0.5 ? stableFrames + 1 : 0;
+    previousScrollY = currentScrollY;
+
+    if (stableFrames >= 3 && destinationReached) {
+      finishSectionNavigation(token, true);
+      return;
+    }
+    if (performance.now() - startedAt > 1500) {
+      finishSectionNavigation(token, false);
+      return;
+    }
+    navigationSettleFrame = requestAnimationFrame(checkPosition);
+  };
+
+  navigationSettleFrame = requestAnimationFrame(checkPosition);
+};
+
+/** @param {string} sectionId @param {string} hash */
+const navigateFromMobileMenu = (sectionId, hash) => {
+  const target = document.getElementById(sectionId);
+  if (!(target instanceof HTMLElement)) {
+    setMenu(false);
+    return;
+  }
+
+  navigationToken += 1;
+  const token = navigationToken;
+  cancelAnimationFrame(navigationSettleFrame);
+  navigationLockId = sectionId;
+  dominantSectionId = sectionId;
+  const headingId = target.getAttribute('aria-labelledby');
+  const heading = headingId ? document.getElementById(headingId) : null;
+  navigationFocusTarget = heading instanceof HTMLElement ? heading : target;
+  setActiveNav(sectionId);
+  setMenu(false);
+
+  if (hash && window.location.hash !== hash) window.history.pushState(null, '', hash);
+  requestAnimationFrame(() => {
+    target.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+    waitForSectionNavigation(target, token);
+  });
+};
+
+navToggle?.addEventListener('click', () => setMenu(!menuOpen));
+navScrim?.addEventListener('click', () => setMenu(false, { restoreFocus: true }));
+masthead?.addEventListener('click', (event) => {
+  if (mobileMenuQuery.matches && menuOpen && masthead instanceof HTMLAnchorElement) {
+    event.preventDefault();
+    navigateFromMobileMenu('home', masthead.hash);
+    return;
+  }
+  setMenu(false);
+});
+nav?.addEventListener('pointerdown', (event) => event.stopPropagation());
+nav?.addEventListener('click', (event) => {
+  event.stopPropagation();
+  const link = event.target instanceof Element ? event.target.closest('a[data-nav-section]') : null;
+  if (!(link instanceof HTMLAnchorElement)) return;
+
+  if (mobileMenuQuery.matches && menuOpen) {
+    event.preventDefault();
+    navigateFromMobileMenu(link.dataset.navSection ?? '', link.hash);
+    return;
+  }
+  setMenu(false);
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && menuOpen) setMenu(false, { restoreFocus: true });
+});
+mobileMenuQuery.addEventListener('change', (event) => {
+  if (!event.matches) setMenu(false, { immediate: true });
+  scheduleActiveNavUpdate();
+});
 
 const activeSectionObserver = new IntersectionObserver(scheduleActiveNavUpdate, {
   threshold: Array.from({ length: 21 }, (_, index) => index / 20),
@@ -330,10 +525,15 @@ if (projectCarousel) {
   }
 }
 
+const syncHeaderState = () => {
+  header?.classList.toggle('is-scrolled', window.scrollY > 48);
+};
+
 const alignHashTarget = () => {
   const id = decodeURIComponent(window.location.hash.slice(1));
   const target = id ? document.getElementById(id) : null;
   target?.scrollIntoView({ block: 'start' });
+  syncHeaderState();
 };
 
 if (window.location.hash) {
@@ -341,10 +541,9 @@ if (window.location.hash) {
   window.addEventListener('load', alignHashTarget, { once: true });
 }
 
-window.addEventListener('scroll', () => {
-  header?.classList.toggle('is-scrolled', window.scrollY > 48);
-}, { passive: true });
+window.addEventListener('scroll', syncHeaderState, { passive: true });
 window.addEventListener('resize', scheduleActiveNavUpdate, { passive: true });
+syncHeaderState();
 
 const revealObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach((entry) => {
