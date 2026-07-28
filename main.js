@@ -1,3 +1,7 @@
+import { trackSiteEvent } from './site-events.js';
+
+trackSiteEvent('site_viewed');
+
 const header = document.querySelector('[data-header]');
 const navToggle = document.querySelector('.nav-toggle');
 const nav = document.querySelector('.site-nav');
@@ -271,8 +275,13 @@ navToggle?.addEventListener('click', () => setMenu(!menuOpen));
 navScrim?.addEventListener('click', () => setMenu(false, { restoreFocus: true }));
 masthead?.addEventListener('click', (event) => {
   if (mobileMenuQuery.matches && menuOpen && masthead instanceof HTMLAnchorElement) {
-    event.preventDefault();
-    navigateFromMobileMenu('home', masthead.hash);
+    const homeTarget = document.getElementById('home');
+    if (homeTarget) {
+      event.preventDefault();
+      navigateFromMobileMenu('home', masthead.hash);
+    } else {
+      setMenu(false);
+    }
     return;
   }
   setMenu(false);
@@ -304,25 +313,26 @@ const activeSectionObserver = new IntersectionObserver(scheduleActiveNavUpdate, 
 navSections.forEach((section) => activeSectionObserver.observe(section));
 scheduleActiveNavUpdate();
 
-/** @typedef {{ name: string, description: string, impact: string, website: string, websiteLabel?: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
+/** @typedef {{ name: string, problem: string, thinking: string, outcome: string, website: string, caseStudy: string, tone: string, visual: string, image: string, alt: string, final?: boolean }} CarouselProject */
 /** @type {CarouselProject[]} */
 const carouselProjects = [
   {
     name: 'BumpNotes',
-    description: 'Helping women capture what matters during pregnancy.',
-    impact: 'Built from my own pregnancy.',
+    problem: 'Pregnancy information is fragmented, while the details that matter are difficult to recall under pressure.',
+    thinking: 'Design around the woman’s own story, not another generic stream of health content.',
+    outcome: 'A simple record that helps women capture what matters and communicate it clearly.',
     website: 'https://www.bumpnotes.co.uk',
-    websiteLabel: 'View BumpNotes',
     caseStudy: '/projects/bumpnotes.html',
     tone: 'lavender',
-    visual: 'phone',
+    visual: 'screen',
     image: new URL('./assets/images/project-bumpnotes.webp', import.meta.url).href,
     alt: 'BumpNotes pregnancy summary interface',
   },
   {
     name: 'Big Picture Planner',
-    description: 'Weekly planning that helps you focus on what actually matters.',
-    impact: 'Designed for real weeks.',
+    problem: 'Traditional planners reward busyness and allow urgent tasks to crowd out meaningful priorities.',
+    thinking: 'Plan around the reality of a whole week, including limited time, energy and competing roles.',
+    outcome: 'A weekly planning system that keeps the bigger picture visible while making the next step practical.',
     website: 'https://www.bigpictureplanner.app',
     caseStudy: '/projects/big-picture-planner.html',
     tone: 'cream',
@@ -332,47 +342,28 @@ const carouselProjects = [
   },
   {
     name: 'myBishBash',
-    description: 'Helping you use your phone intentionally, so it supports the life you actually want.',
-    impact: 'Built for more intentional attention.',
+    problem: 'Phones are designed to capture attention, even when that attention conflicts with the life someone wants.',
+    thinking: 'Replace restriction and guilt with deliberate choices about what the phone is there to support.',
+    outcome: 'A calmer way to shape phone use around personal priorities and intentional attention.',
     website: 'https://mybishbash.app',
     caseStudy: '/projects/mybishbash.html',
     tone: 'sage',
-    visual: 'phone mybishbash-phone',
+    visual: 'screen',
     image: new URL('./assets/images/project-mybishbash.webp', import.meta.url).href,
     alt: 'myBishBash intentional phone app preview',
   },
   {
-    name: 'Mission Control',
-    description: 'Complex systems made easier to understand.',
-    impact: 'Making complexity legible.',
+    name: 'You’ve seen how I think.',
+    problem: '',
+    thinking: '',
+    outcome: '',
     website: '',
-    caseStudy: '/projects/mission-control.html',
-    tone: 'cool',
-    visual: 'abstract abstract-grid',
+    caseStudy: '',
+    tone: 'final',
+    visual: '',
     image: '',
     alt: '',
-  },
-  {
-    name: 'Common Ground',
-    description: 'Better questions. Stronger connections.',
-    impact: 'Created for better conversations.',
-    website: '',
-    caseStudy: '/projects/common-ground.html',
-    tone: 'butter',
-    visual: 'abstract abstract-circles',
-    image: '',
-    alt: '',
-  },
-  {
-    name: 'Aurelle',
-    description: 'Learning by doing, not just reading.',
-    impact: 'Learning through active practice.',
-    website: '',
-    caseStudy: '/projects/aurelle.html',
-    tone: 'peach',
-    visual: 'abstract abstract-pages',
-    image: '',
-    alt: '',
+    final: true,
   },
 ];
 
@@ -395,39 +386,45 @@ if (projectCarousel) {
   };
 
   if (viewport && track && dots && previous instanceof HTMLButtonElement && next instanceof HTMLButtonElement && status) {
-    track.innerHTML = carouselProjects.map((project, index) => `
+    track.innerHTML = carouselProjects.map((project, index) => project.final ? `
+      <article class="carousel-slide carousel-final-slide" aria-roledescription="slide" aria-label="${index + 1} of ${carouselProjects.length}: ${project.name}" aria-hidden="${index !== 0}">
+        <div class="carousel-final-content">
+          <p class="eyebrow">Your next idea</p>
+          <h3>${project.name}</h3>
+          <p>If you’re building something important, I’d love to help.</p>
+          <div class="project-actions carousel-final-actions">
+            <a href="#contact">Work with me <span aria-hidden="true">→</span></a>
+            <button type="button" data-carousel-restart>Explore more work <span aria-hidden="true">↺</span></button>
+          </div>
+        </div>
+      </article>` : `
       <article class="carousel-slide tone-${project.tone}" aria-roledescription="slide" aria-label="${index + 1} of ${carouselProjects.length}: ${project.name}" aria-hidden="${index !== 0}">
         <div class="carousel-project-copy">
           <span class="project-index">${String(index + 1).padStart(2, '0')}</span>
           <h3>${project.name}</h3>
-          <p>${project.description}</p>
-          <p class="project-impact"><span aria-hidden="true">✦</span>${project.impact}</p>
+          <dl class="project-reasoning">
+            <div><dt>Problem</dt><dd>${project.problem}</dd></div>
+            <div><dt>Thinking</dt><dd>${project.thinking}</dd></div>
+            <div><dt>Outcome</dt><dd>${project.outcome}</dd></div>
+          </dl>
           <div class="project-actions">
-            ${project.website ? `<a href="${project.website}" target="_blank" rel="noreferrer">${project.websiteLabel || 'Visit website'} <span aria-hidden="true">→</span></a>` : ''}
-            <a class="project-case-link" href="${project.caseStudy}">Read case study <span aria-hidden="true">→</span></a>
+            <a class="project-case-link" href="${project.caseStudy}">View project <span aria-hidden="true">→</span></a>
           </div>
         </div>
         <div class="carousel-product-stage">${visualMarkup(project, index)}</div>
       </article>`).join('');
 
-    dots.innerHTML = carouselProjects.map((project, index) => `<button type="button" aria-label="Show ${project.name}" data-carousel-dot="${index}"></button>`).join('');
+    dots.innerHTML = carouselProjects.map((project, index) => `<button type="button" aria-label="${project.final ? 'Show final invitation' : `Show ${project.name}`}" data-carousel-dot="${index}"></button>`).join('');
 
     const slides = [...track.querySelectorAll('.carousel-slide')];
     const dotButtons = [...dots.querySelectorAll('button')];
+    const restartButtons = [...track.querySelectorAll('[data-carousel-restart]')];
     let activeIndex = 0;
     let pointerStartX = 0;
     let pointerStartY = 0;
     let activePointer = -1;
     let horizontalDrag = false;
     let suppressClick = false;
-
-    const syncViewportHeight = () => {
-      if (window.matchMedia('(max-width: 767px)').matches) {
-        viewport.style.height = `${slides[activeIndex].scrollHeight}px`;
-      } else {
-        viewport.style.removeProperty('height');
-      }
-    };
 
     /** @param {number} index */
     const showProject = (index) => {
@@ -436,7 +433,7 @@ if (projectCarousel) {
       slides.forEach((slide, slideIndex) => {
         const active = slideIndex === activeIndex;
         slide.setAttribute('aria-hidden', String(!active));
-        slide.querySelectorAll('a').forEach((link) => link.setAttribute('tabindex', active ? '0' : '-1'));
+        slide.querySelectorAll('a, button').forEach((control) => control.setAttribute('tabindex', active ? '0' : '-1'));
       });
       dotButtons.forEach((dot, dotIndex) => {
         dot.toggleAttribute('aria-current', dotIndex === activeIndex);
@@ -444,12 +441,12 @@ if (projectCarousel) {
       previous.disabled = activeIndex === 0;
       next.disabled = activeIndex === carouselProjects.length - 1;
       status.textContent = `Project ${activeIndex + 1} of ${carouselProjects.length}: ${carouselProjects[activeIndex].name}`;
-      requestAnimationFrame(syncViewportHeight);
     };
 
     previous.addEventListener('click', () => showProject(activeIndex - 1));
     next.addEventListener('click', () => showProject(activeIndex + 1));
     dotButtons.forEach((dot, index) => dot.addEventListener('click', () => showProject(index)));
+    restartButtons.forEach((button) => button.addEventListener('click', () => showProject(0)));
     projectCarousel.addEventListener('keydown', (/** @type {KeyboardEvent} */ event) => {
       if (event.key === 'ArrowLeft') {
         event.preventDefault();
@@ -515,12 +512,6 @@ if (projectCarousel) {
       activePointer = -1;
       showProject(activeIndex);
     });
-    window.addEventListener('resize', syncViewportHeight, { passive: true });
-    if ('ResizeObserver' in window) {
-      const slideResizeObserver = new ResizeObserver(syncViewportHeight);
-      slides.forEach((slide) => slideResizeObserver.observe(slide));
-    }
-    document.fonts?.ready.then(syncViewportHeight);
     showProject(0);
   }
 }
@@ -573,3 +564,52 @@ if (parallax && !reduceMotion.matches && window.matchMedia('(pointer: fine)').ma
 
 const year = document.querySelector('[data-year]');
 if (year) year.textContent = String(new Date().getFullYear());
+
+const fableCopyButton = /** @type {HTMLButtonElement | null} */ (document.querySelector('[data-copy-fable]'));
+const fableDownloadButton = /** @type {HTMLButtonElement | null} */ (document.querySelector('[data-download-fable]'));
+const fablePrompt = document.querySelector('[data-fable-prompt]');
+const fableCopyStatus = document.querySelector('[data-fable-copy-status]');
+
+if (fablePrompt) trackSiteEvent('fable_prompt_viewed');
+
+fableCopyButton?.addEventListener('click', async () => {
+  const prompt = fablePrompt?.textContent?.trim();
+  if (!prompt) return;
+  try {
+    await navigator.clipboard.writeText(prompt);
+    const buttonLabel = fableCopyButton.firstChild;
+    if (buttonLabel) buttonLabel.textContent = 'Copied ';
+    if (fableCopyStatus) fableCopyStatus.textContent = 'The Betty Prompt has been copied to your clipboard.';
+    trackSiteEvent('fable_free_prompt_copied');
+    window.setTimeout(() => {
+      if (buttonLabel) buttonLabel.textContent = 'Copy it now ';
+      if (fableCopyStatus) fableCopyStatus.textContent = '';
+    }, 2400);
+  } catch {
+    if (fableCopyStatus) fableCopyStatus.textContent = 'Copy failed. Select the prompt text and copy it manually.';
+  }
+});
+
+fableDownloadButton?.addEventListener('click', () => {
+  const prompt = fablePrompt?.textContent?.trim();
+  if (!prompt) return;
+
+  try {
+    const downloadUrl = URL.createObjectURL(new Blob([`${prompt}\n`], { type: 'text/plain;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = 'the-betty-prompt.txt';
+    link.hidden = true;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 0);
+    if (fableCopyStatus) fableCopyStatus.textContent = 'The Betty Prompt has been downloaded as a text file.';
+    trackSiteEvent('fable_free_prompt_downloaded');
+    window.setTimeout(() => {
+      if (fableCopyStatus) fableCopyStatus.textContent = '';
+    }, 2400);
+  } catch {
+    if (fableCopyStatus) fableCopyStatus.textContent = 'Download failed. Select the prompt text and copy it manually.';
+  }
+});

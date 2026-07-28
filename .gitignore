@@ -3,3 +3,18 @@ dist/
 .DS_Store
 *.log
 .vercel
+
+# Local configuration and private key material.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Separately versioned OpenAI Sites backend and local workspace glue.
+fable-subscriber-service/
+pnpm-workspace.yaml
+
+# Local visual QA captures and source-reference screenshots.
+artifacts/build-a-business-*.png
+design/reference/

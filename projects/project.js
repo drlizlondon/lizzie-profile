@@ -1,3 +1,7 @@
+import { trackSiteEvent } from '../site-events.js';
+
+trackSiteEvent('site_viewed');
+
 /** @type {Record<string, [string, string, string]>} */
 const projects = {
   bumpnotes: ['BumpNotes', 'Helping women capture what matters and communicate it clearly throughout pregnancy.', 'Verified project details and visuals will be added here.'],
@@ -11,6 +15,8 @@ const projects = {
 
 const slug = location.pathname.split('/').pop()?.replace('.html', '') ?? '';
 const project = projects[slug];
+const year = document.querySelector('[data-year]');
+if (year) year.textContent = String(new Date().getFullYear());
 if (project) {
   const [name, summary, detail] = project;
   document.title = `${name} — Dr Lizzie Soyode`;

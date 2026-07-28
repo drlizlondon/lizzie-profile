@@ -9,7 +9,17 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "strict": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": ["node", "vite/client"]
   },
-  "include": ["main.js", "projects/project.js", "tests/**/*.js"]
+  "include": [
+    "main.js",
+    "build-a-business*.js",
+    "fable-api.js",
+    "fable-pro-content.js",
+    "fable-pro.js",
+    "site-events.js",
+    "unsubscribe.js",
+    "projects/project.js",
+    "tests/**/*.js"
+  ]
 }
