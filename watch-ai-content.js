@@ -30,3 +30,49 @@ export const copyWatchSetupPrompt = async (writeText, origin) => {
     return false;
   }
 };
+
+/**
+ * Use the modern clipboard first, then a synchronous browser fallback for
+ * contexts where clipboard permissions are more restrictive.
+ *
+ * @param {string} value
+ * @param {(value: string) => Promise<void>} primaryWrite
+ * @param {(value: string) => boolean} fallbackWrite
+ */
+export const writeTextWithFallback = async (value, primaryWrite, fallbackWrite) => {
+  try {
+    await primaryWrite(value);
+  } catch (primaryError) {
+    if (fallbackWrite(value)) return;
+    throw primaryError;
+  }
+};
+
+/** @returns {(value: string) => Promise<void>} */
+export const browserClipboardWriter = () => async (value) => {
+  const modernWrite = navigator.clipboard?.writeText
+    ? navigator.clipboard.writeText.bind(navigator.clipboard)
+    : async () => { throw new Error('Clipboard access is unavailable.'); };
+
+  await writeTextWithFallback(value, modernWrite, (fallbackValue) => {
+    if (!document.body || typeof document.execCommand !== 'function') return false;
+
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const textarea = document.createElement('textarea');
+    textarea.value = fallbackValue;
+    textarea.setAttribute('readonly', '');
+    textarea.setAttribute('aria-hidden', 'true');
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.top = '0';
+    textarea.style.opacity = '0';
+    document.body.append(textarea);
+    textarea.select();
+    textarea.setSelectionRange(0, fallbackValue.length);
+
+    const copied = document.execCommand('copy');
+    textarea.remove();
+    previousFocus?.focus({ preventScroll: true });
+    return copied;
+  });
+};

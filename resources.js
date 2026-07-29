@@ -1,11 +1,5 @@
 import { featuredResources, orderedResources } from './resources-data.js';
-import { copyWatchSetupPrompt } from './watch-ai-content.js';
-
-/** @returns {(value: string) => Promise<void>} */
-const clipboardWriter = () => {
-  if (navigator.clipboard?.writeText) return navigator.clipboard.writeText.bind(navigator.clipboard);
-  return async () => { throw new Error('Clipboard access is unavailable.'); };
-};
+import { browserClipboardWriter, copyWatchSetupPrompt } from './watch-ai-content.js';
 
 /**
  * @param {HTMLElement} status
@@ -13,7 +7,7 @@ const clipboardWriter = () => {
  */
 const handleWatchCopy = async (status, button) => {
   const label = button.querySelector('[data-action-label]');
-  const copied = await copyWatchSetupPrompt(clipboardWriter(), window.location.origin);
+  const copied = await copyWatchSetupPrompt(browserClipboardWriter(), window.location.origin);
 
   if (!copied) {
     status.textContent = 'Copy didn’t work automatically. Open Watch AI to select and copy the setup prompt manually.';

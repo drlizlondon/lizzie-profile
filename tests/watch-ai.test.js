@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { featuredResources } from '../resources-data.js';
-import { buildWatchSetupPrompt, copyWatchSetupPrompt } from '../watch-ai-content.js';
+import { buildWatchSetupPrompt, copyWatchSetupPrompt, writeTextWithFallback } from '../watch-ai-content.js';
 
 const page = await readFile(new URL('../watch-ai.html', import.meta.url), 'utf8');
 const pageScript = await readFile(new URL('../watch-ai.js', import.meta.url), 'utf8');
@@ -81,6 +81,22 @@ test('the setup prompt is visible, portable and copies exactly', async () => {
   assert.equal(await copyWatchSetupPrompt(async (value) => { copied = value; }, 'https://watch.example'), true);
   assert.equal(copied, buildWatchSetupPrompt('https://watch.example'));
   assert.equal(await copyWatchSetupPrompt(async () => { throw new Error('blocked'); }, 'https://watch.example'), false);
+});
+
+test('copying falls back safely when browser clipboard permission is restricted', async () => {
+  let fallbackValue = '';
+  await writeTextWithFallback(
+    'Watch setup prompt',
+    async () => { throw new Error('blocked'); },
+    (value) => { fallbackValue = value; return true; },
+  );
+  assert.equal(fallbackValue, 'Watch setup prompt');
+
+  await assert.rejects(() => writeTextWithFallback(
+    'Watch setup prompt',
+    async () => { throw new Error('blocked'); },
+    () => false,
+  ));
 });
 
 test('the public package exposes only $watch and includes safe setup checks', () => {
