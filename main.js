@@ -1,4 +1,5 @@
 import { trackSiteEvent } from './site-events.js';
+import './resources.js';
 
 trackSiteEvent('site_viewed');
 

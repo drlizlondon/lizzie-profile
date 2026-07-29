@@ -77,9 +77,11 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.match(js, /focusTarget\.focus\(\{ preventScroll: true \}\)/);
   assert.doesNotMatch(html, /Speaking and education|Dr Liz London|instagram\.com\/drlizlondon/);
   assert.match(html, /data-nav-target="resources"/);
-  assert.match(html, /href="\/build-a-business\.html"/);
-  assert.match(html, /The Betty Prompt/);
-  assert.match(html, /href="\/betty-prompt\.html">Copy it now/);
+  assert.match(html, /Practical frameworks and AI tools you can use immediately\./);
+  assert.doesNotMatch(html, /Experience how I approach ideas, assumptions and decisions/);
+  assert.match(html, /data-resource-view="featured"/);
+  assert.match(html, /href="\/resources\.html">Browse all free resources/);
+  assert.match(js, /import '\.\/resources\.js'/);
   assert.doesNotMatch(html, /The Fable Prompt|href="\/fable-prompt\.html">Copy it now/);
   assert.match(legacyPromptHtml, /window\.location\.replace\(`\/betty-prompt\.html/);
   assert.match(legacyPromptHtml, /rel="canonical" href="https:\/\/lizzie-profile\.vercel\.app\/betty-prompt\.html"/);
@@ -125,4 +127,11 @@ test('styles include mobile and reduced motion treatments', () => {
   assert.match(css, /\.intro-panel span\{[^}]*font-family:var\(--serif\)/);
   assert.match(css, /intro-door-left 1\.3s \.5s/);
   assert.match(js, /intro-complete/);
+  assert.match(css, /grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+  assert.match(css, /\.resources-browse-link\{[^}]*grid-area:browse/);
+  assert.match(css, /\.resource-card:hover,\.resource-card:focus-within\{background:#faf9f7\}/);
+  assert.match(css, /translateX\(3px\)/);
+  assert.match(css, /\.resources-section\{display:block;padding-top:3\.5rem;padding-bottom:3\.5rem\}/);
+  assert.match(css, /\.resources-browse-link\{min-height:46px;margin-top:1\.1rem/);
+  assert.doesNotMatch(css, /\.resource-card:hover[^}]*scale|\.resource-card:hover[^}]*box-shadow/);
 });

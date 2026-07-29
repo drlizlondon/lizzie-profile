@@ -16,6 +16,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         home: resolve(import.meta.dirname, 'index.html'),
+        resources: resolve(import.meta.dirname, 'resources.html'),
+        watchAi: resolve(import.meta.dirname, 'watch-ai.html'),
         buildABusiness: resolve(import.meta.dirname, 'build-a-business.html'),
         bettyPrompt: resolve(import.meta.dirname, 'betty-prompt.html'),
         fablePromptRedirect: resolve(import.meta.dirname, 'fable-prompt.html'),

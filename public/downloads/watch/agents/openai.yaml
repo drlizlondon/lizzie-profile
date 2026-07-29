@@ -1,0 +1,4 @@
+interface:
+  display_name: "Watch Videos with AI"
+  short_description: "Watch and explain shared videos"
+  default_prompt: "Use $watch to watch this video and explain what matters."

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Set up Watch AI in Codex and use $watch to understand public Instagram, TikTok, YouTube and X videos." />
+    <meta name="theme-color" content="#fcfcfc" />
+    <title>Watch Videos with AI — Dr Lizzie Soyode</title>
+    <link rel="canonical" href="https://lizzie-profile.vercel.app/watch-ai.html" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/main.js"></script>
+    <script type="module" src="/watch-ai.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" data-header>
+      <a class="masthead" href="/" aria-label="Dr Lizzie Soyode, home">Dr Lizzie Soyode</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span>Menu</span><i aria-hidden="true"></i>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+        <a href="/#home">Home</a>
+        <a href="/#about">About</a>
+        <a href="/#projects">Projects</a>
+        <a class="is-active" href="/resources.html" aria-current="page">Free Resources</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+      <button class="nav-scrim" type="button" aria-label="Close navigation" tabindex="-1"></button>
+    </header>
+
+    <main id="main" class="fable-page-main watch-page-main">
+      <a class="fable-back" href="/resources.html"><span aria-hidden="true">←</span> Free Resources</a>
+
+      <section class="watch-page-hero" aria-labelledby="watch-title">
+        <div class="watch-hero-copy">
+          <p class="eyebrow">AI skill</p>
+          <h1 id="watch-title">Watch Videos with AI</h1>
+          <p class="watch-lead">Paste a public Instagram, TikTok, YouTube or X video into Codex. Watch AI will watch it, transcribe it and explain what matters.</p>
+          <div class="watch-product-facts" aria-label="Watch AI product information">
+            <p>Free to use. Requires Codex. No separate subscription or per-video charge.</p>
+            <p>Works best with videos under 20 minutes.</p>
+          </div>
+        </div>
+
+        <div class="watch-setup-box" aria-labelledby="watch-setup-title">
+          <p class="eyebrow">Set it up once</p>
+          <h2 id="watch-setup-title">Copy this into Codex</h2>
+          <div class="watch-setup-actions">
+            <button type="button" class="watch-primary-action" data-copy-watch-setup>
+              <span data-action-label>Copy setup prompt</span><span aria-hidden="true">→</span>
+            </button>
+            <a class="watch-secondary-action" href="/downloads/watch.zip" download="watch.zip" data-watch-download>Download skill</a>
+          </div>
+          <pre data-watch-setup-prompt tabindex="0" aria-label="Watch AI setup prompt">Preparing the setup prompt…</pre>
+          <p class="watch-copy-status" role="status" aria-live="polite" data-watch-copy-status></p>
+        </div>
+      </section>
+
+      <section class="watch-section" aria-labelledby="watch-how-title">
+        <p class="eyebrow">One simple setup</p>
+        <h2 id="watch-how-title">How it works</h2>
+        <ol class="watch-steps">
+          <li><span>01</span><p>Copy the setup prompt.</p></li>
+          <li><span>02</span><p>Paste it into Codex.</p></li>
+          <li><span>03</span><p>Approve any requested installation.</p></li>
+          <li><span>04</span><p>Wait until Codex confirms “$watch is ready”.</p></li>
+          <li><span>05</span><p>Paste a public video link using the command below.</p></li>
+        </ol>
+        <div class="watch-command" aria-label="Watch AI command example">
+          <span>Use it whenever you need it</span>
+          <code>$watch &lt;video URL&gt;</code>
+        </div>
+      </section>
+
+      <section class="watch-section watch-sites-section" aria-labelledby="watch-sites-title">
+        <p class="eyebrow">Public video links</p>
+        <h2 id="watch-sites-title">Supported sites</h2>
+        <ul class="watch-supported-sites">
+          <li>Instagram</li>
+          <li>TikTok</li>
+          <li>YouTube</li>
+          <li>X</li>
+        </ul>
+      </section>
+
+      <section class="watch-section watch-faq-section" aria-labelledby="watch-faq-title">
+        <p class="eyebrow">Good to know</p>
+        <h2 id="watch-faq-title">Simple FAQ</h2>
+        <div class="watch-faq">
+          <details>
+            <summary>Is it free?</summary>
+            <p>Yes. Watch AI has no separate subscription or per-video charge. Your normal Codex plan still applies.</p>
+          </details>
+          <details>
+            <summary>Does it install anything?</summary>
+            <p>Yes. With your approval, Codex adds Watch AI and the supporting components it needs. You normally do this once on each computer.</p>
+          </details>
+          <details>
+            <summary>What video lengths are supported?</summary>
+            <p>Videos under 20 minutes are the normal use case. Longer videos are supported, but take longer. Watch AI will check with you before continuing.</p>
+          </details>
+          <details>
+            <summary>Does my video leave my computer?</summary>
+            <p>The downloaded video stays in a temporary working folder on your computer. To explain it, Codex may send selected frames and transcript text through your normal Codex service, just as it does with other material you ask Codex to analyse. Nothing is uploaded to this website or a separate Watch AI service.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer><a class="masthead" href="/">Dr Lizzie Soyode</a><p>Ideas Impact In Real Life</p><p>© <span data-year></span> Dr Lizzie Soyode</p></footer>
+  </body>
+</html>
