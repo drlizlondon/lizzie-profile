@@ -15,11 +15,11 @@ test('homepage contains the required positioning and project links', () => {
   assert.doesNotMatch(html, /Ideas\.|Impact\.|In Real Life\./);
   assert.match(html, /data-project-carousel/);
   assert.equal((js.match(/caseStudy: '\/projects\//g) ?? []).length, 3);
-  assert.match(html, /aria-label="Three featured projects and a closing invitation"/);
+  assert.match(html, /aria-label="Three featured projects"/);
   assert.match(html, /Every project begins with a problem worth solving\./);
   assert.match(html, /See My Work/);
   assert.doesNotMatch(html, /Explore Projects|Public learning/);
-  assert.doesNotMatch(html, /Work With Me|These projects are not the destination/);
+  assert.match(html, /Work with me/);
   assert.match(js, /Pregnancy information is fragmented/);
   assert.match(js, /Design around the woman’s own story/);
   assert.match(js, /Problem<\/dt>/);
@@ -27,10 +27,9 @@ test('homepage contains the required positioning and project links', () => {
   assert.match(js, /Outcome<\/dt>/);
   assert.match(js, /View project <span aria-hidden="true">→<\/span>/);
   assert.doesNotMatch(js, /Read case study|websiteLabel/);
-  assert.match(js, /You’ve seen how I think\./);
-  assert.match(js, /If you’re building something important, I’d love to help\./);
-  assert.match(js, /Work with me/);
-  assert.match(js, /Explore more work/);
+  assert.doesNotMatch(js, /You’ve seen how I think\.|Explore more work/);
+  assert.match(html, /You’ve seen how I think\./);
+  assert.match(html, /If you’re building something important, I’d love to help\./);
   assert.doesNotMatch(js, /name: 'Mission Control'|name: 'Common Ground'|name: 'Aurelle'/);
   assert.doesNotMatch(js, /visual: 'phone'/);
   assert.match(html, /aria-label="Previous project"/);
@@ -84,7 +83,7 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.match(js, /import '\.\/resources\.js'/);
   assert.doesNotMatch(html, /The Fable Prompt|href="\/fable-prompt\.html">Copy it now/);
   assert.match(legacyPromptHtml, /window\.location\.replace\(`\/betty-prompt\.html/);
-  assert.match(legacyPromptHtml, /rel="canonical" href="https:\/\/lizzie-profile\.vercel\.app\/betty-prompt\.html"/);
+  assert.match(legacyPromptHtml, /rel="canonical" href="https:\/\/drlizlondon\.com\/betty-prompt"/);
   assert.doesNotMatch(html, /data-fable-prompt/);
   assert.match(bettyHtml, /data-copy-fable/);
   assert.match(bettyHtml, /Act as an expert collaborator, not just an assistant\./);
@@ -99,7 +98,8 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.match(js, /navigator\.clipboard\.writeText\(prompt\)/);
   assert.match(js, /trackSiteEvent\(['"]site_viewed['"]\)/);
   assert.match(js, /trackSiteEvent\(['"]fable_prompt_viewed['"]\)/);
-  assert.match(html, /Start a Conversation/);
+  assert.match(html, /Send enquiry/);
+  assert.match(html, /hello@drlizlondon\.com/);
 });
 
 test('styles include mobile and reduced motion treatments', () => {

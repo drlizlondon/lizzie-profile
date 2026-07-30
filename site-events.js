@@ -1,8 +1,5 @@
 import { apiUrl } from './fable-api.js';
 
-const VISITOR_KEY = 'lizprofile-visitor-v1';
-const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
 let inMemoryVisitorId = '';
 
 const createVisitorId = () => {
@@ -18,22 +15,7 @@ const createVisitorId = () => {
 const visitorId = () => {
   if (inMemoryVisitorId) return inMemoryVisitorId;
 
-  try {
-    const storedId = window.localStorage.getItem(VISITOR_KEY) ?? '';
-    if (UUID_PATTERN.test(storedId)) {
-      inMemoryVisitorId = storedId;
-      return inMemoryVisitorId;
-    }
-  } catch {
-    // Aggregate measurement still works for this page when storage is unavailable.
-  }
-
   inMemoryVisitorId = createVisitorId();
-  try {
-    window.localStorage.setItem(VISITOR_KEY, inMemoryVisitorId);
-  } catch {
-    // The random identifier is kept in memory only for this page view.
-  }
   return inMemoryVisitorId;
 };
 

@@ -18,7 +18,7 @@ const expectedResources = [
     category: 'Planning Framework',
     title: 'The Betty Prompt',
     description: 'A practical prompt for better questions, stronger recommendations and a more honest working relationship with AI.',
-    cta: 'Copy it now',
+    cta: 'Get the prompt',
     href: '/betty-prompt.html',
   },
   {

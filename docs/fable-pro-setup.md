@@ -9,8 +9,8 @@ The frontend must call the deployed Sites service. The old root Vercel functions
 
 ## Current production links
 
-- Portfolio: `https://lizzie-profile.vercel.app`
-- Betty Prompt: `https://lizzie-profile.vercel.app/betty-prompt.html`
+- Portfolio: `https://drlizlondon.com`
+- Betty Prompt: `https://drlizlondon.com/betty-prompt`
 - Sites service: `https://fable-subscriber-service.chris-ohiri.chatgpt.site`
 - Private owner dashboard: `https://fable-subscriber-service.chris-ohiri.chatgpt.site/admin`
 - Active-subscriber CSV: `https://fable-subscriber-service.chris-ohiri.chatgpt.site/api/admin/export`

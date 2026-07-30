@@ -23,6 +23,7 @@ export default defineConfig({
         fablePromptRedirect: resolve(import.meta.dirname, 'fable-prompt.html'),
         privacy: resolve(import.meta.dirname, 'privacy.html'),
         unsubscribe: resolve(import.meta.dirname, 'unsubscribe.html'),
+        notFound: resolve(import.meta.dirname, '404.html'),
         ...Object.fromEntries(
           projectPages.map((name) => [name, resolve(import.meta.dirname, `projects/${name}.html`)]),
         ),

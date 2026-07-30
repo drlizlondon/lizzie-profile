@@ -34,7 +34,7 @@ export const freeResources = Object.freeze([
     title: 'The Betty Prompt',
     category: 'Planning Framework',
     description: 'A practical prompt for better questions, stronger recommendations and a more honest working relationship with AI.',
-    cta: 'Copy it now',
+    cta: 'Get the prompt',
     href: '/betty-prompt.html',
     featured: true,
     order: 2,

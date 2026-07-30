@@ -2,7 +2,9 @@
 
 Source for Dr Lizzie Soyode's portfolio, free resources, and Betty Prompt experience.
 
-Production: https://lizzie-profile.vercel.app
+Production: https://drlizlondon.com
+
+The contact form is delivered by the Vercel function at `/api/contact`. Production requires `RESEND_API_KEY`; `CONTACT_TO_EMAIL` and `CONTACT_FROM_EMAIL` can override the domain defaults.
 
 ## Local development
 

@@ -67,9 +67,9 @@ test('provides explicit free and Pro prompt downloads and records the expected a
   assert.match(client, /fable_pro_prompt_downloaded/);
 });
 
-test('analytics uses a pseudonymous browser id and sends only allowlisted frontend events', () => {
+test('analytics uses a page-scoped pseudonymous id and sends only allowlisted frontend events', () => {
   assert.match(siteEvents, /crypto\.randomUUID\(\)/);
-  assert.match(siteEvents, /localStorage/);
+  assert.doesNotMatch(siteEvents, /localStorage|sessionStorage|document\.cookie/);
   assert.match(siteEvents, /apiUrl\(['"]\/api\/events['"]\)/);
   assert.doesNotMatch(siteEvents, /JSON\.stringify\(\{[^}]*email|navigator\.userAgent/);
   assert.match(main, /trackSiteEvent\(['"]site_viewed['"]\)/);
@@ -94,12 +94,12 @@ test('privacy copy names processors, aggregate measurement and conservative cons
   assert.match(privacy, /OpenAI Sites/);
   assert.match(privacy, /Cloudflare D1/);
   assert.match(privacy, /Resend processes delivery/);
-  assert.match(privacy, /random identifier is stored in your browser and hashed by the server/);
-  assert.match(privacy, /not linked to your email address/);
+  assert.match(privacy, /lasts only for the current page view/);
+  assert.match(privacy, /does not use Google Analytics or analytics cookies/);
   assert.match(privacy, /does not store raw IP addresses or user-agent strings/);
   assert.match(privacy, /you will not be re-enrolled in future updates/);
-  assert.match(privacy, /Required legal completion/);
-  assert.match(privacy, /placeholder contact address/);
+  assert.match(privacy, /Legal review recommended/);
+  assert.match(privacy, /hello@drlizlondon\.com/);
   assert.match(unsubscribePage, /Unsubscribe from Betty updates\?/);
   assert.match(unsubscribePage, /You will keep your Betty Pro Prompt/);
 });

@@ -314,7 +314,7 @@ const activeSectionObserver = new IntersectionObserver(scheduleActiveNavUpdate, 
 navSections.forEach((section) => activeSectionObserver.observe(section));
 scheduleActiveNavUpdate();
 
-/** @typedef {{ name: string, problem: string, thinking: string, outcome: string, website: string, caseStudy: string, tone: string, visual: string, image: string, alt: string, final?: boolean }} CarouselProject */
+/** @typedef {{ name: string, problem: string, thinking: string, outcome: string, website: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
 /** @type {CarouselProject[]} */
 const carouselProjects = [
   {
@@ -353,19 +353,6 @@ const carouselProjects = [
     image: new URL('./assets/images/project-mybishbash.webp', import.meta.url).href,
     alt: 'myBishBash intentional phone app preview',
   },
-  {
-    name: 'You’ve seen how I think.',
-    problem: '',
-    thinking: '',
-    outcome: '',
-    website: '',
-    caseStudy: '',
-    tone: 'final',
-    visual: '',
-    image: '',
-    alt: '',
-    final: true,
-  },
 ];
 
 if (projectCarousel) {
@@ -387,18 +374,7 @@ if (projectCarousel) {
   };
 
   if (viewport && track && dots && previous instanceof HTMLButtonElement && next instanceof HTMLButtonElement && status) {
-    track.innerHTML = carouselProjects.map((project, index) => project.final ? `
-      <article class="carousel-slide carousel-final-slide" aria-roledescription="slide" aria-label="${index + 1} of ${carouselProjects.length}: ${project.name}" aria-hidden="${index !== 0}">
-        <div class="carousel-final-content">
-          <p class="eyebrow">Your next idea</p>
-          <h3>${project.name}</h3>
-          <p>If you’re building something important, I’d love to help.</p>
-          <div class="project-actions carousel-final-actions">
-            <a href="#contact">Work with me <span aria-hidden="true">→</span></a>
-            <button type="button" data-carousel-restart>Explore more work <span aria-hidden="true">↺</span></button>
-          </div>
-        </div>
-      </article>` : `
+    track.innerHTML = carouselProjects.map((project, index) => `
       <article class="carousel-slide tone-${project.tone}" aria-roledescription="slide" aria-label="${index + 1} of ${carouselProjects.length}: ${project.name}" aria-hidden="${index !== 0}">
         <div class="carousel-project-copy">
           <span class="project-index">${String(index + 1).padStart(2, '0')}</span>
@@ -415,11 +391,10 @@ if (projectCarousel) {
         <div class="carousel-product-stage">${visualMarkup(project, index)}</div>
       </article>`).join('');
 
-    dots.innerHTML = carouselProjects.map((project, index) => `<button type="button" aria-label="${project.final ? 'Show final invitation' : `Show ${project.name}`}" data-carousel-dot="${index}"></button>`).join('');
+    dots.innerHTML = carouselProjects.map((project, index) => `<button type="button" aria-label="Show ${project.name}" data-carousel-dot="${index}"></button>`).join('');
 
     const slides = [...track.querySelectorAll('.carousel-slide')];
     const dotButtons = [...dots.querySelectorAll('button')];
-    const restartButtons = [...track.querySelectorAll('[data-carousel-restart]')];
     let activeIndex = 0;
     let pointerStartX = 0;
     let pointerStartY = 0;
@@ -447,7 +422,6 @@ if (projectCarousel) {
     previous.addEventListener('click', () => showProject(activeIndex - 1));
     next.addEventListener('click', () => showProject(activeIndex + 1));
     dotButtons.forEach((dot, index) => dot.addEventListener('click', () => showProject(index)));
-    restartButtons.forEach((button) => button.addEventListener('click', () => showProject(0)));
     projectCarousel.addEventListener('keydown', (/** @type {KeyboardEvent} */ event) => {
       if (event.key === 'ArrowLeft') {
         event.preventDefault();
