@@ -1,6 +1,18 @@
 import { FABLE_PRO_GUIDE, FABLE_PRO_PROMPT } from './fable-pro-content.js';
-import { apiUrl } from './fable-api.js';
 import { trackSiteEvent } from './site-events.js';
+
+// TODO(Lizzie): replace with the real Betty Kit form id once the Betty form
+// is created in Kit (drlizlondon.kit.com) — a separate form from the Safari
+// one (UID 042a6f98ec, numeric id 9870031) so signups segment `betty` vs
+// `safari` by list membership. Derive the numeric id the same way Safari's
+// did: fetch the account's embed script at
+// https://drlizlondon.kit.com/<new-uid>/index.js and read the rendered
+// <form action="..."> — do not hand-guess it. See
+// ~/safari-tab-tidy-kit/src/components/waitlist-form.tsx for the proven
+// pattern this mirrors.
+const BETTY_KIT_FORM = 'PLACEHOLDER_BETTY_FORM_ID';
+const DEFAULT_KIT_ENDPOINT = `https://app.kit.com/forms/${BETTY_KIT_FORM}/subscriptions`;
+const KIT_EMAIL_FIELD = 'email_address';
 
 const ACCESS_KEY = 'fable-pro-access-v1';
 const form = /** @type {HTMLFormElement | null} */ (document.querySelector('[data-fable-pro-form]'));
@@ -54,19 +66,32 @@ const submit = async () => {
 
   try {
     const companyInput = form.elements.namedItem('company');
-    const body = {
-      email: emailInput.value,
-      company: companyInput instanceof HTMLInputElement ? companyInput.value : '',
-    };
-    const response = await fetch(apiUrl('/api/fable-pro/signup'), {
+    if (companyInput instanceof HTMLInputElement && companyInput.value.trim()) {
+      // Honeypot tripped — behave as if it succeeded, no Kit round-trip needed for bots.
+      try { window.localStorage.setItem(ACCESS_KEY, 'granted'); } catch { /* optional */ }
+      reveal({ emailSent: true });
+      return;
+    }
+
+    const endpoint = import.meta.env.VITE_BETTY_KIT_ENDPOINT || DEFAULT_KIT_ENDPOINT;
+    const formBody = new FormData();
+    formBody.append(KIT_EMAIL_FIELD, emailInput.value);
+    const response = await fetch(endpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      body: formBody,
+      headers: { Accept: 'application/json' },
     });
+    if (!response.ok) throw new Error('We could not save your signup. Please try again.');
     const result = await response.json().catch(() => ({}));
-    if (!response.ok || !result.ok) throw new Error(result.message || 'We could not save your signup. Please try again.');
+    if (result.status !== 'success' && result.status !== 'quarantined') {
+      throw new Error(result.errors?.join(', ') || 'We could not save your signup. Please try again.');
+    }
     try { window.localStorage.setItem(ACCESS_KEY, 'granted'); } catch { /* optional */ }
-    reveal({ emailSent: result.emailSent });
+    // Kit's response carries no "we emailed a copy" flag — the prompt still
+    // reveals inline regardless (bundled client-side), so this just skips the
+    // "we also emailed you a copy" line. See scope doc for the alternative
+    // (a Kit automation + hardcoded emailSent: true).
+    reveal({ emailSent: false });
   } catch (error) {
     formStatus.textContent = error instanceof Error ? error.message : 'Something went wrong. Please try again.';
   } finally {
