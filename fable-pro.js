@@ -10,7 +10,7 @@ import { trackSiteEvent } from './site-events.js';
 // <form action="..."> — do not hand-guess it. See
 // ~/safari-tab-tidy-kit/src/components/waitlist-form.tsx for the proven
 // pattern this mirrors.
-const BETTY_KIT_FORM = 'PLACEHOLDER_BETTY_FORM_ID';
+const BETTY_KIT_FORM = '9872350';
 const DEFAULT_KIT_ENDPOINT = `https://app.kit.com/forms/${BETTY_KIT_FORM}/subscriptions`;
 const KIT_EMAIL_FIELD = 'email_address';
 
