@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Safari Cleaner groups your open Safari tabs by website. Expand a domain, select what to close, and clear the clutter in one pass — plus rules for old and duplicate tabs. No account, nothing leaves your iPhone. Join the TestFlight waitlist." />
+    <meta name="theme-color" content="#fcfcfc" />
+    <link rel="canonical" href="https://drlizlondon.com/safaritabcleaner" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content="Safari Cleaner — clean up your Safari tabs in seconds" />
+    <meta property="og:description" content="Group Safari tabs by website, select what to close, and clear the clutter in one pass. Join the private TestFlight beta waitlist." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://drlizlondon.com/safaritabcleaner" />
+    <meta property="og:image" content="https://drlizlondon.com/assets/images/lizzie-portrait.jpg" />
+    <meta property="og:image:alt" content="Dr Lizzie Soyode" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Safari Cleaner — clean up your Safari tabs in seconds" />
+    <meta name="twitter:description" content="Group Safari tabs by website, select what to close, and clear the clutter in one pass. Join the private TestFlight beta waitlist." />
+    <meta name="twitter:image" content="https://drlizlondon.com/assets/images/lizzie-portrait.jpg" />
+    <title>Safari Cleaner — Dr Lizzie Soyode</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/main.js"></script>
+    <style>
+      .stc-main { max-width: 74rem; }
+      .stc-hero { display: grid; gap: 2.6rem; align-items: start; }
+      @media (min-width: 860px) { .stc-hero { grid-template-columns: 1.05fr .95fr; gap: 4vw; } }
+      .stc-badges { display: flex; gap: .55rem; margin-bottom: 1.4rem; }
+      .stc-badges i { width: .8rem; height: .8rem; display: block; }
+      .stc-badges i:nth-child(1) { background: #c66e60; transform: rotate(45deg); }
+      .stc-badges i:nth-child(2) { background: #f4e3b7; }
+      .stc-badges i:nth-child(3) { background: #967bcc; border-radius: 50%; }
+      .stc-hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(3.4rem, 7vw, 6rem); line-height: .86; letter-spacing: -.035em; margin: 0 0 1.6rem; }
+      .stc-hero h1 .accent { background: linear-gradient(95deg, #967bcc 5%, #c66e60 75%); background-clip: text; -webkit-background-clip: text; color: transparent; }
+      .stc-hero h1 .soft { display: block; font-style: italic; font-size: clamp(2rem, 3.6vw, 3.1rem); line-height: 1; margin-top: .35rem; letter-spacing: -.02em; }
+      .stc-lead { max-width: 42ch; font-size: clamp(1rem, 1.2vw, 1.12rem); line-height: 1.6; color: #38363a; margin: 0 0 1.8rem; }
+      .stc-features { list-style: none; margin: 0 0 .5rem; padding: 0; display: grid; gap: .85rem; }
+      .stc-features li { display: flex; align-items: center; gap: .85rem; font-size: .96rem; color: #26242a; }
+      .stc-features li span { width: 1.05rem; height: 1.05rem; flex: none; }
+      .stc-features li:nth-child(1) span { background: #c66e60; }
+      .stc-features li:nth-child(2) span { background: #f4d27a; }
+      .stc-features li:nth-child(3) span { background: #967bcc; border-radius: 50%; }
+      .stc-features li:nth-child(4) span { background: #151515; }
+
+      .stc-waitlist { border: 1px solid var(--line); border-radius: 16px; background: #fff; padding: clamp(1.5rem, 3vw, 2.2rem); box-shadow: 0 18px 50px rgba(20,20,20,.05); }
+      .stc-kicker { margin: 0 0 1rem; font-size: .68rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+      .stc-waitlist h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.9rem, 3vw, 2.5rem); line-height: 1; letter-spacing: -.02em; margin: 0 0 .55rem; }
+      .stc-waitlist p.stc-sub { margin: 0 0 1.4rem; color: #3f3d43; font-size: .96rem; line-height: 1.5; }
+      .stc-field label { display: block; margin-bottom: .45rem; font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #4a484e; }
+      .stc-field input { width: 100%; min-height: 54px; padding: .85rem 1rem; border: 1px solid #aaa4a0; border-radius: 10px; background: #fff; color: var(--ink); font: inherit; }
+      .stc-field input:focus-visible { outline: 2px solid #684ba5; outline-offset: 2px; }
+      .stc-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+      .stc-submit { display: inline-flex; min-height: 52px; width: 100%; align-items: center; justify-content: center; margin-top: 1rem; padding: .85rem 1.35rem; border: 0; border-radius: 999px; background: var(--ink); color: #fff; font: 600 .75rem/1 var(--sans); letter-spacing: .09em; text-transform: uppercase; cursor: pointer; transition: transform .2s ease-out, opacity .2s; }
+      .stc-submit:hover { transform: translateY(-2px); }
+      .stc-submit[disabled] { opacity: .55; cursor: default; transform: none; }
+      .stc-consent { margin: 1rem 0 0; font-size: .78rem; line-height: 1.5; color: var(--muted); }
+      .stc-consent a { border-bottom: 1px solid currentColor; }
+      .stc-status { margin: .9rem 0 0; font-size: .88rem; line-height: 1.45; min-height: 1.1rem; }
+      .stc-status[data-tone="error"] { color: #b23b2e; }
+      .stc-success { display: none; }
+      .stc-success[data-show="true"] { display: block; }
+      .stc-success h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.7rem, 2.6vw, 2.2rem); line-height: 1; margin: 0 0 .6rem; }
+      .stc-success p { margin: 0; color: #3f3d43; font-size: .96rem; line-height: 1.55; }
+
+      .stc-panels { display: grid; gap: 1.2rem; margin-top: clamp(3.5rem, 7vw, 6rem); }
+      @media (min-width: 860px) { .stc-panels { grid-template-columns: 1fr 1fr; } }
+      .stc-panel { border: 1px solid var(--line); border-radius: 14px; background: #fafafa; padding: clamp(1.5rem, 3vw, 2.1rem); }
+      .stc-panel .stc-kicker { margin-bottom: .8rem; }
+      .stc-panel > p { margin: 0; color: #46444a; font-size: .96rem; line-height: 1.6; }
+      .stc-steps { list-style: none; counter-reset: s; margin: 1.3rem 0 0; padding: 0; display: grid; gap: 1.05rem; }
+      .stc-steps li { display: flex; gap: .85rem; align-items: flex-start; }
+      .stc-steps li b { counter-increment: s; font-family: var(--serif); font-size: 1.15rem; line-height: 1; color: #684ba5; flex: none; margin-top: .1rem; }
+      .stc-steps li b::before { content: counter(s); }
+      .stc-steps li span { font-size: .9rem; line-height: 1.5; color: #34323a; }
+      .stc-steps li .hi { color: #b6572c; font-weight: 500; }
+      .stc-steps li .path { font-weight: 600; }
+      .stc-note { margin-top: 1.2rem; display: flex; gap: .7rem; align-items: baseline; font-size: .9rem; line-height: 1.55; color: #46444a; }
+      .stc-note strong { color: var(--ink); font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" data-header>
+      <a class="masthead" href="/" aria-label="Dr Lizzie Soyode, home">Dr Lizzie Soyode</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span>Menu</span><i aria-hidden="true"></i>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+        <a href="/#home">Home</a>
+        <a href="/#about">About</a>
+        <a class="is-active" href="/#projects" aria-current="page">Projects</a>
+        <a href="/#resources">Free Resources</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+      <button class="nav-scrim" type="button" aria-label="Close navigation" tabindex="-1"></button>
+    </header>
+
+    <main id="main" class="fable-page-main stc-main">
+      <a class="fable-back" href="/#projects"><span aria-hidden="true">←</span> Projects</a>
+
+      <section class="stc-hero" aria-labelledby="stc-title">
+        <div>
+          <div class="stc-badges" aria-hidden="true"><i></i><i></i><i></i></div>
+          <p class="eyebrow">iPhone Safari extension · TestFlight beta</p>
+          <h1 id="stc-title">498 <span class="accent">tabs?</span><span class="soft">Clean them up in seconds.</span></h1>
+          <p class="stc-lead">
+            Safari Cleaner groups your open tabs by website, so the mess becomes one tidy list.
+            Expand a domain, tick what to keep or drop, and clear it in a single pass — or sweep
+            with a rule.
+          </p>
+          <ul class="stc-features">
+            <li><span aria-hidden="true"></span>Tabs grouped clearly by domain</li>
+            <li><span aria-hidden="true"></span>Expand a domain · select · deselect</li>
+            <li><span aria-hidden="true"></span>Rules: older than 30 or 90 days, or duplicates</li>
+            <li><span aria-hidden="true"></span>Duplicate cleanup keeps one copy of each URL</li>
+          </ul>
+        </div>
+
+        <div class="stc-waitlist">
+          <p class="stc-kicker">Private TestFlight beta</p>
+          <h2>Join the waitlist</h2>
+          <p class="stc-sub">Safari Cleaner ships to iPhone through Apple TestFlight. Leave your email and I’ll send your invite the moment a beta slot opens.</p>
+
+          <form class="stc-form" data-waitlist novalidate>
+            <div class="stc-field">
+              <label for="stc-email">Email address</label>
+              <input id="stc-email" name="email_address" type="email" inputmode="email" autocomplete="email" required aria-describedby="stc-consent stc-status" data-email />
+            </div>
+            <div class="stc-hp" aria-hidden="true">
+              <label for="stc-company">Company</label>
+              <input id="stc-company" name="company" type="text" tabindex="-1" autocomplete="off" data-hp />
+            </div>
+            <button type="submit" class="stc-submit" data-submit>Join the waitlist <span aria-hidden="true">→</span></button>
+            <p id="stc-consent" class="stc-consent">By joining, you’ll receive your TestFlight invite and occasional updates about Safari Cleaner. You can unsubscribe at any time. Read the <a href="/privacy.html">privacy information</a>.</p>
+            <p id="stc-status" class="stc-status" role="alert" aria-live="assertive" data-status></p>
+          </form>
+
+          <div class="stc-success" data-success tabindex="-1">
+            <p class="stc-kicker">You’re on the list</p>
+            <h3>Thank you — you’re in.</h3>
+            <p>I’ll email your TestFlight invite as soon as a beta slot opens. Nothing else to do for now.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="stc-panels">
+        <section class="stc-panel" aria-labelledby="stc-how">
+          <p class="stc-kicker" id="stc-how">How it works</p>
+          <p>
+            Safari Cleaner is a Safari Web Extension. Once installed it reads your open tabs on the
+            device, groups them by website, and closes only the ones you select. It has no account,
+            no server and no analytics.
+          </p>
+          <p class="stc-note"><strong>Private by design.</strong> Your tabs never leave your iPhone — there’s nowhere for them to go.</p>
+        </section>
+
+        <section class="stc-panel" aria-labelledby="stc-turn">
+          <p class="stc-kicker" id="stc-turn">Turning it on</p>
+          <p>
+            Installing isn’t the last step — iPhone keeps four switches for Safari extensions, and
+            two of them fail silently. Flip all four and Safari Cleaner appears in Safari.
+          </p>
+          <ol class="stc-steps">
+            <li>
+              <b aria-hidden="true"></b>
+              <span><span class="path">Settings → Screen Time → Content &amp; Privacy → Web Content.</span> Set it to <span class="hi">Unrestricted</span>. Anything stricter greys out <em>every</em> Safari extension, not just this one.</span>
+            </li>
+            <li>
+              <b aria-hidden="true"></b>
+              <span><span class="path">Settings → Apps → Safari → Extensions → Safari Cleaner.</span> Turn <span class="hi">Allow Extension</span> on.</span>
+            </li>
+            <li>
+              <b aria-hidden="true"></b>
+              <span>On that same screen, set <span class="path">All Websites</span> to <span class="hi">Allow</span> — not <em>Ask</em>. With “Ask” the extension never shows up, so it looks like it was never installed.</span>
+            </li>
+            <li>
+              <b aria-hidden="true"></b>
+              <span><span class="path">Quit and reopen Safari.</span> Then open Safari Cleaner from the page menu — the <span style="font-family:var(--mono,ui-monospace,monospace);font-size:.85em">aA</span> icon in the address bar, not the share sheet.</span>
+            </li>
+          </ol>
+        </section>
+      </div>
+    </main>
+
+    <footer><a class="masthead" href="/">Dr Lizzie Soyode</a><nav aria-label="Footer"><a href="/">Home</a><a href="/#projects">Projects</a><a href="/#contact">Contact</a><a href="mailto:hello@drlizlondon.com">Email</a><a href="https://uk.linkedin.com/in/elizabethsoyode" rel="me noopener noreferrer">LinkedIn</a><a href="/privacy.html">Privacy Policy</a></nav><p>© <span data-year></span> Dr Lizzie Soyode</p></footer>
+
+    <script type="module">
+      // Waitlist capture for the Safari Cleaner TestFlight beta.
+      // Posts to the same Kit (ConvertKit) form the Safari Cleaner app uses:
+      // "Safari Cleaner waitlist" — drlizlondon.kit.com, data-uid 042a6f98ec,
+      // submission action = the numeric form id 9870031 (NOT the uid). Kit's
+      // endpoint expects a multipart FormData body with an `email_address`
+      // field and replies with JSON when Accept: application/json is sent;
+      // CORS is open (Access-Control-Allow-Origin: *) so this direct
+      // cross-origin POST needs no server relay. Re-derive by refetching
+      // https://drlizlondon.kit.com/042a6f98ec/index.js if it ever changes.
+      const KIT_ENDPOINT = "https://app.kit.com/forms/9870031/subscriptions";
+      const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      const form = document.querySelector("[data-waitlist]");
+      const emailEl = form.querySelector("[data-email]");
+      const hpEl = form.querySelector("[data-hp]");
+      const submitEl = form.querySelector("[data-submit]");
+      const statusEl = form.querySelector("[data-status]");
+      const successEl = document.querySelector("[data-success]");
+
+      function setStatus(message, tone) {
+        statusEl.textContent = message || "";
+        if (tone) statusEl.setAttribute("data-tone", tone);
+        else statusEl.removeAttribute("data-tone");
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (hpEl && hpEl.value) return; // honeypot tripped — silently drop
+        const email = (emailEl.value || "").trim();
+        if (!EMAIL_RE.test(email)) {
+          setStatus("That doesn’t look like a valid email address.", "error");
+          emailEl.focus();
+          return;
+        }
+
+        submitEl.disabled = true;
+        setStatus("Adding you to the waitlist…");
+        try {
+          const body = new FormData();
+          body.append("email_address", email);
+          const res = await fetch(KIT_ENDPOINT, {
+            method: "POST",
+            headers: { Accept: "application/json" },
+            body,
+          });
+          if (!res.ok) throw new Error("Kit responded " + res.status);
+          form.hidden = true;
+          successEl.setAttribute("data-show", "true");
+          successEl.focus();
+        } catch (err) {
+          submitEl.disabled = false;
+          setStatus(
+            "Something went wrong adding you to the waitlist. Please try again, or email hello@drlizlondon.com.",
+            "error",
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
