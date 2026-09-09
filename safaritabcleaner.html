@@ -76,6 +76,18 @@
       .stc-steps li .path { font-weight: 600; }
       .stc-note { margin-top: 1.2rem; display: flex; gap: .7rem; align-items: baseline; font-size: .9rem; line-height: 1.55; color: #46444a; }
       .stc-note strong { color: var(--ink); font-weight: 600; }
+
+      .stc-shots { margin-top: clamp(3.5rem, 7vw, 6rem); }
+      .stc-shots > .eyebrow { margin-bottom: .6rem; }
+      .stc-shots h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 3.4vw, 3rem); line-height: 1; letter-spacing: -.025em; margin: 0 0 .6rem; }
+      .stc-shots > p { max-width: 46ch; margin: 0; color: #46444a; font-size: 1rem; line-height: 1.55; }
+      .stc-shots-grid { display: grid; gap: 2rem 2.4rem; margin-top: 2.4rem; }
+      @media (min-width: 720px) { .stc-shots-grid { grid-template-columns: 1fr 1fr; align-items: start; } }
+      .stc-shot { margin: 0; display: flex; flex-direction: column; align-items: center; }
+      .stc-shot-frame { width: 100%; max-width: 300px; border: 1px solid var(--line); border-radius: 26px; background: #fff; padding: .5rem; box-shadow: 0 22px 60px rgba(20,20,20,.09); }
+      .stc-shot-frame img { display: block; width: 100%; border-radius: 20px; }
+      .stc-shot figcaption { margin-top: 1.1rem; max-width: 34ch; text-align: center; font-size: .92rem; line-height: 1.5; color: #46444a; }
+      .stc-shot figcaption b { display: block; color: var(--ink); font-weight: 600; margin-bottom: .2rem; }
     </style>
   </head>
   <body>
@@ -140,6 +152,26 @@
             <h3>Thank you — you’re in.</h3>
             <p>I’ll email your TestFlight invite as soon as a beta slot opens. Nothing else to do for now.</p>
           </div>
+        </div>
+      </section>
+
+      <section class="stc-shots" aria-labelledby="stc-shots-title">
+        <p class="eyebrow">See it working</p>
+        <h2 id="stc-shots-title">Your tabs, grouped and cleared.</h2>
+        <p>Open tabs collapse into one tidy list by website. Open a group and you decide what goes — the whole site at once, or tab by tab.</p>
+        <div class="stc-shots-grid">
+          <figure class="stc-shot">
+            <div class="stc-shot-frame">
+              <img src="/assets/images/safari-cleaner-categories.webp" width="800" height="1800" loading="lazy" decoding="async" alt="Safari Cleaner grouping open tabs by website — Mumsnet, Google, Amazon, Daily Mail and BBC, each showing how many tabs it holds, above rules for clearing old or duplicate tabs." />
+            </div>
+            <figcaption><b>Grouped by website</b>Every open tab, sorted into one line per site — so 22 tabs read as five.</figcaption>
+          </figure>
+          <figure class="stc-shot">
+            <div class="stc-shot-frame">
+              <img src="/assets/images/safari-cleaner-expanded.webp" width="800" height="2034" loading="lazy" decoding="async" alt="The Amazon group expanded in Safari Cleaner, showing four individual tabs with two ticked, a Select all 4 button, and a Delete 2 tabs button — clearing a whole site or picking tabs one by one." />
+            </div>
+            <figcaption><b>Delete by site, or one by one</b>Clear a whole site with “Select all”, or tick just the tabs you’re done with. Then delete.</figcaption>
+          </figure>
         </div>
       </section>
 
