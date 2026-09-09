@@ -20,6 +20,7 @@ export default defineConfig({
         watchAi: resolve(import.meta.dirname, 'watch-ai.html'),
         buildABusiness: resolve(import.meta.dirname, 'build-a-business.html'),
         bettyPrompt: resolve(import.meta.dirname, 'betty-prompt.html'),
+        safariTabCleaner: resolve(import.meta.dirname, 'safaritabcleaner.html'),
         fablePromptRedirect: resolve(import.meta.dirname, 'fable-prompt.html'),
         privacy: resolve(import.meta.dirname, 'privacy.html'),
         unsubscribe: resolve(import.meta.dirname, 'unsubscribe.html'),
