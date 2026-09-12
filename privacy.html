@@ -21,6 +21,11 @@
     <title>Privacy Policy — Dr Lizzie Soyode</title>
     <link rel="stylesheet" href="/styles.css" />
     <script type="module" src="/main.js"></script>
+    <!-- Analytics load only after explicit consent — see public/lp-consent.js.
+         analytics-config.js supplies the GA4 id from LIZPROFILE_GA4_MEASUREMENT_ID
+         at build time; with no id configured this stays fully inert. -->
+    <script src="/analytics-config.js" defer></script>
+    <script src="/lp-consent.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -29,13 +34,18 @@
       <a class="fable-back" href="/betty-prompt.html"><span aria-hidden="true">←</span> Betty Prompt</a>
       <p class="eyebrow">Privacy</p>
       <h1>How Betty Pro uses your information</h1>
+      <p class="legal-updated">Last updated: 12 September 2026.</p>
       <p>When you request Betty Pro, this site collects your email address so the prompt and practical guide can be delivered to you. Your email address is also used to send occasional updates about improving how you work with AI. It is not collected for unrelated purposes.</p>
       <h2>What is stored</h2>
       <p>The subscriber record contains your normalised email address, subscription status, signup source, consent time, prompt version, delivery status and relevant record timestamps. Betty Pro does not ask for your name, occupation or the content of your AI conversations.</p>
-      <p>To understand whether the resource is useful, the site may count page visits, prompt views, copies and downloads. Any anonymous identifier used for this purpose lasts only for the current page view and is not stored in your browser. The public portfolio does not use Google Analytics or analytics cookies.</p>
+      <p>To understand whether the resource is useful, the site may count page visits, prompt views, copies and downloads. Any anonymous identifier used for this purpose lasts only for the current page view and is not stored in your browser. See “Website analytics” below for how Google Analytics 4 is used, with your consent, across the rest of the site.</p>
       <p>The application does not store raw IP addresses or user-agent strings in its subscriber or analytics tables. It uses short-lived, hashed request fingerprints to enforce rate limits. Hosting, network and email providers may process standard request metadata under their own operational and security policies.</p>
+      <h2>Website analytics</h2>
+      <p>With your consent, this site uses Google Analytics 4 to measure aggregate usage — pages viewed and how visitors move around the site — so I can see what is useful and improve it. <strong>Analytics stays off until you actively choose “Allow analytics”</strong> in the consent banner shown on your first visit; declining, or taking no action, keeps it off. Your choice lasts 13 months, after which you are asked again, and you can change it at any time using the “Privacy choices” link next to the Privacy Policy link in the footer of every page.</p>
+      <p>Google Analytics never receives your name, email address, the content of the contact form, the Betty Pro signup, or anything else you type into a form on this site — only anonymised, aggregate usage data. Your IP address is anonymised before Google Analytics processes it. Advertising storage (<code>ad_storage</code>) is always denied: this is measurement only, never advertising, and analytics data is never used to build advertising profiles or shared for marketing purposes.</p>
+      <p>If you allow analytics, Google Analytics sets cookies (such as <code>_ga</code>) to distinguish visits; declining, or later withdrawing consent, means no analytics cookies are set, and any already set are cleared immediately. This site does not use Microsoft Clarity, session recording, or any other tracking tool.</p>
       <h2>Who processes it</h2>
-      <p>The Betty backend and owner dashboard run on OpenAI Sites. Subscriber, consent, delivery, unsubscribe, security and aggregate usage records are stored in the Sites project’s Cloudflare D1 database. Resend processes delivery of the prompt and guide by email. The public portfolio is hosted separately on Vercel. Each provider’s handling of data is governed by its own privacy terms and the agreements in place with the site operator.</p>
+      <p>The Betty backend and owner dashboard run on OpenAI Sites. Subscriber, consent, delivery, unsubscribe, security and aggregate usage records are stored in the Sites project’s Cloudflare D1 database. Resend processes delivery of the prompt and guide by email. The public portfolio is hosted separately on Vercel. Where you have given consent, Google LLC (Google Analytics) processes anonymised, aggregate usage data as described above. Each provider’s handling of data is governed by its own privacy terms and the agreements in place with the site operator.</p>
       <h2>Access and retention</h2>
       <p>Subscriber records and aggregate usage counts are available only through the restricted owner dashboard or the underlying service administration tools. Minimal consent and unsubscribe records are retained so that an unsubscribe request can continue to be honoured. Retention periods and the final deletion-request process must be confirmed as part of the legal setup noted below.</p>
       <h2>Your choices</h2>

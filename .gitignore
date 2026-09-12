@@ -4,6 +4,10 @@ dist/
 *.log
 .vercel
 
+# Generated at build/dev time by scripts/generate-analytics-config.js from
+# the LIZPROFILE_GA4_MEASUREMENT_ID env var — never commit, never hand-edit.
+public/analytics-config.js
+
 # Local configuration and private key material.
 .env
 .env.*

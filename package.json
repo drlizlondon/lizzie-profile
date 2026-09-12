@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "predev": "node scripts/generate-analytics-config.js",
     "dev": "vite",
+    "prebuild": "node scripts/generate-analytics-config.js",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",

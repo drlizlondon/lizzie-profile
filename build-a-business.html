@@ -26,6 +26,11 @@
     </script>
     <script type="module" src="/main.js"></script>
     <script type="module" src="/build-a-business.js"></script>
+    <!-- Analytics load only after explicit consent — see public/lp-consent.js.
+         analytics-config.js supplies the GA4 id from LIZPROFILE_GA4_MEASUREMENT_ID
+         at build time; with no id configured this stays fully inert. -->
+    <script src="/analytics-config.js" defer></script>
+    <script src="/lp-consent.js" defer></script>
   </head>
   <body class="bab-page">
     <a class="skip-link" href="#builder">Skip to builder</a>

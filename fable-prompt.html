@@ -24,6 +24,11 @@
     <script>
       window.location.replace(`/betty-prompt.html${window.location.search}${window.location.hash}`);
     </script>
+    <!-- Analytics load only after explicit consent — see public/lp-consent.js.
+         analytics-config.js supplies the GA4 id from LIZPROFILE_GA4_MEASUREMENT_ID
+         at build time; with no id configured this stays fully inert. -->
+    <script src="/analytics-config.js" defer></script>
+    <script src="/lp-consent.js" defer></script>
   </head>
   <body>
     <p>The Betty Prompt has moved. <a href="/betty-prompt.html">Continue to the Betty Prompt</a>.</p>

@@ -95,8 +95,14 @@ test('privacy copy names processors, aggregate measurement and conservative cons
   assert.match(privacy, /Cloudflare D1/);
   assert.match(privacy, /Resend processes delivery/);
   assert.match(privacy, /lasts only for the current page view/);
-  assert.match(privacy, /does not use Google Analytics or analytics cookies/);
   assert.match(privacy, /does not store raw IP addresses or user-agent strings/);
+  assert.match(privacy, /Website analytics/);
+  assert.match(privacy, /Google Analytics 4/);
+  assert.match(privacy, /Analytics stays off until you actively choose/);
+  assert.match(privacy, /never receives your name, email address/);
+  assert.match(privacy, /ad_storage/);
+  assert.match(privacy, /does not use Microsoft Clarity, session recording/);
+  assert.match(privacy, /Privacy choices/);
   assert.match(privacy, /you will not be re-enrolled in future updates/);
   assert.match(privacy, /Legal review recommended/);
   assert.match(privacy, /hello@drlizlondon\.com/);
