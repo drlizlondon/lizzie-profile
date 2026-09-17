@@ -1,9 +1,13 @@
 /* lp-consent.js — consent-gated Google Analytics 4 for drlizlondon.com.
 
-   This site has never carried analytics before. Installing it is governed
-   by the portfolio consent-gate skill (~/.claude/skills/consent-gate),
-   adapted to GA4-only (no Microsoft Clarity, per the install instruction).
-   The guarantees this file enforces, in order:
+   Installing it is governed by the portfolio consent-gate skill
+   (~/.claude/skills/consent-gate). GA4 (usage measurement) plus Microsoft
+   Clarity (anonymised heatmaps + masked session replays) both load, and
+   only ever after explicit consent. Clarity is permitted here because
+   drlizlondon.com is an all-public profile/landing site — there is no
+   authenticated app surface and no personal user data on screen (founder
+   ruling 2026-09-17: Clarity on marketing/landing surfaces only, never on
+   personal in-app use). The guarantees this file enforces, in order:
 
      1. Zero requests to Google before a visitor chooses. The GA4 script
         tag is not even referenced until loadGoogleAnalytics() runs, and
@@ -19,8 +23,15 @@
         them.
      4. ad_storage stays denied, always — this is measurement only, never
         advertising.
-     5. No Microsoft Clarity and no session-replay tooling of any kind
-        runs on this site.
+     5. Microsoft Clarity (anonymised heatmaps + session replays of how
+        visitors scroll and click) loads ONLY after the same "granted"
+        consent as GA4 — never before, never on a non-production host.
+        Session replays are masked: on load this script tags every form,
+        input, textarea and select with data-clarity-mask, so Clarity
+        records interaction shapes, never the text a visitor types (name,
+        email, contact-form or Betty Pro signup content). Declining or
+        withdrawing signals clarity('consent', false) and clears its
+        cookies (_clck, _clsk).
      6. The choice persists 13 months, then re-prompts, and can be changed
         at any time from the "Privacy choices" link this script adds next
         to every page's existing Privacy Policy link in the footer.
@@ -33,6 +44,10 @@
   'use strict';
 
   var GA4_MEASUREMENT_ID = window.__LIZPROFILE_GA4_MEASUREMENT_ID__ || '';
+  /* Clarity project ID is a PUBLIC identifier (it appears in the
+     clarity.ms/tag/<id> request URL) — safe to hardcode, unlike a secret.
+     Mirrors the portfolio gold-standard loader (BPP clarity-consent.js). */
+  var CLARITY_PROJECT_ID = 'yjr1sa1vvw';
   var CONSENT_KEY = 'lp_analytics_consent_v1';
   var CONSENT_MAX_AGE_MS = 13 * 30 * 24 * 60 * 60 * 1000;
   var PRODUCTION_HOSTS = ['drlizlondon.com', 'www.drlizlondon.com'];
@@ -91,10 +106,38 @@
     document.head.appendChild(script);
   }
 
+  /* Mask every form field so Clarity's session replays record interaction
+     shapes (clicks, scrolls) but never the text a visitor types. */
+  function maskSensitiveElements() {
+    try {
+      document.querySelectorAll('form, input, textarea, select').forEach(function (el) {
+        el.setAttribute('data-clarity-mask', 'true');
+      });
+    } catch { /* masking is best-effort; Clarity's default masking still applies */ }
+  }
+
+  function loadClarity() {
+    if (!CLARITY_PROJECT_ID) return;
+    if (window.__lpClarityLoaded) { maskSensitiveElements(); return; }
+    window.__lpClarityLoaded = true;
+    maskSensitiveElements();
+    (function (c, l, a, r, i) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      var t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+      t.setAttribute('data-lp-clarity', 'true');
+      var y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, 'clarity', 'script', CLARITY_PROJECT_ID);
+    try { window.clarity('consent'); } catch { /* queued until the tag initialises */ }
+  }
+
+  function revokeClarity() {
+    try { if (window.clarity) window.clarity('consent', false); } catch { /* never loaded */ }
+  }
+
   function clearAnalyticsCookies() {
     document.cookie.split(';').forEach(function (cookie) {
       var name = cookie.split('=')[0].trim();
-      if (name === '_ga' || name.indexOf('_ga_') === 0) {
+      if (name === '_ga' || name.indexOf('_ga_') === 0 || name === '_clck' || name === '_clsk') {
         document.cookie = name + '=; Max-Age=0; path=/; SameSite=Lax';
         document.cookie = name + '=; Max-Age=0; path=/; domain=.' + window.location.hostname + '; SameSite=Lax';
       }
@@ -131,7 +174,9 @@
     removePrompt();
     if (value === 'granted') {
       loadGoogleAnalytics();
+      loadClarity();
     } else {
+      revokeClarity();
       clearAnalyticsCookies();
     }
   }
@@ -147,8 +192,8 @@
     prompt.innerHTML =
       '<div>' +
         '<strong id="lp-analytics-title">' + (isPreferences ? 'Privacy choices' : 'Help improve this site') + '</strong>' +
-        '<p>With your permission, Google Analytics measures anonymous usage — pages viewed, how visitors move around the site — so I can see what is useful. ' +
-        '<strong>This never includes your name, email address, or anything you type into a form.</strong> No advertising, no Microsoft Clarity, no session recording.</p>' +
+        '<p>With your permission, Google Analytics and Microsoft Clarity measure anonymous usage — pages viewed, and heatmaps of how visitors scroll and click — so I can see what is useful. ' +
+        '<strong>Replays mask everything you type: this never includes your name, email address, or anything you enter into a form.</strong> No advertising.</p>' +
         '<a href="' + PRIVACY_URL + '">Read the privacy policy</a>' +
       '</div>' +
       '<div class="lp-consent-actions">' +
@@ -180,7 +225,7 @@
     addStyles();
     installPrivacyChoicesLink();
     var consent = readConsent();
-    if (consent === 'granted') loadGoogleAnalytics();
+    if (consent === 'granted') { loadGoogleAnalytics(); loadClarity(); }
     if (consent !== 'granted' && consent !== 'denied') showPrompt(false);
   }
 
