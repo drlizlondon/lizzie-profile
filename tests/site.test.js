@@ -25,7 +25,7 @@ test('homepage contains the required positioning and project links', () => {
   assert.match(js, /Problem<\/dt>/);
   assert.match(js, /Thinking<\/dt>/);
   assert.match(js, /Outcome<\/dt>/);
-  assert.match(js, /View project <span aria-hidden="true">→<\/span>/);
+  assert.match(js, /href="\$\{project\.website\}"[^>]*>Visit \$\{project\.name\} <span aria-hidden="true">→<\/span>/);
   assert.doesNotMatch(js, /Read case study|websiteLabel/);
   assert.doesNotMatch(js, /You’ve seen how I think\.|Explore more work/);
   assert.match(html, /You’ve seen how I think\./);
@@ -61,7 +61,7 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.doesNotMatch(js, /window\.scrollY \+ Math\.min/);
   assert.match(html, /data-nav-target="home"/);
   assert.match(html, /AI has shortened the distance between an idea and something real/);
-  assert.match(html, /Doctor <span>·<\/span> Strategy <span>·<\/span> Innovation/);
+  assert.match(html, /A&amp;E Registrar <span>·<\/span> NHS England Leadership Fellow/);
   assert.match(html, /data-nav-target="contact" data-nav-neutral/);
   assert.match(css, /body\.menu-open \.nav-scrim/);
   assert.match(css, /\.nav-scrim\{background:#fcfcfb;-webkit-backdrop-filter:none;backdrop-filter:none\}/);

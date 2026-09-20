@@ -385,7 +385,7 @@ if (projectCarousel) {
             <div><dt>Outcome</dt><dd>${project.outcome}</dd></div>
           </dl>
           <div class="project-actions">
-            <a class="project-case-link" href="${project.caseStudy}">View project <span aria-hidden="true">→</span></a>
+            <a class="project-case-link" href="${project.website}" target="_blank" rel="noopener noreferrer">Visit ${project.name} <span aria-hidden="true">→</span></a>
           </div>
         </div>
         <div class="carousel-product-stage">${visualMarkup(project, index)}</div>
