@@ -190,12 +190,11 @@
     prompt.setAttribute('aria-modal', 'false');
     prompt.setAttribute('aria-labelledby', 'lp-analytics-title');
     prompt.innerHTML =
-      '<div>' +
-        '<strong id="lp-analytics-title">' + (isPreferences ? 'Privacy choices' : 'Help improve this site') + '</strong>' +
-        '<p>With your permission, Google Analytics and Microsoft Clarity measure anonymous usage — pages viewed, and heatmaps of how visitors scroll and click — so I can see what is useful. ' +
-        '<strong>Replays mask everything you type: this never includes your name, email address, or anything you enter into a form.</strong> No advertising.</p>' +
+      '<p id="lp-analytics-title">' +
+        (isPreferences ? 'Privacy choices. ' : '') +
+        'Analytics helps me see what’s useful. It stays off unless you allow it, and never records what you type. ' +
         '<a href="' + PRIVACY_URL + '">Read the privacy policy</a>' +
-      '</div>' +
+      '</p>' +
       '<div class="lp-consent-actions">' +
         '<button type="button" data-consent="denied">No thanks</button>' +
         '<button type="button" data-consent="granted">Allow analytics</button>' +
@@ -209,15 +208,17 @@
   function addStyles() {
     var style = document.createElement('style');
     style.textContent =
-      '#lp-analytics-consent{position:fixed;z-index:2147483646;left:16px;right:16px;bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:760px;margin:0 auto;padding:16px 18px;border:1px solid var(--line,rgba(15,15,15,.08));border-radius:14px;background:var(--surface,#fff);color:var(--ink,#151515);box-shadow:0 12px 40px rgba(15,15,15,.16);font:14px/1.45 var(--sans,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}' +
-      '#lp-analytics-consent strong{display:block;margin-bottom:4px;font-size:15px}' +
+      /* Compact bottom bar (RSA-style, consent-gate skill): kept well under
+         25% of a typical phone viewport height so it never hides the hero
+         CTA above it. Decline and Accept are deliberately identical in
+         size, shape and style, side by side, with neither pre-selected. */
+      '#lp-analytics-consent{position:fixed;z-index:2147483646;left:8px;right:8px;bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:14px;max-width:760px;margin:0 auto;padding:8px 12px;border:1px solid var(--line,rgba(15,15,15,.08));border-radius:12px;background:var(--surface,#fff);color:var(--ink,#151515);box-shadow:0 12px 40px rgba(15,15,15,.16);font:13px/1.3 var(--sans,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}' +
       '#lp-analytics-consent p{margin:0;color:var(--muted,#666)}' +
-      '#lp-analytics-consent a{display:inline-block;margin-top:5px;color:var(--ink,#151515);font-weight:700}' +
+      '#lp-analytics-consent a{color:var(--ink,#151515);font-weight:700;white-space:nowrap}' +
       '.lp-consent-actions{display:flex;flex:0 0 auto;gap:8px}' +
-      '.lp-consent-actions button{border:1px solid var(--line,rgba(15,15,15,.08));border-radius:9px;background:var(--surface,#fff);color:var(--ink,#151515);cursor:pointer;font:700 13px/1 var(--sans,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif);min-height:38px;padding:0 14px}' +
-      '.lp-consent-actions [data-consent="granted"]{border-color:#684ba5;background:#684ba5;color:#fff}' +
+      '.lp-consent-actions button{flex:1;border:1px solid var(--ink,#151515);border-radius:8px;background:var(--surface,#fff);color:var(--ink,#151515);cursor:pointer;font:700 12px/1 var(--sans,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif);min-height:32px;padding:0 10px}' +
       '[data-lp-privacy-choices]:focus-visible{outline:2px solid #684ba5;outline-offset:4px;border-radius:2px}' +
-      '@media(max-width:620px){#lp-analytics-consent{align-items:stretch;flex-direction:column;gap:12px}.lp-consent-actions{justify-content:flex-end}}';
+      '@media(max-width:620px){#lp-analytics-consent{flex-direction:column;align-items:stretch;gap:6px;padding:8px 10px}#lp-analytics-consent p{font-size:11.5px}.lp-consent-actions{justify-content:stretch}.lp-consent-actions button{min-height:32px}}';
     document.head.appendChild(style);
   }
 
