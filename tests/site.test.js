@@ -63,7 +63,7 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.doesNotMatch(js, /window\.scrollY \+ Math\.min/);
   assert.match(html, /data-nav-target="home"/);
   assert.match(html, /AI has shortened the distance between an idea and something real/);
-  assert.match(html, /Dr Lizzie Soyode <span>·<\/span> A&amp;E Registrar <span>·<\/span> NHS England Leadership Fellow/);
+  assert.doesNotMatch(html, /Leadership Fellow/);
   assert.match(html, /data-nav-target="contact" data-nav-neutral/);
   assert.match(css, /body\.menu-open \.nav-scrim/);
   assert.match(css, /\.nav-scrim\{background:#fcfcfb;-webkit-backdrop-filter:none;backdrop-filter:none\}/);
