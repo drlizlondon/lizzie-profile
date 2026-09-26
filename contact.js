@@ -1,3 +1,5 @@
+import { trackContactFormSuccess } from './lp-analytics.js';
+
 const form = document.querySelector('[data-contact-form]');
 const status = document.querySelector('[data-contact-status]');
 
@@ -16,6 +18,7 @@ if (form instanceof HTMLFormElement && status instanceof HTMLElement) {
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || 'Your message could not be sent.');
+      trackContactFormSuccess();
       form.reset();
       status.textContent = 'Thank you — your message has been sent.';
     } catch (error) {
