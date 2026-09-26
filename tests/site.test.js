@@ -77,7 +77,7 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.match(js, /focusTarget\.focus\(\{ preventScroll: true \}\)/);
   assert.doesNotMatch(html, /Speaking and education|Dr Liz London|instagram\.com\/drlizlondon/);
   assert.match(html, /data-nav-target="resources"/);
-  assert.match(html, /Practical frameworks and AI tools you can use immediately\./);
+  assert.match(html, /Simple frameworks and AI tools you can start using today\./);
   assert.doesNotMatch(html, /Experience how I approach ideas, assumptions and decisions/);
   assert.match(html, /data-resource-view="featured"/);
   assert.match(html, /href="\/resources\.html">Browse all free resources/);
