@@ -21,10 +21,11 @@ test('homepage contains the required positioning and project links', () => {
   assert.doesNotMatch(html, /Explore Projects|Public learning/);
   assert.match(html, /Work with me/);
   assert.match(js, /Pregnancy information is fragmented/);
-  assert.match(js, /Design around the woman’s own story/);
+  assert.match(js, /A patient-owned pregnancy record that helps women capture what matters/);
   assert.match(js, /Problem<\/dt>/);
-  assert.match(js, /Thinking<\/dt>/);
-  assert.match(js, /Outcome<\/dt>/);
+  assert.match(js, /What I built<\/dt>/);
+  assert.match(js, /What changed<\/dt>/);
+  assert.match(js, /What this shows<\/dt>/);
   assert.match(js, /href="\$\{project\.website\}"[^>]*>Visit \$\{project\.name\} <span aria-hidden="true">→<\/span>/);
   assert.doesNotMatch(js, /Read case study|websiteLabel/);
   assert.doesNotMatch(js, /You’ve seen how I think\.|Explore more work/);
@@ -61,7 +62,7 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.doesNotMatch(js, /window\.scrollY \+ Math\.min/);
   assert.match(html, /data-nav-target="home"/);
   assert.match(html, /AI has shortened the distance between an idea and something real/);
-  assert.match(html, /A&amp;E Registrar <span>·<\/span> NHS England Leadership Fellow/);
+  assert.match(html, /Dr Lizzie Soyode <span>·<\/span> A&amp;E Registrar <span>·<\/span> NHS England Leadership Fellow/);
   assert.match(html, /data-nav-target="contact" data-nav-neutral/);
   assert.match(css, /body\.menu-open \.nav-scrim/);
   assert.match(css, /\.nav-scrim\{background:#fcfcfb;-webkit-backdrop-filter:none;backdrop-filter:none\}/);

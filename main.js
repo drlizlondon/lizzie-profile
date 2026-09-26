@@ -314,14 +314,15 @@ const activeSectionObserver = new IntersectionObserver(scheduleActiveNavUpdate, 
 navSections.forEach((section) => activeSectionObserver.observe(section));
 scheduleActiveNavUpdate();
 
-/** @typedef {{ name: string, problem: string, thinking: string, outcome: string, website: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
+/** @typedef {{ name: string, problem: string, built: string, changed: string, shows: string, website: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
 /** @type {CarouselProject[]} */
 const carouselProjects = [
   {
     name: 'BumpNotes',
-    problem: 'Pregnancy information is fragmented, while the details that matter are difficult to recall under pressure.',
-    thinking: 'Design around the woman’s own story, not another generic stream of health content.',
-    outcome: 'A simple record that helps women capture what matters and communicate it clearly.',
+    problem: 'Pregnancy information is fragmented, and the details that matter are hard to recall under pressure.',
+    built: 'A patient-owned pregnancy record that helps women capture what matters, in their own words.',
+    changed: 'Women get a simple record they can actually use, and a summary they can share when it counts.',
+    shows: 'Product thinking, real healthcare context, and technology built responsibly.',
     website: 'https://www.bumpnotes.co.uk',
     caseStudy: '/projects/bumpnotes.html',
     tone: 'lavender',
@@ -331,9 +332,10 @@ const carouselProjects = [
   },
   {
     name: 'Big Picture Planner',
-    problem: 'Traditional planners reward busyness and allow urgent tasks to crowd out meaningful priorities.',
-    thinking: 'Plan around the reality of a whole week, including limited time, energy and competing roles.',
-    outcome: 'A weekly planning system that keeps the bigger picture visible while making the next step practical.',
+    problem: 'Traditional planners reward busyness and let urgent tasks crowd out what actually matters.',
+    built: 'A weekly planning system built around a whole week, not just a to-do list.',
+    changed: 'People can see the bigger picture and still know their next practical step.',
+    shows: 'Product thinking applied to a problem I lived myself.',
     website: 'https://www.bigpictureplanner.app',
     caseStudy: '/projects/big-picture-planner.html',
     tone: 'cream',
@@ -343,9 +345,10 @@ const carouselProjects = [
   },
   {
     name: 'myBishBash',
-    problem: 'Phones are designed to capture attention, even when that attention conflicts with the life someone wants.',
-    thinking: 'Replace restriction and guilt with deliberate choices about what the phone is there to support.',
-    outcome: 'A calmer way to shape phone use around personal priorities and intentional attention.',
+    problem: 'Phones are designed to capture attention, even when that fights the life someone actually wants.',
+    built: 'An intentional phone app that replaces restriction and guilt with deliberate choices.',
+    changed: 'People shape their phone use around their own priorities, calmly.',
+    shows: 'Building for behaviour change, not just features.',
     website: 'https://mybishbash.app',
     caseStudy: '/projects/mybishbash.html',
     tone: 'sage',
@@ -381,8 +384,9 @@ if (projectCarousel) {
           <h3>${project.name}</h3>
           <dl class="project-reasoning">
             <div><dt>Problem</dt><dd>${project.problem}</dd></div>
-            <div><dt>Thinking</dt><dd>${project.thinking}</dd></div>
-            <div><dt>Outcome</dt><dd>${project.outcome}</dd></div>
+            <div><dt>What I built</dt><dd>${project.built}</dd></div>
+            <div><dt>What changed</dt><dd>${project.changed}</dd></div>
+            <div><dt>What this shows</dt><dd>${project.shows}</dd></div>
           </dl>
           <div class="project-actions">
             <a class="project-case-link" href="${project.website}" target="_blank" rel="noopener noreferrer">Visit ${project.name} <span aria-hidden="true">→</span></a>
