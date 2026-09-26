@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, access } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
@@ -135,4 +136,26 @@ test('styles include mobile and reduced motion treatments', () => {
   assert.match(css, /\.resources-section\{display:block;padding-top:3\.5rem;padding-bottom:3\.5rem\}/);
   assert.match(css, /\.resources-browse-link\{min-height:46px;margin-top:1\.1rem/);
   assert.doesNotMatch(css, /\.resource-card:hover[^}]*scale|\.resource-card:hover[^}]*box-shadow/);
+});
+
+test('the portrait image served at og:image/twitter:image exists under public/ so Vite ships it verbatim', async () => {
+  const portraitPublicPath = fileURLToPath(new URL('../public/assets/images/lizzie-portrait.jpg', import.meta.url));
+  await assert.doesNotReject(
+    access(portraitPublicPath),
+    'public/assets/images/lizzie-portrait.jpg must exist — Vite only serves absolute-path (leading "/") HTML references from public/, unhashed',
+  );
+
+  const imageMetaPaths = [
+    ...html.matchAll(/<meta property="og:image" content="https:\/\/drlizlondon\.com(\/[^"]+)"/g),
+    ...html.matchAll(/<meta name="twitter:image" content="https:\/\/drlizlondon\.com(\/[^"]+)"/g),
+  ].map((match) => match[1]);
+  assert.ok(imageMetaPaths.length >= 2, 'expected at least one og:image and one twitter:image meta tag');
+
+  for (const metaPath of imageMetaPaths) {
+    const publicFilePath = fileURLToPath(new URL(`../public${metaPath}`, import.meta.url));
+    await assert.doesNotReject(
+      access(publicFilePath),
+      `${metaPath} is referenced by an og:image/twitter:image meta tag but has no file under public${metaPath}`,
+    );
+  }
 });

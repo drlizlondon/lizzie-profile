@@ -43,9 +43,12 @@ test('keeps the free prompt public and gates only the complete Pro prompt', () =
 
 test('uses the configured Sites origin for signup and unsubscribe without browser secrets', () => {
   assert.match(apiClient, /import\.meta\.env\.VITE_FABLE_SERVICE_URL/);
-  assert.match(client, /apiUrl\(['"]\/api\/fable-pro\/signup['"]\)/);
+  // Signup was deliberately repointed from the chris-ohiri API to a Kit form
+  // POST in ca394af ("Repoint Betty prompt signup from chris-ohiri to Kit").
+  assert.match(client, /import\.meta\.env\.VITE_BETTY_KIT_ENDPOINT/);
+  assert.match(client, /app\.kit\.com\/forms\/\$\{BETTY_KIT_FORM\}\/subscriptions/);
   assert.match(unsubscribe, /apiUrl\(['"]\/api\/fable-pro\/unsubscribe['"]\)/);
-  assert.doesNotMatch(client, /fetch\(['"]\/api\/fable-pro\/signup/);
+  assert.doesNotMatch(client, /apiUrl\(['"]\/api\/fable-pro\/signup['"]\)/);
   assert.doesNotMatch(unsubscribe, /fetch\(['"]\/api\/fable-pro\/unsubscribe/);
 
   const browserSources = [apiClient, siteEvents, main, client, unsubscribe].join('\n');
