@@ -30,8 +30,7 @@ test('homepage contains the required positioning and project links', () => {
   assert.match(js, /href="\$\{project\.website\}"[^>]*>Visit \$\{project\.name\} <span aria-hidden="true">→<\/span>/);
   assert.doesNotMatch(js, /Read case study|websiteLabel/);
   assert.doesNotMatch(js, /You’ve seen how I think\.|Explore more work/);
-  assert.match(html, /You’ve seen how I think\./);
-  assert.match(html, /If you’re building something important, I’d love to help\./);
+  assert.match(html, /Got something important to build\?/);
   assert.doesNotMatch(js, /name: 'Mission Control'|name: 'Common Ground'|name: 'Aurelle'/);
   assert.doesNotMatch(js, /visual: 'phone'/);
   assert.match(html, /aria-label="Previous project"/);
