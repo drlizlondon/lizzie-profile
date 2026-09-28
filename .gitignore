@@ -22,3 +22,16 @@ pnpm-workspace.yaml
 # Local visual QA captures and source-reference screenshots.
 artifacts/build-a-business-*.png
 design/reference/
+
+# Playwright local run output (tests/e2e) — never committed.
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Working proof of the copy-extraction byte-identity check — local only.
+.proof/
+
+# One-off local screenshot capture used during the hosted-editor build —
+# writes to an absolute path outside this repo, never committed.
+tests/e2e/screenshot.spec.js

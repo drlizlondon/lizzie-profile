@@ -1,5 +1,6 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
+import { homeContentPlugin } from './scripts/vite-home-content-plugin.js';
 
 const projectPages = [
   'bumpnotes',
@@ -12,6 +13,7 @@ const projectPages = [
 ];
 
 export default defineConfig({
+  plugins: [homeContentPlugin()],
   build: {
     rollupOptions: {
       input: {

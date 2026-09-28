@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, access } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import homeContent from '../content/home.json' with { type: 'json' };
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
@@ -17,12 +18,14 @@ test('homepage contains the required positioning and project links', () => {
   assert.match(html, /data-project-carousel/);
   assert.equal((js.match(/caseStudy: '\/projects\//g) ?? []).length, 3);
   assert.match(html, /aria-label="Three featured projects"/);
-  assert.match(html, /Every project begins with a problem worth solving\./);
+  assert.equal(homeContent.projectsSection.heading, 'Every project begins with a problem worth solving.');
+  assert.match(html, /\[\[home:projectsSection\.heading]]/);
   assert.match(html, /See My Work/);
   assert.doesNotMatch(html, /Explore Projects|Public learning/);
   assert.match(html, /Work with me/);
-  assert.match(js, /Pregnancy information is fragmented/);
-  assert.match(js, /A patient-owned pregnancy record that helps women capture what matters/);
+  assert.match(js, /\.\.\.homeContent\.projects\.bumpnotes/);
+  assert.match(homeContent.projects.bumpnotes.problem, /Pregnancy information is fragmented/);
+  assert.match(homeContent.projects.bumpnotes.built, /A patient-owned pregnancy record that helps women capture what matters/);
   assert.match(js, /Problem<\/dt>/);
   assert.match(js, /What I built<\/dt>/);
   assert.match(js, /What changed<\/dt>/);
@@ -61,7 +64,8 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.match(js, /new IntersectionObserver\(scheduleActiveNavUpdate/);
   assert.doesNotMatch(js, /window\.scrollY \+ Math\.min/);
   assert.match(html, /data-nav-target="home"/);
-  assert.match(html, /AI has shortened the distance between an idea and something real/);
+  assert.match(homeContent.hero.leadBody, /AI has shortened the distance between an idea and something real/);
+  assert.match(html, /\[\[home:hero\.leadBody]]/);
   assert.doesNotMatch(html, /Leadership Fellow/);
   assert.match(html, /data-nav-target="contact" data-nav-neutral/);
   assert.match(css, /body\.menu-open \.nav-scrim/);
@@ -77,7 +81,8 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.match(js, /focusTarget\.focus\(\{ preventScroll: true \}\)/);
   assert.doesNotMatch(html, /Speaking and education|Dr Liz London|instagram\.com\/drlizlondon/);
   assert.match(html, /data-nav-target="resources"/);
-  assert.match(html, /Simple frameworks and AI tools you can start using today\./);
+  assert.equal(homeContent.resources.intro, 'Simple frameworks and AI tools you can start using today.');
+  assert.match(html, /\[\[home:resources\.intro]]/);
   assert.doesNotMatch(html, /Experience how I approach ideas, assumptions and decisions/);
   assert.match(html, /data-resource-view="featured"/);
   assert.match(html, /href="\/resources\.html">Browse all free resources/);

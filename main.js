@@ -314,15 +314,20 @@ const activeSectionObserver = new IntersectionObserver(scheduleActiveNavUpdate, 
 navSections.forEach((section) => activeSectionObserver.observe(section));
 scheduleActiveNavUpdate();
 
-/** @typedef {{ name: string, problem: string, built: string, changed: string, shows: string, website: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
+// Project-card copy (problem/built/changed/shows) lives in content/home.json
+// — the file the hosted site editor edits (see the "editor" folder at the
+// repo root) — so a save there is a git commit like any other. Structural
+// config (website, case-study link, visual treatment, image) stays here
+// since it isn't marketing copy.
+import homeContent from './content/home.json';
+
+/** @typedef {{ key: string, name: string, problem: string, built: string, changed: string, shows: string, website: string, caseStudy: string, tone: string, visual: string, image: string, alt: string }} CarouselProject */
 /** @type {CarouselProject[]} */
 const carouselProjects = [
   {
+    key: 'bumpnotes',
     name: 'BumpNotes',
-    problem: 'Pregnancy information is fragmented, and the details that matter are hard to recall under pressure.',
-    built: 'A patient-owned pregnancy record that helps women capture what matters, in their own words.',
-    changed: 'Women get a simple record they can actually use, and a summary they can share when it counts.',
-    shows: 'Product thinking, real healthcare context, and technology built responsibly.',
+    ...homeContent.projects.bumpnotes,
     website: 'https://www.bumpnotes.co.uk',
     caseStudy: '/projects/bumpnotes.html',
     tone: 'lavender',
@@ -331,11 +336,9 @@ const carouselProjects = [
     alt: 'BumpNotes pregnancy summary interface',
   },
   {
+    key: 'bigPicturePlanner',
     name: 'Big Picture Planner',
-    problem: 'Traditional planners reward busyness and let urgent tasks crowd out what actually matters.',
-    built: 'A weekly planning system built around a whole week, not just a to-do list.',
-    changed: 'People can see the bigger picture and still know their next practical step.',
-    shows: 'Product thinking applied to a problem I lived myself.',
+    ...homeContent.projects.bigPicturePlanner,
     website: 'https://www.bigpictureplanner.app',
     caseStudy: '/projects/big-picture-planner.html',
     tone: 'cream',
@@ -344,11 +347,9 @@ const carouselProjects = [
     alt: 'Big Picture Planner weekly planning interface',
   },
   {
+    key: 'mybishbash',
     name: 'myBishBash',
-    problem: 'Phones are designed to capture attention, even when that fights the life someone actually wants.',
-    built: 'An intentional phone app that replaces restriction and guilt with deliberate choices.',
-    changed: 'People shape their phone use around their own priorities, calmly.',
-    shows: 'Building for behaviour change, not just features.',
+    ...homeContent.projects.mybishbash,
     website: 'https://mybishbash.app',
     caseStudy: '/projects/mybishbash.html',
     tone: 'sage',
@@ -383,10 +384,10 @@ if (projectCarousel) {
           <span class="project-index">${String(index + 1).padStart(2, '0')}</span>
           <h3>${project.name}</h3>
           <dl class="project-reasoning">
-            <div><dt>Problem</dt><dd>${project.problem}</dd></div>
-            <div><dt>What I built</dt><dd>${project.built}</dd></div>
-            <div><dt>What changed</dt><dd>${project.changed}</dd></div>
-            <div><dt>What this shows</dt><dd>${project.shows}</dd></div>
+            <div><dt>Problem</dt><dd data-copy="projects.${project.key}.problem">${project.problem}</dd></div>
+            <div><dt>What I built</dt><dd data-copy="projects.${project.key}.built">${project.built}</dd></div>
+            <div><dt>What changed</dt><dd data-copy="projects.${project.key}.changed">${project.changed}</dd></div>
+            <div><dt>What this shows</dt><dd data-copy="projects.${project.key}.shows">${project.shows}</dd></div>
           </dl>
           <div class="project-actions">
             <a class="project-case-link" href="${project.website}" target="_blank" rel="noopener noreferrer">Visit ${project.name} <span aria-hidden="true">→</span></a>

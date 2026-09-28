@@ -1,0 +1,61 @@
+{
+  "hero": {
+    "leadBold": "I solve complex problems and turn ambitious ideas into useful products, strategies and action.",
+    "leadBody": "Good outcomes begin with clear thinking. AI has shortened the distance between an idea and something real, but speed has only made the right questions more important. I look beneath the obvious problem, challenge what others take for granted and use the best tools available to move from sound judgement to purposeful action.",
+    "proofLine": "I use AI to build real products, like BumpNotes and Big Picture Planner. Now I help founders, health teams and organisations build their own."
+  },
+  "whoIHelp": {
+    "eyebrow": "What I do",
+    "heading": "Who I help",
+    "cards": [
+      { "title": "Ambitious people", "body": "Stuck on something big? I’ll help you think it through and leave with a clear plan." },
+      { "title": "Healthcare & health tech teams", "body": "I help teams with product strategy, AI strategy, and redesigning how they work day to day." },
+      { "title": "Organisations", "body": "I turn a hard problem into a plan, product or service you can use." }
+    ]
+  },
+  "equity": {
+    "eyebrow": "What I’ve actually done.",
+    "heading": "I take hard problems and turn them into something useful.",
+    "intro": "Here are a few examples from outside my clinical work. I help more people from underrepresented backgrounds get into medicine. I also share health information people can trust with their communities.",
+    "cards": [
+      { "title": "Trustee, WPMN", "body": "An active trustee with the Widening Participation Medics Network, helping open a career in medicine to people who’d rarely picture it as theirs." },
+      { "title": "CAHN Health Hour", "body": "I’ve hosted and spoken for the Caribbean & African Health Network, sharing health knowledge people can use." },
+      { "title": "“It’s All Gone Tits Up”", "body": "I supported a breast cancer screening campaign that encouraged women to get screened early." }
+    ]
+  },
+  "projectsSection": {
+    "eyebrow": "Thinking, made real",
+    "heading": "Every project begins with a problem worth solving.",
+    "intro": "I built most of what you see here myself. I use AI tools like Lovable, Claude Code and ChatGPT to go from an idea to a live product in days. GA4 and Microsoft Clarity keep me honest about what’s actually working."
+  },
+  "projects": {
+    "bumpnotes": {
+      "problem": "Pregnancy information is fragmented, and the details that matter are hard to recall under pressure.",
+      "built": "A patient-owned pregnancy record that helps women capture what matters, in their own words.",
+      "changed": "Women get a simple record they can actually use, and a summary they can share when it counts.",
+      "shows": "Product thinking, real healthcare context, and technology built responsibly."
+    },
+    "bigPicturePlanner": {
+      "problem": "Traditional planners reward busyness and let urgent tasks crowd out what actually matters.",
+      "built": "A weekly planning system built around a whole week, not just a to-do list.",
+      "changed": "People can see the bigger picture and still know their next practical step.",
+      "shows": "Product thinking applied to a problem I lived myself."
+    },
+    "mybishbash": {
+      "problem": "Phones are designed to capture attention, even when that fights the life someone actually wants.",
+      "built": "An intentional phone app that replaces restriction and guilt with deliberate choices.",
+      "changed": "People shape their phone use around their own priorities, calmly.",
+      "shows": "Building for behaviour change, not just features."
+    }
+  },
+  "resources": {
+    "eyebrow": "Practical frameworks",
+    "heading": "Free Resources",
+    "intro": "Simple frameworks and AI tools you can start using today."
+  },
+  "contact": {
+    "heading": "Facing a tough problem?",
+    "paragraph": "Building a business, designing a product, or rethinking how your team works? Tell me what you’re working on.",
+    "helper": "Tell me briefly what you're working on or where you're stuck."
+  }
+}
