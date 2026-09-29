@@ -191,7 +191,7 @@ const questionScreen = () => {
 
   const error = el('p', { className: 'bab-validation', role: 'alert' });
   const controls = el('div', { className: 'bab-controls' });
-  const back = el('button', { type: 'button', className: 'bab-secondary', text: state.index === 0 ? 'Back to welcome' : 'Back' });
+  const back = el('button', { type: 'button', className: 'bab-secondary', text: 'Back' });
   const next = el('button', { type: 'button', className: 'bab-primary', text: state.index === questions.length - 1 ? 'Review My Answers' : 'Continue' });
   back.addEventListener('click', () => {
     if (state.index === 0) setView('welcome');
