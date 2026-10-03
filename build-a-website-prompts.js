@@ -181,11 +181,11 @@ const pageSpecs = (answers, cta) => {
   const audience = missing(answers.audience, 'one clear type of reader');
   return {
     Home: {
-      purpose: `Tell a first-time visitor in one glance what the site is about (${topic}) and who it is for (${audience}), and move them towards the main action.`,
-      sections: 'a hero with a one-line promise and the main call to action; the three most recent published articles as cards; a short "about the author" teaser linking to About (if that page exists); a closing call to action',
+      purpose: `Tell a first-time visitor what the site is about (${topic}) and who it is for (${audience}), and move them towards the main action.`,
+      sections: 'a hero with a one-line promise and the main call to action; the three latest articles as cards',
       cta,
-      layout: 'single column on mobile; on desktop the hero is split or centred with the article cards in a three-column grid',
-      interactions: 'article cards link to the article page; the hero call to action is the most prominent control on the page',
+      layout: 'single column on mobile; a three-column card grid on desktop',
+      interactions: 'cards link to the article page',
     },
     About: {
       purpose: `Introduce ${owner} and why they write about ${topic}, so readers trust the blog.`,
@@ -256,28 +256,28 @@ const pageSpecs = (answers, cta) => {
 };
 
 /** @param {Record<string, any>} answers */
-const pageBlocks = (answers) => {
+const pageBlockList = (answers) => {
   const pages = chosenPages(answers);
   const cta = missing(answers.primaryAction, 'main call to action to be confirmed');
   const specs = pageSpecs(answers, cta);
   const blocks = pages.map((page) => {
     const spec = specs[page];
-    return `${page}
+    return { page, text: `${page}
 - Purpose: ${spec.purpose}
 - Key sections: ${spec.sections}
-- Content: use the owner’s answers above; where information is missing, use clearly labelled placeholders
+- Content: from the owner’s answers; clearly labelled placeholders where missing
 - Call to action: ${spec.cta}
 - Layout: ${spec.layout}
-- Important interactions: ${spec.interactions}`;
+- Important interactions: ${spec.interactions}` };
   });
-  blocks.push(`Individual article page (/articles/<slug>)
+  blocks.push({ page: 'Individual article page', text: `Individual article page (/articles/<slug>)
 - Purpose: present one published article for comfortable reading.
 - Key sections: featured image; title; author name and published date${wantsTopics(answers) ? '; topic' : ''}; the article body; a closing call to action (${cta}); links to the previous and next article
 - Content: loaded from the articles table by slug
 - Call to action: ${cta}
 - Layout: a single reading column about 680px wide, centred, with the design system's body and heading styles
-- Important interactions: share-friendly URL; images in the body are responsive; unknown slugs, drafts and unpublished articles show a proper 404 page`);
-  return blocks.join('\n\n');
+- Important interactions: share-friendly URL; images in the body are responsive; unknown slugs, drafts and unpublished articles show a proper 404 page` });
+  return blocks;
 };
 
 /** @param {Record<string, any>} answers */
@@ -311,22 +311,23 @@ const articleColumns = (answers) => {
   ];
 };
 
-const STEP_COUNT = 6;
+const STEP_COUNT = 7;
 const SCOPE_LINE = 'Scope: build the smallest useful system for this step. No plugins, themes, comments, extra roles or settings screens.';
 const CLOSING_LINE = 'When this step works, tell the owner in one or two plain sentences what changed and what to check.';
 
 /** Step titles and the plain "check it worked" lines for the user. They never depend on the answers. */
 export const websiteStepMeta = [
-  { step: 1, title: 'Design and pages', check: ['Your pages open from the menu.', "It looks right on your phone (use Lovable's phone preview).", 'The two sample posts say "replace me".'] },
-  { step: 2, title: 'Database', check: ['Lovable Cloud is switched on.', 'The sample posts have gone and the Articles page says "No posts yet."'] },
-  { step: 3, title: 'Private sign-in and dashboard', check: ['Going to /admin asks for your email.', 'The sign-in link arrives in your inbox and opens "Your Site, Welcome back."'] },
-  { step: 4, title: 'Writing and publishing', check: ['You can write a post, save it as a draft and preview it.', 'After you press Publish, it appears on your public site. After Unpublish, it disappears.'] },
-  { step: 5, title: 'Search basics', check: ['yoursite.lovable.app/sitemap.xml lists your published posts.', 'Sharing a post link shows its title and image.'] },
-  { step: 6, title: 'Optional: search-engine-ready pages', check: ['This step is optional and is the hardest one. If it runs out of credits, finish it the next day.'] },
+  { step: 1, title: 'Design and home page', check: ["Your home page opens and looks right on your phone (use Lovable's phone preview).", 'The two sample posts say "replace me".'] },
+  { step: 2, title: 'The other pages', check: ['Every page opens from the menu.', "The pages match the home page's look."] },
+  { step: 3, title: 'Database', check: ['Lovable Cloud is switched on.', 'The sample posts have gone and the Articles page says "No posts yet."'] },
+  { step: 4, title: 'Private sign-in and dashboard', check: ['Going to /admin asks for your email.', 'The sign-in link arrives in your inbox and opens "Your Site, Welcome back."'] },
+  { step: 5, title: 'Writing and publishing', check: ['You can write a post, save it as a draft and preview it.', 'After you press Publish, it appears on your public site. After Unpublish, it disappears.'] },
+  { step: 6, title: 'Search basics', check: ['yoursite.lovable.app/sitemap.xml lists your published posts.', 'Sharing a post link shows its title and image.'] },
+  { step: 7, title: 'Optional: search-engine-ready pages', check: ['This step is optional and is the hardest one. If it runs out of credits, finish it the next day.'] },
 ];
 
 /**
- * Builds the six small Lovable steps for a blog, one a day on Lovable's free plan.
+ * Builds the seven small Lovable steps for a blog, one a day on Lovable's free plan.
  * @param {Record<string, any>} answers
  * @returns {Array<{ step: number, title: string, prompt: string, check: string[] }>}
  */
@@ -339,6 +340,11 @@ export const buildWebsiteSteps = (answers) => {
   const cta = missing(answers.primaryAction, 'main call to action to be confirmed');
   const traits = missing(answers.traits, 'Clear, friendly and trustworthy');
   const columns = articleColumns(answers);
+  /** @param {string} text */
+  const tidy = (text) => text.replace('Do not display the administrator email address publicly', 'Do not display the owner’s private email address publicly').replace('in the articles tables', 'alongside the articles');
+  const blockList = pageBlockList(answers);
+  const firstPage = blockList.find(({ page }) => page === 'Home') ?? blockList.find(({ page }) => page === 'Articles');
+  const otherPages = blockList.filter((block) => block !== firstPage);
 
   /** @param {number} step @param {string} title */
   const opening = (step, title) => `Step ${step} of ${STEP_COUNT}: ${title}.
@@ -391,23 +397,29 @@ Define all of the above as design tokens (CSS variables and the Tailwind theme) 
 
 PUBLIC WEBSITE
 
-Build only the pages below. Do not add pages that the owner did not ask for just to make the site look more complete.${routeNote(answers)}
+Build only the home page in this step.${routeNote(answers)}
 
-${pageBlocks(answers).replace('Do not display the administrator email address publicly', 'Do not display the owner’s private email address publicly').replace('in the articles tables', 'alongside the articles')}
+${tidy(firstPage ? firstPage.text : '')}
 
 Build for later steps
 
-- Keep content and data separate from components. Do not hard-code articles, uploaded images or other user-managed content into frontend components.
+- Keep content and data separate from components. Do not hard-code articles, images or other user-managed content.
 - Read articles through one small data module, src/lib/content.ts. Its functions return objects shaped exactly like the future articles table, with these columns: ${columns.map((column) => column.split(' (')[0]).join(', ')}.
 - For now that module returns two clearly labelled sample posts titled "[Sample post: replace me]".
-- Existing content must stay intact when the site's design, layouts or components are changed later. The owner will return to Lovable to change the design, layout, pages or functionality, and the architecture must support that without anyone recreating articles by hand.
+- Existing content must stay intact when the design changes. The owner will return to Lovable to change the design, layout, pages or functionality, without anyone recreating articles by hand.
 - Use reusable components and design tokens only.
 
 Honesty and placeholders
 
 Use the supplied information to write clear, editable copy. Do not invent facts, testimonials, customer numbers, qualifications, awards, prices or contact details, and do not publish fake articles as if they were real. Where information is missing, use clearly labelled placeholders in square brackets, and never present a placeholder as real information.`;
 
-  bodies[2] = `Turn on Lovable Cloud when asked.
+  bodies[2] = `PUBLIC WEBSITE (the other pages)
+
+Reuse the components and design tokens from Step 1, so every page matches the home page. Build only the pages below.
+
+${tidy(otherPages.map(({ text }) => text).join('\n\n'))}`;
+
+  bodies[3] = `Turn on Lovable Cloud when asked.
 
 DATABASE AND STORAGE
 
@@ -429,7 +441,7 @@ CONTENT MANAGEMENT
 
 Separate content and data from presentation and design. Content must never be hard-coded into page components. Store articles in a proper database, not in the frontend code. Pages read content from the database through a small data layer, so the design can be changed later without touching or losing a single article.`;
 
-  bodies[3] = `ADMIN AUTHENTICATION
+  bodies[4] = `ADMIN AUTHENTICATION
 
 Initial admin email: ${email}
 - Sign in at /admin with an email magic link (passwordless): the owner enters their email, receives a link, and is signed in.
@@ -444,7 +456,7 @@ Create a private administrator area at /admin. Keep it deliberately simple for a
 - Dashboard: the heading "Your Site", the line "Welcome back.", and a "+ New article" button. Below that show three lists: Drafts, Published and Recently edited.
 The "+ New article" button may open an empty page saying "The editor arrives in the next step."`;
 
-  bodies[4] = `WRITING EXPERIENCE
+  bodies[5] = `WRITING EXPERIENCE
 
 The editor should feel like writing an article, not managing a database. Use these, in this order on the screen:
 - a large title field
@@ -464,7 +476,7 @@ PUBLIC ARTICLE SYSTEM
 
 Published articles appear on the public website automatically. The Articles page uses the design above, shows each article's metadata and featured image, and links to the individual article page. Drafts and unpublished articles must never appear publicly; a draft's public URL returns a 404.`;
 
-  bodies[5] = `SEARCH BASICS
+  bodies[6] = `SEARCH BASICS
 
 - Set a unique title, meta description, canonical URL and Open Graph tags in the document head of every page, generated from the article when the SEO fields are empty. Use clean slugs.
 - Add Article JSON-LD on article pages.
@@ -473,7 +485,7 @@ Published articles appear on the public website automatically. The Articles page
 - Drafts are never in the sitemap and return 404 publicly.
 - The administrator never needs to understand SEO: titles and descriptions are generated from the article unless the admin edits them.`;
 
-  bodies[6] = `SEO
+  bodies[7] = `SEO
 
 Render the article list and article pages on the server so that the served HTML already contains each article's title, meta description, canonical URL, Open Graph tags and Article JSON-LD, generated from the article when the SEO fields are empty. Use server-side rendering or an equivalent server-generated HTML response (for example a Lovable Cloud edge function); client-side-only rendering does not satisfy this.
 
@@ -528,7 +540,7 @@ export const websiteIncludes = (answers) => {
 
 export const firstPublishChecklist = [
   'Do Day 1 in Lovable today.',
-  'Do one step a day until Day 5 (Day 6 is optional).',
+  'Do one step a day until Day 6 (Day 7 is optional).',
   'Sign in to /admin with your email.',
   'Write and publish your first post.',
   'Test the site on your phone.',

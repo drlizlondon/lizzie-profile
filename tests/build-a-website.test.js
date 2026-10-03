@@ -77,12 +77,12 @@ test('guidance nudges are the specified ones', () => {
   assert.equal(guidanceFor({ id: 'siteName' }, 'I need a working name'), 'A working name is enough to begin. You can change it in Lovable later.');
 });
 
-test('buildWebsiteSteps returns six steps, each opening "Step N of 6:" and ending with the closing line', () => {
+test('buildWebsiteSteps returns seven steps, each opening "Step N of 7:" and ending with the closing line', () => {
   const steps = buildWebsiteSteps(fixture);
-  assert.equal(steps.length, 6);
+  assert.equal(steps.length, 7);
   steps.forEach(({ step, title, prompt, check }, index) => {
     assert.equal(step, index + 1);
-    assert.ok(prompt.startsWith(`Step ${step} of 6: ${title}.\nThis project is being built one small step a day on Lovable's free plan. Do only this step, `), `step ${step} opening`);
+    assert.ok(prompt.startsWith(`Step ${step} of 7: ${title}.\nThis project is being built one small step a day on Lovable's free plan. Do only this step, `), `step ${step} opening`);
     assert.equal(prompt.includes('keep everything already built working'), step !== 1, `step ${step} keep-working line`);
     assert.ok(prompt.includes('and stop when this step works. Do not start the next step.'));
     assert.ok(prompt.includes('Scope: build the smallest useful system for this step. No plugins, themes, comments, extra roles or settings screens.'));
@@ -91,29 +91,39 @@ test('buildWebsiteSteps returns six steps, each opening "Step N of 6:" and endin
   });
 });
 
-// LP-02 CONFLICT: Step 1 must carry DESIGN DIRECTION and PUBLIC WEBSITE verbatim (about 1,100 words
-// between them), so it cannot fit the 700-word cap. Steps 2-6 are held to the cap; Step 1 is held to
-// its measured ceiling until the coordinator rules (see the LP-02 execution report).
-const STEP_WORD_CAP = 700;
-const STEP_ONE_CEILING = 1600;
+// LP-02 ruling (spec section 6): every step stays within 900 words for the fixture.
+const STEP_WORD_CAP = 900;
 
-test('every step stays within the word cap (Step 1 flagged: see LP-02 conflict note)', () => {
-  const steps = buildWebsiteSteps(fixture);
-  steps.slice(1).forEach(({ step, prompt }) => assert.ok(words(prompt) <= STEP_WORD_CAP, `step ${step}: ${words(prompt)} words`));
-  assert.ok(words(steps[0].prompt) <= STEP_ONE_CEILING, `step 1: ${words(steps[0].prompt)} words`);
+test('every step stays within the word cap', () => {
+  for (const { step, prompt } of buildWebsiteSteps(fixture)) assert.ok(words(prompt) <= STEP_WORD_CAP, `step ${step}: ${words(prompt)} words`);
+});
+
+test('the home page is built first and the other pages second', () => {
+  const [one, two] = buildWebsiteSteps(fixture).map(({ prompt }) => prompt);
+  assert.match(one, /\nHome\n- Purpose:/);
+  for (const page of ['About', 'Articles', 'Contact', 'Newsletter signup']) assert.doesNotMatch(one, new RegExp(`\\n${page}\\n- Purpose:`));
+  for (const page of ['About', 'Articles', 'Contact', 'Newsletter signup']) assert.match(two, new RegExp(`\\n${page}\\n- Purpose:`));
+  assert.match(two, /\nIndividual article page \(\/articles\/<slug>\)\n- Purpose:/);
+  assert.doesNotMatch(two, /\nHome\n- Purpose:/);
+  const noHome = buildWebsiteSteps({ ...fixture, websiteSections: ['Articles', 'Contact'] }).map(({ prompt }) => prompt);
+  assert.match(noHome[0], /make the Articles list the root route/);
+  assert.match(noHome[0], /\nArticles\n- Purpose:/);
+  assert.doesNotMatch(noHome[1], /\nArticles\n- Purpose:/);
 });
 
 test('each layer holds only its own work', () => {
-  const [one, two, three, four, five] = buildWebsiteSteps(fixture).map(({ prompt }) => prompt.toLowerCase());
-  for (const word of ['lovable cloud', 'admin', 'sitemap', 'row-level']) assert.ok(!one.includes(word), `step 1 has ${word}`);
-  for (const word of ['magic link', '/admin']) assert.ok(!two.includes(word), `step 2 has ${word}`);
-  for (const text of [one, two]) assert.ok(!text.includes('initial admin email'));
-  for (const text of [one, two, three, four]) assert.ok(!text.includes('sitemap'));
-  for (const text of [one, two, three, four, five]) assert.ok(!text.includes('server-side rendering') && !text.includes('served html'));
-  assert.ok(three.includes('initial admin email: sam@example.com'));
+  const [one, two, three, four, five, six] = buildWebsiteSteps(fixture).map(({ prompt }) => prompt.toLowerCase());
+  for (const [label, text] of [['1', one], ['2', two]]) {
+    for (const word of ['lovable cloud', 'admin', 'sitemap', 'row-level']) assert.ok(!text.includes(word), `step ${label} has ${word}`);
+  }
+  for (const word of ['magic link', '/admin']) assert.ok(!three.includes(word), `step 3 has ${word}`);
+  for (const text of [one, two, three]) assert.ok(!text.includes('initial admin email'));
+  for (const text of [one, two, three, four, five]) assert.ok(!text.includes('sitemap'));
+  for (const text of [one, two, three, four, five, six]) assert.ok(!text.includes('server-side rendering') && !text.includes('served html'));
+  assert.ok(four.includes('initial admin email: sam@example.com'));
 });
 
-test('the six steps together carry every LP-01 technical requirement', () => {
+test('the seven steps together carry every LP-01 technical requirement', () => {
   const all = allPrompts(fixture);
   for (const needle of ['Initial admin email: sam@example.com', 'Lovable Cloud', 'admins', "status = 'published'", 'magic link', 'JSON-LD', 'sitemap.xml', 'robots.txt', 'This area is private', 'Delete this article? This cannot be undone.', 'Row-level security', 'public bucket']) {
     assert.ok(all.includes(needle), `missing: ${needle}`);
@@ -181,7 +191,7 @@ test('the summary card has the specified lines and never leaves a blank', () => 
 test('first-publish checklist and results order are exact', () => {
   assert.deepEqual(firstPublishChecklist, [
     'Do Day 1 in Lovable today.',
-    'Do one step a day until Day 5 (Day 6 is optional).',
+    'Do one step a day until Day 6 (Day 7 is optional).',
     'Sign in to /admin with your email.',
     'Write and publish your first post.',
     'Test the site on your phone.',
@@ -191,8 +201,8 @@ test('first-publish checklist and results order are exact', () => {
 
   assert.deepEqual(resultItems.map(({ kind, title }) => [kind, title]), [
     ['summaryCard', 'Your Site'], ['ticks', 'Your website will include'], ['heading', 'COPY THIS INTO LOVABLE'], ['note', undefined],
-    ['output', 'Day 1: Design and pages'], ['output', 'Day 2: Database'], ['output', 'Day 3: Private sign-in and dashboard'],
-    ['output', 'Day 4: Writing and publishing'], ['output', 'Day 5: Search basics'], ['output', 'Day 6: Optional: search-engine-ready pages'],
+    ['output', 'Day 1: Design and home page'], ['output', 'Day 2: The other pages'], ['output', 'Day 3: Database'], ['output', 'Day 4: Private sign-in and dashboard'],
+    ['output', 'Day 5: Writing and publishing'], ['output', 'Day 6: Search basics'], ['output', 'Day 7: Optional: search-engine-ready pages'],
     ['note', undefined], ['checklist', 'Your first publish'],
   ]);
   const outputs = resultItems.filter((entry) => entry.kind === 'output');
@@ -206,7 +216,7 @@ test('first-publish checklist and results order are exact', () => {
     assert.ok(entry.intro.startsWith('Check it worked: '));
   });
   assert.match(String(resultItems.find((entry) => entry.kind === 'note')?.text), /^Built for Lovable's free plan\. Do one step a day: the free plan gives 5 credits a day \(up to 30 a month\)/);
-  assert.equal(websiteConfig.welcome.features[2][1], 'Six short Lovable steps');
+  assert.equal(websiteConfig.welcome.features[2][1], 'Seven short Lovable steps');
   assert.equal(resultItems.some((entry) => /refine|improve/i.test(String(entry.title ?? ''))), false);
 });
 

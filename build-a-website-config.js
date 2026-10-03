@@ -137,7 +137,7 @@ export const websiteConfig = {
     features: [
       ['strategy', 'Your Site', 'See your blog, pages and settings on one clear page.'],
       ['copy', 'A private place to write', 'A simple dashboard to draft, preview and publish your posts.'],
-      ['prompt', 'Six short Lovable steps', 'One step a day, sized to fit Lovable’s free plan.'],
+      ['prompt', 'Seven short Lovable steps', 'One step a day, sized to fit Lovable’s free plan.'],
     ],
   },
   question: {
