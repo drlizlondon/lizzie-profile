@@ -289,24 +289,16 @@ const routeNote = (answers) => {
   return notes.length ? `\n${notes.join(' ')}` : '';
 };
 
-/**
- * Builds the complete Lovable prompt for a blog.
- * @param {Record<string, any>} answers
- */
-export const buildWebsitePrompt = (answers) => {
-  const tokens = tokensFor(answers);
+/** @param {Record<string, any>} answers */
+const articleColumns = (answers) => {
   const topics = topicList(answers);
-  const email = missing(answers.adminEmail, 'admin email to be added');
   const owner = missing(answers.ownerName, 'owner name to be added');
-  const pages = chosenPages(answers);
-  const cta = missing(answers.primaryAction, 'main call to action to be confirmed');
-  const traits = missing(answers.traits, 'Clear, friendly and trustworthy');
-  const articleColumns = [
+  return [
     'id (uuid, primary key, default gen_random_uuid())',
     'title (text, required)',
     'slug (text, unique, required)',
     'excerpt (text)',
-    'body (text; rich text stored as sanitised HTML, produced by the editor described below)',
+    'body (text; rich text stored as sanitised HTML, produced by the writing screen added in a later step)',
     'featured_image_url (text)',
     `author_name (text, default '${owner.startsWith('[') ? 'Author' : owner.replace(/'/g, "''")}')`,
     ...(topics.length ? [`category (text, one of: ${topics.join(', ')}; the admin picks it from a dropdown, and the dropdown values are stored in code in one constant so they can be edited)`] : []),
@@ -317,14 +309,47 @@ export const buildWebsitePrompt = (answers) => {
     'created_at (timestamptz, default now())',
     'updated_at (timestamptz, default now(), updated on every save)',
   ];
+};
 
-  return `Role
+const STEP_COUNT = 6;
+const SCOPE_LINE = 'Scope: build the smallest useful system for this step. No plugins, themes, comments, extra roles or settings screens.';
+const CLOSING_LINE = 'When this step works, tell the owner in one or two plain sentences what changed and what to check.';
+
+/** Step titles and the plain "check it worked" lines for the user. They never depend on the answers. */
+export const websiteStepMeta = [
+  { step: 1, title: 'Design and pages', check: ['Your pages open from the menu.', "It looks right on your phone (use Lovable's phone preview).", 'The two sample posts say "replace me".'] },
+  { step: 2, title: 'Database', check: ['Lovable Cloud is switched on.', 'The sample posts have gone and the Articles page says "No posts yet."'] },
+  { step: 3, title: 'Private sign-in and dashboard', check: ['Going to /admin asks for your email.', 'The sign-in link arrives in your inbox and opens "Your Site, Welcome back."'] },
+  { step: 4, title: 'Writing and publishing', check: ['You can write a post, save it as a draft and preview it.', 'After you press Publish, it appears on your public site. After Unpublish, it disappears.'] },
+  { step: 5, title: 'Search basics', check: ['yoursite.lovable.app/sitemap.xml lists your published posts.', 'Sharing a post link shows its title and image.'] },
+  { step: 6, title: 'Optional: search-engine-ready pages', check: ['This step is optional and is the hardest one. If it runs out of credits, finish it the next day.'] },
+];
+
+/**
+ * Builds the six small Lovable steps for a blog, one a day on Lovable's free plan.
+ * @param {Record<string, any>} answers
+ * @returns {Array<{ step: number, title: string, prompt: string, check: string[] }>}
+ */
+export const buildWebsiteSteps = (answers) => {
+  const tokens = tokensFor(answers);
+  const topics = topicList(answers);
+  const email = missing(answers.adminEmail, 'admin email to be added');
+  const owner = missing(answers.ownerName, 'owner name to be added');
+  const pages = chosenPages(answers);
+  const cta = missing(answers.primaryAction, 'main call to action to be confirmed');
+  const traits = missing(answers.traits, 'Clear, friendly and trustworthy');
+  const columns = articleColumns(answers);
+
+  /** @param {number} step @param {string} title */
+  const opening = (step, title) => `Step ${step} of ${STEP_COUNT}: ${title}.
+This project is being built one small step a day on Lovable's free plan. Do only this step, ${step === 1 ? '' : 'keep everything already built working, '}and stop when this step works. Do not start the next step.`;
+
+  /** @type {string[]} */
+  const bodies = [];
+
+  bodies[1] = `Role
 
 You are the lead product designer, front-end architect and full-stack engineer for a small publishing website.
-
-Objective
-
-Build a complete, working blog website that its owner can publish to themselves and later change through Lovable. It must function, not merely look good: real pages, a real database, a private admin area, and real publishing. Build the full working first version now. Do not return only a plan or explanation, and do not ask unnecessary follow-up questions.
 
 Principle: You create the website. The owner owns it. They can publish to it. They can change it with AI if they want to.
 
@@ -342,7 +367,6 @@ Primary call to action: ${cta}
 Brand personality: ${traits}
 Content tone: ${tokens.tone}
 Personal story to mention: ${missing(answers.story, 'No additional personal story supplied')}
-Admin email address: ${email}
 
 DESIGN DIRECTION
 
@@ -369,23 +393,43 @@ PUBLIC WEBSITE
 
 Build only the pages below. Do not add pages that the owner did not ask for just to make the site look more complete.${routeNote(answers)}
 
-${pageBlocks(answers)}
+${pageBlocks(answers).replace('Do not display the administrator email address publicly', 'Do not display the owner’s private email address publicly').replace('in the articles tables', 'alongside the articles')}
+
+Build for later steps
+
+- Keep content and data separate from components. Do not hard-code articles, uploaded images or other user-managed content into frontend components.
+- Read articles through one small data module, src/lib/content.ts. Its functions return objects shaped exactly like the future articles table, with these columns: ${columns.map((column) => column.split(' (')[0]).join(', ')}.
+- For now that module returns two clearly labelled sample posts titled "[Sample post: replace me]".
+- Existing content must stay intact when the site's design, layouts or components are changed later. The owner will return to Lovable to change the design, layout, pages or functionality, and the architecture must support that without anyone recreating articles by hand.
+- Use reusable components and design tokens only.
+
+Honesty and placeholders
+
+Use the supplied information to write clear, editable copy. Do not invent facts, testimonials, customer numbers, qualifications, awards, prices or contact details, and do not publish fake articles as if they were real. Where information is missing, use clearly labelled placeholders in square brackets, and never present a placeholder as real information.`;
+
+  bodies[2] = `Turn on Lovable Cloud when asked.
+
+DATABASE AND STORAGE
+
+Use Lovable Cloud for the database, authentication and file storage. Create these tables and no others.
+- articles:
+${bullets(columns).replace(/^/gm, '  ')}
+- media: id (uuid, primary key), file_path (text), alt_text (text), created_at (timestamptz, default now())
+- admins: email (text, primary key), seeded with exactly one row: ${email}
+
+Row-level security (enable it on every table):
+- Anyone, signed in or not, can SELECT from articles where status = 'published'.
+- Only signed-in users whose email is in admins can SELECT unpublished articles, and can INSERT, UPDATE and DELETE articles and media.
+- The admins table is readable only by signed-in users checking their own row, and writable by no one through the app.
+Storage: create a public bucket for images, so published pages can show them, writable only by admins.
+
+Now rewrite src/lib/content.ts so it reads published articles from the database instead. Delete the sample posts. When there are no published articles, the pages show a friendly empty state ("No posts yet."), in place of any other empty-state wording.
 
 CONTENT MANAGEMENT
 
-Separate content and data from presentation and design. Content must never be hard-coded into page components. Store articles in a proper database, not in the frontend code. Pages read content from the database through a small data layer, so the design can be changed later without touching or losing a single article.
+Separate content and data from presentation and design. Content must never be hard-coded into page components. Store articles in a proper database, not in the frontend code. Pages read content from the database through a small data layer, so the design can be changed later without touching or losing a single article.`;
 
-PRIVATE ADMIN AREA
-
-Use Lovable Cloud for the database, authentication and file storage.
-
-Create a private administrator area at /admin. Keep it deliberately simple for a non-technical person. Do not show technical settings, database terminology, code, or deployment settings.
-- Dashboard: the heading "Your Site", the line "Welcome back.", and a "+ New article" button. Below that show three lists: Drafts, Published and Recently edited.
-- Articles: view all articles; create; edit; save as draft; preview; publish; unpublish; and delete with a confirmation step ("Delete this article? This cannot be undone.").
-- Images: upload images, choose an uploaded image as an article's featured image, and insert images into the article body.
-Make the admin responsive and usable on a phone.
-
-ADMIN AUTHENTICATION
+  bodies[3] = `ADMIN AUTHENTICATION
 
 Initial admin email: ${email}
 - Sign in at /admin with an email magic link (passwordless): the owner enters their email, receives a link, and is signed in.
@@ -394,7 +438,13 @@ Initial admin email: ${email}
 - Never put a password or any credential in the code, the repository or the page.
 - The public must not be able to reach the admin area, and only administrators can create, edit, publish or delete content.
 
-WRITING EXPERIENCE
+PRIVATE ADMIN AREA
+
+Create a private administrator area at /admin. Keep it deliberately simple for a non-technical person. Do not show technical settings, database terminology, code, or deployment settings.
+- Dashboard: the heading "Your Site", the line "Welcome back.", and a "+ New article" button. Below that show three lists: Drafts, Published and Recently edited.
+The "+ New article" button may open an empty page saying "The editor arrives in the next step."`;
+
+  bodies[4] = `WRITING EXPERIENCE
 
 The editor should feel like writing an article, not managing a database. Use these, in this order on the screen:
 - a large title field
@@ -404,18 +454,28 @@ The editor should feel like writing an article, not managing a database. Use the
 - a small collapsed "Search appearance" section for the SEO title and description, optional and pre-filled automatically
 Do not overwhelm the writer with extra controls.
 
+PRIVATE ADMIN AREA (continued)
+
+- Articles: view all articles; create; edit; save as draft; preview; publish; unpublish; and delete with a confirmation step ("Delete this article? This cannot be undone.").
+- Images: upload images, choose an uploaded image as an article's featured image, and insert images into the article body.
+Make the admin responsive and usable on a phone.
+
 PUBLIC ARTICLE SYSTEM
 
-Published articles appear on the public website automatically. The Articles page uses the design above, shows each article's metadata and featured image, and links to the individual article page. Drafts and unpublished articles must never appear publicly; a draft's public URL returns a 404.
+Published articles appear on the public website automatically. The Articles page uses the design above, shows each article's metadata and featured image, and links to the individual article page. Drafts and unpublished articles must never appear publicly; a draft's public URL returns a 404.`;
 
-SEO
+  bodies[5] = `SEARCH BASICS
+
+- Set a unique title, meta description, canonical URL and Open Graph tags in the document head of every page, generated from the article when the SEO fields are empty. Use clean slugs.
+- Add Article JSON-LD on article pages.
+- Add /robots.txt that allows crawling and points to the sitemap.
+- Generate /sitemap.xml from published articles only (a Lovable Cloud edge function is fine).
+- Drafts are never in the sitemap and return 404 publicly.
+- The administrator never needs to understand SEO: titles and descriptions are generated from the article unless the admin edits them.`;
+
+  bodies[6] = `SEO
 
 Render the article list and article pages on the server so that the served HTML already contains each article's title, meta description, canonical URL, Open Graph tags and Article JSON-LD, generated from the article when the SEO fields are empty. Use server-side rendering or an equivalent server-generated HTML response (for example a Lovable Cloud edge function); client-side-only rendering does not satisfy this.
-- Unique page titles, clean slugs and canonical URLs.
-- Generate /sitemap.xml from published articles only.
-- Add robots.txt that allows crawling and points to the sitemap.
-- Drafts are never in the sitemap and return 404 publicly.
-- The administrator never needs to understand SEO: titles and descriptions are generated from the article unless the admin edits them.
 
 LOVABLE EDITABILITY
 
@@ -430,33 +490,14 @@ DESIGN CHANGES AFTER LAUNCH
 Use reusable components and one coherent design system, and avoid one-off hard-coded styling. The owner should be able to ask Lovable for changes like these without rebuilding the content system:
 - Make the article pages more editorial.
 - Change the homepage to have a larger hero image.
-- Add a newsletter signup underneath every article.
+- Add a newsletter signup underneath every article.`;
 
-DATABASE AND STORAGE
-
-Use Lovable Cloud for the database, authentication and file storage. Create these tables and no others.
-- articles:
-${bullets(articleColumns).replace(/^/gm, '  ')}
-- media: id (uuid, primary key), file_path (text), alt_text (text), created_at (timestamptz, default now())
-- admins: email (text, primary key), seeded with exactly one row: ${email}
-
-Row-level security (enable it on every table):
-- Anyone, signed in or not, can SELECT from articles where status = 'published'.
-- Only signed-in users whose email is in admins can SELECT unpublished articles, and can INSERT, UPDATE and DELETE articles and media.
-- The admins table is readable only by signed-in users checking their own row, and writable by no one through the app.
-Storage: create a public bucket for images, so published pages can show them, writable only by admins.
-
-SCOPE
-
-Build the smallest useful system for this site: an article publishing system, not a WordPress clone. Do not add plugins, themes, comments, user roles beyond the single admin list, or settings screens. If the owner needs more later, they will ask Lovable.
-
-Honesty and placeholders
-
-Use the supplied information to write clear, editable copy. Do not invent facts, testimonials, customer numbers, qualifications, awards, prices or contact details, and do not publish fake articles as if they were real. Where information is missing, use clearly labelled placeholders in square brackets, and never present a placeholder as real information.
-
-COMPLETION
-
-Build the full working first version now: the public website, the private admin area, sign-in, the database with its security rules, image storage and the SEO output described above. Then tell the owner, in two or three plain sentences, how to sign in to /admin and publish their first article.`;
+  return websiteStepMeta.map(({ step, title, check }) => ({
+    step,
+    title,
+    prompt: `${opening(step, title)}\n\n${bodies[step]}\n\n${SCOPE_LINE}\n\n${CLOSING_LINE}`,
+    check: [...check],
+  }));
 };
 
 /** @param {Record<string, any>} answers @returns {Array<[string, string]>} */
@@ -486,11 +527,11 @@ export const websiteIncludes = (answers) => {
 };
 
 export const firstPublishChecklist = [
-  'Paste your prompt into Lovable.',
-  'When Lovable asks, turn on Lovable Cloud.',
+  'Do Day 1 in Lovable today.',
+  'Do one step a day until Day 5 (Day 6 is optional).',
   'Sign in to /admin with your email.',
   'Write and publish your first post.',
   'Test the site on your phone.',
-  'Connect a domain you own.',
+  'Publish on your free yoursite.lovable.app address. Your own domain needs a paid Lovable plan, so add it later if you want one.',
   "Send your first post to one person who'd enjoy it.",
 ];

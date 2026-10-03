@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { questions, STORAGE_KEY, guidanceFor, websiteConfig } from '../build-a-website-config.js';
-import { buildWebsitePrompt, buildSiteSummaryLines, websiteIncludes, firstPublishChecklist, designTokens } from '../build-a-website-prompts.js';
+import { buildWebsiteSteps, buildSiteSummaryLines, websiteIncludes, firstPublishChecklist, designTokens } from '../build-a-website-prompts.js';
 import { questions as businessQuestions } from '../build-a-business-data.js';
 import { createState, isValidEmail, normaliseEmail } from '../builder-state.js';
 
@@ -19,12 +19,13 @@ const question = (id) => {
   assert.ok(found, id);
   return found;
 };
-/** @param {string} kind */
-const item = (kind) => {
-  const found = websiteConfig.results.items.find((entry) => entry.kind === kind);
-  assert.ok(found, kind);
-  return /** @type {Record<string, any>} */ (found);
-};
+/** Result items, loosely typed: each kind has its own fields. */
+const resultItems = /** @type {Array<Record<string, any>>} */ (websiteConfig.results.items);
+
+/** @param {Record<string, any>} answers */
+const allPrompts = (answers) => buildWebsiteSteps(answers).map(({ prompt }) => prompt).join('\n\n');
+/** @param {string} text */
+const words = (text) => text.trim().split(/\s+/).length;
 
 const fixture = {
   siteName: 'Small Kitchen Notes', ownerName: 'Sam Rivera', topic: 'Simple weeknight cooking for one',
@@ -52,6 +53,7 @@ test('shared look-and-feel questions are the Build a Business objects, unchanged
   }
   // traits reuses the Build a Business options, worded for a blog
   const sharedTraits = businessQuestions.find((shared) => shared.id === 'traits');
+  assert.ok(sharedTraits);
   assert.deepEqual(question('traits').options, sharedTraits.options);
   assert.equal(question('traits').max, sharedTraits.max);
   assert.equal(question('traits').question, 'How should your blog feel?');
@@ -75,21 +77,59 @@ test('guidance nudges are the specified ones', () => {
   assert.equal(guidanceFor({ id: 'siteName' }, 'I need a working name'), 'A working name is enough to begin. You can change it in Lovable later.');
 });
 
-test('the generated prompt carries the required technical contract', () => {
-  const prompt = buildWebsitePrompt(fixture);
-  for (const needle of ['Initial admin email: sam@example.com', 'Lovable Cloud', 'admins', "status = 'published'", 'magic link', 'JSON-LD', 'sitemap.xml', 'COMPLETION']) {
-    assert.ok(prompt.includes(needle), `missing: ${needle}`);
+test('buildWebsiteSteps returns six steps, each opening "Step N of 6:" and ending with the closing line', () => {
+  const steps = buildWebsiteSteps(fixture);
+  assert.equal(steps.length, 6);
+  steps.forEach(({ step, title, prompt, check }, index) => {
+    assert.equal(step, index + 1);
+    assert.ok(prompt.startsWith(`Step ${step} of 6: ${title}.\nThis project is being built one small step a day on Lovable's free plan. Do only this step, `), `step ${step} opening`);
+    assert.equal(prompt.includes('keep everything already built working'), step !== 1, `step ${step} keep-working line`);
+    assert.ok(prompt.includes('and stop when this step works. Do not start the next step.'));
+    assert.ok(prompt.includes('Scope: build the smallest useful system for this step. No plugins, themes, comments, extra roles or settings screens.'));
+    assert.ok(prompt.endsWith('When this step works, tell the owner in one or two plain sentences what changed and what to check.'));
+    assert.ok(check.length >= 1 && check.length <= 4);
+  });
+});
+
+// LP-02 CONFLICT: Step 1 must carry DESIGN DIRECTION and PUBLIC WEBSITE verbatim (about 1,100 words
+// between them), so it cannot fit the 700-word cap. Steps 2-6 are held to the cap; Step 1 is held to
+// its measured ceiling until the coordinator rules (see the LP-02 execution report).
+const STEP_WORD_CAP = 700;
+const STEP_ONE_CEILING = 1600;
+
+test('every step stays within the word cap (Step 1 flagged: see LP-02 conflict note)', () => {
+  const steps = buildWebsiteSteps(fixture);
+  steps.slice(1).forEach(({ step, prompt }) => assert.ok(words(prompt) <= STEP_WORD_CAP, `step ${step}: ${words(prompt)} words`));
+  assert.ok(words(steps[0].prompt) <= STEP_ONE_CEILING, `step 1: ${words(steps[0].prompt)} words`);
+});
+
+test('each layer holds only its own work', () => {
+  const [one, two, three, four, five] = buildWebsiteSteps(fixture).map(({ prompt }) => prompt.toLowerCase());
+  for (const word of ['lovable cloud', 'admin', 'sitemap', 'row-level']) assert.ok(!one.includes(word), `step 1 has ${word}`);
+  for (const word of ['magic link', '/admin']) assert.ok(!two.includes(word), `step 2 has ${word}`);
+  for (const text of [one, two]) assert.ok(!text.includes('initial admin email'));
+  for (const text of [one, two, three, four]) assert.ok(!text.includes('sitemap'));
+  for (const text of [one, two, three, four, five]) assert.ok(!text.includes('server-side rendering') && !text.includes('served html'));
+  assert.ok(three.includes('initial admin email: sam@example.com'));
+});
+
+test('the six steps together carry every LP-01 technical requirement', () => {
+  const all = allPrompts(fixture);
+  for (const needle of ['Initial admin email: sam@example.com', 'Lovable Cloud', 'admins', "status = 'published'", 'magic link', 'JSON-LD', 'sitemap.xml', 'robots.txt', 'This area is private', 'Delete this article? This cannot be undone.', 'Row-level security', 'public bucket']) {
+    assert.ok(all.includes(needle), `missing: ${needle}`);
   }
-  assert.ok(!prompt.includes('password:'));
-  assert.ok(!/modern and professional/i.test(prompt));
-  const order = ['PROJECT OVERVIEW', 'DESIGN DIRECTION', 'PUBLIC WEBSITE', 'CONTENT MANAGEMENT', 'PRIVATE ADMIN AREA', 'ADMIN AUTHENTICATION', 'WRITING EXPERIENCE', 'PUBLIC ARTICLE SYSTEM', 'SEO', 'LOVABLE EDITABILITY', 'DESIGN CHANGES AFTER LAUNCH', 'DATABASE AND STORAGE', 'SCOPE', 'COMPLETION']
-    .map((heading) => prompt.indexOf(`\n${heading}\n`));
+  assert.ok(!all.includes('password:'));
+  assert.ok(!/modern and professional/i.test(all));
+  const order = ['PROJECT OVERVIEW', 'DESIGN DIRECTION', 'PUBLIC WEBSITE', 'DATABASE AND STORAGE', 'CONTENT MANAGEMENT', 'ADMIN AUTHENTICATION', 'PRIVATE ADMIN AREA', 'WRITING EXPERIENCE', 'PUBLIC ARTICLE SYSTEM', 'SEARCH BASICS', 'SEO', 'LOVABLE EDITABILITY', 'DESIGN CHANGES AFTER LAUNCH']
+    .map((heading) => all.indexOf(`\n${heading}\n`));
   assert.ok(order.every((position) => position > 0), 'every section heading is present');
-  assert.deepEqual([...order].sort((a, b) => a - b), order, 'sections are in the specified order');
-  for (const example of ['Make the article pages more editorial.', 'Change the homepage to have a larger hero image.', 'Add a newsletter signup underneath every article.']) assert.ok(prompt.includes(example));
-  assert.match(prompt, /Do not invent facts/);
-  assert.match(prompt, /not a WordPress clone/);
-  assert.match(prompt, /Build the full working first version now/);
+  assert.deepEqual([...order].sort((a, b) => a - b), order, 'sections arrive in step order');
+  for (const example of ['Make the article pages more editorial.', 'Change the homepage to have a larger hero image.', 'Add a newsletter signup underneath every article.']) assert.ok(all.includes(example));
+  assert.ok(all.includes('Admin = managing content. Lovable = changing the website.'));
+  assert.match(all, /Do not invent facts/);
+  assert.match(all, /src\/lib\/content\.ts/);
+  assert.match(all, /\[Sample post: replace me\]/);
+  assert.match(all, /No posts yet\./);
 });
 
 test('the design direction is concrete for every visual style and supplied brand colours win', () => {
@@ -97,19 +137,19 @@ test('the design direction is concrete for every visual style and supplied brand
   assert.deepEqual(Object.keys(designTokens).sort(), [...styles].sort());
   const fonts = new Set();
   for (const style of styles) {
-    const prompt = buildWebsitePrompt({ ...fixture, visualStyle: style });
+    const prompt = allPrompts({ ...fixture, visualStyle: style });
     assert.ok(!/modern and professional/i.test(prompt), style);
     assert.ok(prompt.includes(designTokens[style].fonts), style);
     fonts.add(designTokens[style].fonts);
     for (const field of ['fonts', 'headings', 'body', 'palette', 'radius', 'buttons', 'cards', 'motion']) assert.ok(/** @type {Record<string, string>} */ (designTokens[style])[field], `${style}.${field}`);
   }
   assert.equal(fonts.size, styles.length, 'each style has its own font pairing');
-  const branded = buildWebsitePrompt({ ...fixture, colours: 'I have brand colours', brandColours: 'navy, cream and #D98B73' });
+  const branded = allPrompts({ ...fixture, colours: 'I have brand colours', brandColours: 'navy, cream and #D98B73' });
   assert.match(branded, /Use the owner's brand colours as the palette: navy, cream and #D98B73/);
 });
 
 test('page blocks follow the chosen pages only, plus the article page', () => {
-  const prompt = buildWebsitePrompt(fixture);
+  const prompt = allPrompts(fixture);
   for (const page of ['Home', 'About', 'Articles', 'Contact', 'Newsletter signup']) assert.match(prompt, new RegExp(`\\n${page}\\n- Purpose:`));
   assert.match(prompt, /\nIndividual article page \(\/articles\/<slug>\)\n- Purpose:/);
   for (const page of ['Shop', 'Resources', 'Search', 'Work with me']) assert.doesNotMatch(prompt, new RegExp(`\\n${page}\\n- Purpose:`));
@@ -121,7 +161,7 @@ test('the Topics tick and the topics column appear only when categories are give
   const without = { ...fixture, categories: '' };
   assert.ok(!websiteIncludes(without).includes('Topics'));
   assert.ok(!websiteIncludes({ ...fixture, categories: 'No topics for now' }).includes('Topics'));
-  assert.doesNotMatch(buildWebsitePrompt(without), /category \(text/);
+  assert.doesNotMatch(allPrompts(without), /category \(text/);
   assert.ok(!buildSiteSummaryLines(without).some(([label]) => label === 'Topics'));
   assert.ok(buildSiteSummaryLines(fixture).some(([label, value]) => label === 'Topics' && value === 'Quick dinners, Batch cooking'));
   assert.ok(websiteIncludes(fixture).includes('Newsletter signup'));
@@ -140,20 +180,34 @@ test('the summary card has the specified lines and never leaves a blank', () => 
 
 test('first-publish checklist and results order are exact', () => {
   assert.deepEqual(firstPublishChecklist, [
-    'Paste your prompt into Lovable.',
-    'When Lovable asks, turn on Lovable Cloud.',
+    'Do Day 1 in Lovable today.',
+    'Do one step a day until Day 5 (Day 6 is optional).',
     'Sign in to /admin with your email.',
     'Write and publish your first post.',
     'Test the site on your phone.',
-    'Connect a domain you own.',
+    'Publish on your free yoursite.lovable.app address. Your own domain needs a paid Lovable plan, so add it later if you want one.',
     "Send your first post to one person who'd enjoy it.",
   ]);
-  assert.deepEqual(websiteConfig.results.items.map(({ kind, title }) => [kind, title]), [
-    ['summaryCard', 'Your Site'], ['ticks', 'Your website will include'], ['output', 'COPY THIS INTO LOVABLE'], ['note', undefined], ['checklist', 'Your first publish'],
+
+  assert.deepEqual(resultItems.map(({ kind, title }) => [kind, title]), [
+    ['summaryCard', 'Your Site'], ['ticks', 'Your website will include'], ['heading', 'COPY THIS INTO LOVABLE'], ['note', undefined],
+    ['output', 'Day 1: Design and pages'], ['output', 'Day 2: Database'], ['output', 'Day 3: Private sign-in and dashboard'],
+    ['output', 'Day 4: Writing and publishing'], ['output', 'Day 5: Search basics'], ['output', 'Day 6: Optional: search-engine-ready pages'],
+    ['note', undefined], ['checklist', 'Your first publish'],
   ]);
-  assert.equal(item('output').copyLabel, 'Copy your Lovable prompt');
-  assert.equal(item('note').text, 'Your answers stay in this browser. Nothing is sent to us.');
-  assert.equal(websiteConfig.results.items.some((entry) => /refine|improve/i.test(String(entry.title ?? ''))), false);
+  const outputs = resultItems.filter((entry) => entry.kind === 'output');
+  outputs.forEach((entry, index) => {
+    const n = index + 1;
+    assert.equal(entry.copyLabel, `Copy step ${n}`);
+    assert.equal(entry.event, `lovable_step_${n}_copied`);
+    assert.equal(Boolean(entry.open), n === 1);
+    assert.equal(Boolean(entry.openLovable), n === 1);
+    assert.equal(entry.build(fixture), buildWebsiteSteps(fixture)[index].prompt);
+    assert.ok(entry.intro.startsWith('Check it worked: '));
+  });
+  assert.match(String(resultItems.find((entry) => entry.kind === 'note')?.text), /^Built for Lovable's free plan\. Do one step a day: the free plan gives 5 credits a day \(up to 30 a month\)/);
+  assert.equal(websiteConfig.welcome.features[2][1], 'Six short Lovable steps');
+  assert.equal(resultItems.some((entry) => /refine|improve/i.test(String(entry.title ?? ''))), false);
 });
 
 test('the page is wired into the site and uses no network or AI integration', () => {

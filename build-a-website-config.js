@@ -1,5 +1,5 @@
 import { questions as businessQuestions } from './build-a-business-data.js';
-import { buildSiteSummaryLines, buildWebsitePrompt, firstPublishChecklist, websiteIncludes } from './build-a-website-prompts.js';
+import { buildSiteSummaryLines, buildWebsiteSteps, firstPublishChecklist, websiteIncludes, websiteStepMeta } from './build-a-website-prompts.js';
 
 export const STORAGE_KEY = 'lizprofile.build-a-website.v1';
 export const BOOKING_URL = '';
@@ -100,6 +100,20 @@ export const guidanceFor = (question, value) => {
   return '';
 };
 
+const FREE_PLAN_NOTE = "Built for Lovable's free plan. Do one step a day: the free plan gives 5 credits a day (up to 30 a month), and each step is sized to fit in one day with room for a fix. Paste each step in Build mode. Avoid chatting to Lovable between steps, because chat messages use credits too. If something breaks, send one short message describing what you see. If you run out, stop and carry on tomorrow: credits reset every day. Lovable charges by the work done, so we can't promise an exact number. That is why the steps are small.";
+
+/** One output card per step: Day N, its check lines, a copy button. Day 1 starts open. */
+const stepItems = websiteStepMeta.map(({ step, title, check }) => ({
+  kind: 'output',
+  title: `Day ${step}: ${title}`,
+  intro: `Check it worked: ${check.join(' · ')}`,
+  build: (/** @type {Record<string, any>} */ answers) => buildWebsiteSteps(answers)[step - 1].prompt,
+  copyLabel: `Copy step ${step}`,
+  event: `lovable_step_${step}_copied`,
+  open: step === 1,
+  openLovable: step === 1,
+}));
+
 /** Every Build a Website screen string lives here; the shared engine is builder-ui.js. */
 export const websiteConfig = {
   questions,
@@ -123,7 +137,7 @@ export const websiteConfig = {
     features: [
       ['strategy', 'Your Site', 'See your blog, pages and settings on one clear page.'],
       ['copy', 'A private place to write', 'A simple dashboard to draft, preview and publish your posts.'],
-      ['prompt', 'A Lovable prompt', 'One prompt to copy into Lovable, written to build the whole thing.'],
+      ['prompt', 'Six short Lovable steps', 'One step a day, sized to fit Lovable’s free plan.'],
     ],
   },
   question: {
@@ -146,7 +160,9 @@ export const websiteConfig = {
     items: [
       { kind: 'summaryCard', title: 'Your Site', lines: buildSiteSummaryLines },
       { kind: 'ticks', title: 'Your website will include', items: websiteIncludes },
-      { kind: 'output', title: 'COPY THIS INTO LOVABLE', intro: 'Fast route: copy this prompt, open Lovable, start a new project and paste it into the prompt box.', build: buildWebsitePrompt, copyLabel: 'Copy your Lovable prompt', event: 'lovable_prompt_copied', open: true, openLovable: true },
+      { kind: 'heading', title: 'COPY THIS INTO LOVABLE' },
+      { kind: 'note', text: FREE_PLAN_NOTE },
+      ...stepItems,
       { kind: 'note', text: 'Your answers stay in this browser. Nothing is sent to us.' },
       { kind: 'checklist', title: 'Your first publish', items: firstPublishChecklist },
     ],

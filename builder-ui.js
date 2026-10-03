@@ -323,6 +323,7 @@ export const mountBuilder = (config) => {
       for (const line of item.items(state.answers)) list.append(el('li', {}, [el('span', { className: 'baw-tick', text: '✓', 'aria-hidden': 'true' }), line]));
       return el('section', { className: 'bab-output-card baw-includes' }, [el('h2', { text: item.title }), list]);
     }
+    if (item.kind === 'heading') return el('h2', { className: 'bab-results-heading', text: item.title });
     if (item.kind === 'note') return el('p', { className: 'bab-privacy bab-results-privacy', text: item.text });
     const checklist = el('section', { className: 'bab-output-card bab-checklist' }, [el('h2', { text: item.title })]);
     const ordered = el('ol');
