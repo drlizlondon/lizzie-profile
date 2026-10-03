@@ -76,7 +76,7 @@ export const questions = [
     defaults: ['Home', 'About', 'Articles', 'Contact'],
     options: ['Home', 'About', 'Articles', 'Contact', 'Topics', 'Newsletter signup', 'Search', 'Resources', 'Work with me', 'Shop'],
   },
-  reuse('traits'),
+  { ...reuse('traits'), question: 'How should your blog feel?' },
   reuse('visualStyle'),
   reuse('colours'),
   reuse('images'),

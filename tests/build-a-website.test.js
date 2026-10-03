@@ -47,9 +47,14 @@ test('the tool has 16 questions in the specified order', () => {
 });
 
 test('shared look-and-feel questions are the Build a Business objects, unchanged', () => {
-  for (const id of ['traits', 'visualStyle', 'colours', 'images', 'story']) {
+  for (const id of ['visualStyle', 'colours', 'images', 'story']) {
     assert.strictEqual(question(id), businessQuestions.find((shared) => shared.id === id));
   }
+  // traits reuses the Build a Business options, worded for a blog
+  const sharedTraits = businessQuestions.find((shared) => shared.id === 'traits');
+  assert.deepEqual(question('traits').options, sharedTraits.options);
+  assert.equal(question('traits').max, sharedTraits.max);
+  assert.equal(question('traits').question, 'How should your blog feel?');
   assert.equal(websiteConfig.questions, questions);
   assert.equal(STORAGE_KEY, 'lizprofile.build-a-website.v1');
   assert.equal(websiteConfig.eventPrefix, 'baw_');
