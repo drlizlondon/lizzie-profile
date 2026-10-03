@@ -1,0 +1,53 @@
+/* Build a Website: only what Build a Business does not already style. */
+.baw-summary {
+  display: grid;
+  gap: 0.2rem 1.5rem;
+  margin: 0.4rem 0 0;
+}
+.baw-summary > div {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 11rem) 1fr;
+  gap: 1rem;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--bab-line);
+}
+.baw-summary > div:first-child {
+  border-top: 0;
+}
+.baw-summary dt {
+  color: var(--bab-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.baw-summary dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.baw-ticks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.6rem 1.5rem;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.baw-tick {
+  margin-right: 0.6rem;
+  color: #684ba5;
+  font-weight: 700;
+}
+.bab-email-error:empty {
+  display: none;
+}
+.bab-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+@media (max-width: 560px) {
+  .baw-summary > div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}

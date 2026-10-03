@@ -9,7 +9,7 @@ The Lovable export remains a reference for warmth and hierarchy, not an implemen
 ## Architecture
 
 - `build-a-business-data.js`: 18 questions, answer choices, defaults, conditional fields, and fixed guidance.
-- `build-a-business-state.js`: validated state loading, `localStorage` persistence, restart, and answer completeness.
+- `builder-state.js`: shared validated state loading, `localStorage` persistence, restart, answer completeness and email validation (`createState({ storageKey, questions })`). `builder-ui.js` is the shared engine (`mountBuilder(config)`); `build-a-business-config.js` holds this tool's strings.
 - `build-a-business-prompts.js`: deterministic business summary, Lovable prompt, optional LLM refinement prompt, placeholders, and fixed first-week checklist.
 - `build-a-business-ui.js`: screen flow, validation, review/edit, rendering, copy, print, anonymous event hooks, and paid offer.
 - `build-a-business.css`: isolated LizProfile-native builder presentation, responsive full-screen mobile treatment, print styles, focus states, and reduced motion.

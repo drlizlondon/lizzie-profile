@@ -1,0 +1,43 @@
+{
+  "answers": {
+    "idea": "A calm planning service for returning mums",
+    "offerType": "A service",
+    "audience": "Mums returning to work",
+    "problem": "They need a clear first plan",
+    "whyYou": "Lived and professional experience",
+    "traits": [
+      "Calm",
+      "Friendly",
+      "Clear"
+    ],
+    "purchaseAction": "Book a service",
+    "firstOffer": "A one-hour planning session",
+    "pricing": "Yes, show the exact price",
+    "price": "£75",
+    "primaryAction": "Book",
+    "websiteSections": [
+      "Home",
+      "About",
+      "Services or products",
+      "Contact"
+    ],
+    "visualStyle": "Calm and clear",
+    "colours": "Soft colours",
+    "brandColours": "",
+    "images": [
+      "Photos of me",
+      "Simple icons"
+    ],
+    "businessName": "Fresh Start",
+    "locationType": "Online",
+    "location": "",
+    "contactMethods": [
+      "Contact form",
+      "Email"
+    ],
+    "story": "Built from personal experience"
+  },
+  "summary": "Business\nFresh Start\n\nWhat it does\nA calm planning service for returning mums\n\nWho it is for\nMums returning to work\n\nWhat it helps with\nThey need a clear first plan\n\nFirst offer\nA one-hour planning session (A service)\n\nMain website action\nBook\n\nBrand feel\nCalm, Friendly, Clear",
+  "lovable": "Role\n\nYou are the lead product designer, brand strategist, copywriter and front-end architect.\n\nObjective\n\nCreate a polished, mobile-first responsive website for the business below. Build the full first version now. Do not return only a plan or explanation, and do not ask unnecessary follow-up questions.\n\nBusiness information\n\nBusiness name: Fresh Start\nBusiness idea: A calm planning service for returning mums\nOffer type: A service\nFounder credibility and story: Lived and professional experience\nPersonal story to mention: Built from personal experience\nOperating area: Online\n\nAudience\n\nPrimary audience: Mums returning to work\nProblem or desired result: They need a clear first plan\n\nOffer\n\nFirst offer: A one-hour planning session\nWhat visitors should be able to do first: Book a service\nPricing approach: £75\n\nPrimary action\n\nThe website must have one clear primary call to action: Book.\n\nBrand and design direction\n\nBrand traits: Calm, Friendly, Clear.\nVisual style: Calm and clear.\nColour direction: Soft colours.\nImage direction: Photos of me, Simple icons.\nUse warm, plain English. Avoid jargon and make the visitor feel confident about taking the next step.\n\nRequired website sections\n\nUse these sections: Home, About, Services or products, Contact.\nDefault to a polished one-page website unless the selected content clearly requires multiple pages. Keep the navigation short and obvious.\nContact methods: Contact form, Email.\n\nCopy instructions\n\nUse the supplied information to write clear, warm website copy. Keep all copy editable. Do not invent facts, unsupported claims, testimonials, customer numbers, qualifications, awards, prices or contact details. Use clearly labelled placeholders wherever information is missing. Do not present placeholders as real information.\n\nTechnical requirements\n\n- Build mobile-first and make every layout fully responsive.\n- Make the site accessible with semantic HTML, visible focus states, labelled controls, good contrast and reduced-motion support.\n- Keep it fast-loading with no horizontal scrolling.\n- Include clear navigation and a strong mobile call to action.\n- Use editable content and reusable components.\n- Use sensible spacing and polished empty states.\n- Include a working contact form interface, but use placeholders for any unprovided destination or external link.\n- Make mobile navigation keyboard accessible and easy to close.\n- Do not add fake social proof or unsupported business claims.\n\nCompletion instruction\n\nBuild the full first version now. Produce a polished, usable website rather than only a plan or explanation.",
+  "refinement": "# Improve My Business and Website Plan\n\nAct as a practical business adviser, positioning strategist, conversion copywriter and website planner.\n\nReview the founder information below with a supportive but honest eye.\n\nYour goal is to help the founder create a business that is easier to understand and a website that is easier to buy from.\n\nDo not invent qualifications, testimonials, customer numbers, results, prices or personal details.\n\nWhere information is missing, make sensible recommendations but clearly label them as suggestions.\n\nAsk no more than three essential follow-up questions.\n\nIf answers are unavailable, continue using clearly labelled placeholders.\n\n---\n\nReview the information below.\n\nBusiness idea: A calm planning service for returning mums\nOffer type: A service\nTarget customer: Mums returning to work\nProblem or desired result: They need a clear first plan\nWhy this founder: Lived and professional experience\nBrand traits: Calm, Friendly, Clear\nFirst purchase action: Book a service\nFirst offer: A one-hour planning session\nPricing approach: £75\nPrimary website action: Book\nRequested website sections: Home, About, Services or products, Contact\nVisual style: Calm and clear\nColour direction: Soft colours\nImage direction: Photos of me, Simple icons\nBusiness name: Fresh Start\nOperating area: Online\nContact methods: Contact form, Email\nPersonal story: Built from personal experience\n\n---\n\nProduce your response in this order.\n\n## 1. What I Understand\n\nBriefly explain the business as you currently understand it.\n\nHighlight any uncertainty.\n\n---\n\n## 2. What's Already Working\n\nIdentify the strongest parts of the idea.\n\n---\n\n## 3. What Needs Improving\n\nIdentify only the most important missing decisions.\n\nFor each:\n\n• explain why it matters\n\n• give an example of a stronger version\n\n---\n\n## 4. Suggested Improvements\n\nRecommend improvements to:\n\n• target customer\n\n• first offer\n\n• pricing approach (suggestions only)\n\n• one-line business description\n\n• primary call to action\n\n---\n\n## 5. Suggested Website Copy\n\nWrite improved copy for the requested website sections.\n\nNever invent facts.\n\nUse placeholders where required.\n\n---\n\n## 6. Questions\n\nAsk up to three questions that would most improve the website.\n\n---\n\n## 7. Your Lovable Website Prompt\n\nFinish by producing a complete Product Requirements Document inside ONE markdown copy block.\n\nThe document must be ready to paste directly into Lovable.\n\nIt should include:\n\n• business summary\n\n• target customer\n\n• offer\n\n• brand direction\n\n• page structure\n\n• navigation\n\n• complete website copy\n\n• design guidance\n\n• accessibility requirements\n\n• responsive behaviour\n\n• technical requirements\n\n• placeholders for missing information\n\nThe PRD should build the best possible website using confirmed information while clearly marking assumptions and placeholders."
+}

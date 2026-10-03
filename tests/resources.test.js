@@ -44,9 +44,17 @@ test('homepage resources are driven by exactly three ordered featured entries', 
   assert.equal(new Set(freeResources.map(({ order }) => order)).size, freeResources.length);
 });
 
+test('Build a Website is listed on the browse page but is not one of the three featured homepage cards', () => {
+  const entry = freeResources.find(({ href }) => href === '/build-a-website.html');
+  assert.equal(entry?.title, 'Build a Website');
+  assert.equal(entry?.description, 'For a blog: a complete Lovable prompt for a site you own and publish to yourself.');
+  assert.equal(entry?.featured, false);
+  assert.ok(!featuredResources().some(({ href }) => href === '/build-a-website.html'));
+});
+
 test('every free resource has the reusable fields and a real local destination', async () => {
   const requiredFields = ['title', 'category', 'description', 'cta', 'href', 'featured', 'order'];
-  assert.deepEqual(orderedResources().map(({ order }) => order), [1, 2, 3]);
+  assert.deepEqual(orderedResources().map(({ order }) => order), [1, 2, 3, 4]);
 
   for (const resource of freeResources) {
     requiredFields.forEach((field) => assert.ok(field in resource, `${resource.title} is missing ${field}`));

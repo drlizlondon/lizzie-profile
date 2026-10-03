@@ -21,6 +21,7 @@ export default defineConfig({
         resources: resolve(import.meta.dirname, 'resources.html'),
         watchAi: resolve(import.meta.dirname, 'watch-ai.html'),
         buildABusiness: resolve(import.meta.dirname, 'build-a-business.html'),
+        buildAWebsite: resolve(import.meta.dirname, 'build-a-website.html'),
         bettyPrompt: resolve(import.meta.dirname, 'betty-prompt.html'),
         safariTabCleaner: resolve(import.meta.dirname, 'safaritabcleaner.html'),
         fablePromptRedirect: resolve(import.meta.dirname, 'fable-prompt.html'),

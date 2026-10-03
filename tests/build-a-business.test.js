@@ -6,7 +6,10 @@ import { buildBusinessSummary, buildLovablePrompt, buildRefinementPrompt, firstW
 
 const html = await readFile(new URL('../build-a-business.html', import.meta.url), 'utf8');
 const css = await readFile(new URL('../build-a-business.css', import.meta.url), 'utf8');
-const ui = await readFile(new URL('../build-a-business-ui.js', import.meta.url), 'utf8');
+// The UI strings now live in the shared engine (builder-ui.js) and this tool's config.
+const engine = await readFile(new URL('../builder-ui.js', import.meta.url), 'utf8');
+const config = await readFile(new URL('../build-a-business-config.js', import.meta.url), 'utf8');
+const ui = [engine, config].join('\n');
 
 const answers = {
   idea: 'A calm planning service for returning mums', offerType: 'A service', audience: 'Mums returning to work',
@@ -22,8 +25,7 @@ test('builder exposes all required questions and uses no AI integration', () => 
   assert.match(html, /data-builder/);
   assert.match(html, /Build a Business/);
   assert.match(ui, /Thinking with AI/);
-  assert.match(ui, /text: 'Build Your'/);
-  assert.match(ui, /text: 'Business'/);
+  assert.match(config, /titleLines: \['Build Your', 'Business'\]/);
   assert.match(ui, /Start My Plan/);
   assert.match(ui, /~10 minutes/);
   assert.doesNotMatch(ui, /No sign up required/);
@@ -89,5 +91,15 @@ test('first-week checklist is exact and the paid offer follows free outputs', ()
     'Publish it using a domain you own.',
     'Send your website to one person who believes in you.',
   ]);
-  assert.ok(ui.indexOf("outputCard('Your Lovable website prompt'") < ui.indexOf("className: 'bab-support'"));
+  // Results items render before the paid offer in the engine, and the prompt is a results item in the config.
+  assert.ok(config.indexOf("title: 'Your Lovable website prompt'") < config.indexOf('support: {'));
+  assert.ok(engine.indexOf('renderResultItems(copy.items)') < engine.indexOf("className: 'bab-support'"));
+});
+
+test('Build a Business generated texts are byte-identical to the pre-refactor capture', async () => {
+  const before = JSON.parse(await readFile(new URL('./fixtures/bab-before.json', import.meta.url), 'utf8'));
+  assert.deepEqual(before.answers, answers);
+  assert.equal(buildBusinessSummary(before.answers), before.summary);
+  assert.equal(buildLovablePrompt(before.answers), before.lovable);
+  assert.equal(buildRefinementPrompt(before.answers), before.refinement);
 });

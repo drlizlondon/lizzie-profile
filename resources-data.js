@@ -56,6 +56,15 @@ export const freeResources = Object.freeze([
     featured: true,
     order: 3,
   }),
+  Object.freeze({
+    title: 'Build a Website',
+    category: 'Guided Framework',
+    description: 'For a blog: a complete Lovable prompt for a site you own and publish to yourself.',
+    cta: 'Start building',
+    href: '/build-a-website.html',
+    featured: false,
+    order: 4,
+  }),
 ]);
 
 export const orderedResources = () => [...freeResources].sort((first, second) => first.order - second.order);
