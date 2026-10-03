@@ -54,7 +54,7 @@ test('Build a Website is listed on the browse page but is not one of the three f
 
 test('every free resource has the reusable fields and a real local destination', async () => {
   const requiredFields = ['title', 'category', 'description', 'cta', 'href', 'featured', 'order'];
-  assert.deepEqual(orderedResources().map(({ order }) => order), [1, 2, 3, 4]);
+  assert.deepEqual(orderedResources().map(({ order }) => order), [1, 2, 3, 4, 5]);
 
   for (const resource of freeResources) {
     requiredFields.forEach((field) => assert.ok(field in resource, `${resource.title} is missing ${field}`));

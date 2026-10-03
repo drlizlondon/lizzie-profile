@@ -65,6 +65,15 @@ export const freeResources = Object.freeze([
     featured: false,
     order: 4,
   }),
+  Object.freeze({
+    title: 'Tab Cleaner',
+    category: 'Browser Tool',
+    description: 'Group your open tabs by website and close hundreds at once. For iPhone Safari and desktop Chrome. Join the waitlist.',
+    cta: 'See Tab Cleaner',
+    href: '/tab-cleaner.html',
+    featured: false,
+    order: 5,
+  }),
 ]);
 
 export const orderedResources = () => [...freeResources].sort((first, second) => first.order - second.order);

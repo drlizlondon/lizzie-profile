@@ -4,22 +4,24 @@
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Safari Cleaner groups your open Safari tabs by website. Expand a domain, select what to close, and clear the clutter in one pass — plus rules for old and duplicate tabs. No account, nothing leaves your iPhone. Join the TestFlight waitlist." />
+    <meta name="description" content="Tab Cleaner groups your open tabs by website so you can close hundreds at once, find duplicates and clear old tabs. For iPhone Safari and desktop Chrome. No account, nothing leaves your device." />
     <meta name="theme-color" content="#fcfcfc" />
-    <link rel="canonical" href="https://drlizlondon.com/safaritabcleaner" />
+    <link rel="canonical" href="https://drlizlondon.com/tab-cleaner" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta property="og:title" content="Safari Cleaner — clean up your Safari tabs in seconds" />
-    <meta property="og:description" content="Group Safari tabs by website, select what to close, and clear the clutter in one pass. Join the private TestFlight beta waitlist." />
+    <meta property="og:title" content="Tab Cleaner for Safari and Chrome: clear hundreds of tabs in seconds | Dr Lizzie Soyode" />
+    <meta property="og:description" content="Tab Cleaner groups your open tabs by website so you can close hundreds at once, find duplicates and clear old tabs. For iPhone Safari and desktop Chrome. No account, nothing leaves your device." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://drlizlondon.com/safaritabcleaner" />
+    <meta property="og:url" content="https://drlizlondon.com/tab-cleaner" />
     <meta property="og:image" content="https://drlizlondon.com/assets/images/lizzie-portrait.jpg" />
     <meta property="og:image:alt" content="Dr Lizzie Soyode" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Safari Cleaner — clean up your Safari tabs in seconds" />
-    <meta name="twitter:description" content="Group Safari tabs by website, select what to close, and clear the clutter in one pass. Join the private TestFlight beta waitlist." />
+    <meta name="twitter:title" content="Tab Cleaner for Safari and Chrome: clear hundreds of tabs in seconds | Dr Lizzie Soyode" />
+    <meta name="twitter:description" content="Tab Cleaner groups your open tabs by website so you can close hundreds at once, find duplicates and clear old tabs. For iPhone Safari and desktop Chrome. No account, nothing leaves your device." />
     <meta name="twitter:image" content="https://drlizlondon.com/assets/images/lizzie-portrait.jpg" />
-    <title>Safari Cleaner — Dr Lizzie Soyode</title>
+    <title>Tab Cleaner for Safari and Chrome: clear hundreds of tabs in seconds | Dr Lizzie Soyode</title>
     <link rel="stylesheet" href="/styles.css" />
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Tab Cleaner", "applicationCategory": "UtilitiesApplication", "operatingSystem": "iOS, Chrome", "description": "Tab Cleaner groups your open tabs by website so you can close hundreds at once, find duplicates and clear old tabs. For iPhone Safari and desktop Chrome. No account, nothing leaves your device.", "url": "https://drlizlondon.com/tab-cleaner"}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I close all my tabs at once on iPhone Safari?", "acceptedAnswer": {"@type": "Answer", "text": "Safari can close every tab: press and hold the tabs button and choose Close All Tabs. Tab Cleaner is for when you don't want to lose everything: it groups your tabs by website so you can close whole sites, duplicates or old tabs and keep the rest."}}, {"@type": "Question", "name": "Does Tab Cleaner work on Chrome?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, on desktop Chrome (Windows, Mac, Linux and ChromeOS). It is coming to the Chrome Web Store; join the waitlist to hear the day it's live. Chrome on Android and iPhone does not support extensions."}}, {"@type": "Question", "name": "Can Tab Cleaner see my browsing?", "acceptedAnswer": {"@type": "Answer", "text": "No. It has no account, no analytics and no network access. It reads your open tabs only on your device, to group and close them."}}]}</script>
     <script type="module" src="/main.js"></script>
     <style>
       .stc-main { max-width: 74rem; }
@@ -88,6 +90,20 @@
       .stc-shot-frame img { display: block; width: 100%; height: auto; border-radius: 12px; }
       .stc-shot figcaption { margin-top: 1.1rem; max-width: 40ch; text-align: center; font-size: .92rem; line-height: 1.5; color: #46444a; }
       .stc-shot figcaption b { display: block; color: var(--ink); font-weight: 600; margin-bottom: .2rem; }
+
+      .stc-pick { margin-top: clamp(3rem, 6vw, 5rem); }
+      .stc-pick h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 3.4vw, 3rem); line-height: 1; letter-spacing: -.025em; margin: 0 0 1.6rem; }
+      .stc-pick-grid { display: grid; gap: 1.2rem; }
+      @media (min-width: 720px) { .stc-pick-grid { grid-template-columns: 1fr 1fr; } }
+      .stc-card { border: 1px solid var(--line); border-radius: 14px; background: #fafafa; padding: clamp(1.5rem, 3vw, 2.1rem); display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+      .stc-card h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.5rem, 2.4vw, 1.9rem); line-height: 1.05; margin: 0 0 .7rem; }
+      .stc-card p { margin: 0 0 1.3rem; color: #46444a; font-size: .96rem; line-height: 1.6; }
+      .stc-card .stc-submit { width: auto; margin-top: auto; text-decoration: none; }
+      .stc-faq { margin-top: clamp(3.5rem, 7vw, 6rem); }
+      .stc-faq h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 3.4vw, 3rem); line-height: 1; letter-spacing: -.025em; margin: 0 0 1.6rem; }
+      .stc-faq-item { border-top: 1px solid var(--line); padding: 1.3rem 0; max-width: 62ch; }
+      .stc-faq-item h3 { font-size: 1.05rem; font-weight: 600; margin: 0 0 .5rem; }
+      .stc-faq-item p { margin: 0; color: #46444a; font-size: .96rem; line-height: 1.6; }
     </style>
     <!-- Analytics load only after explicit consent — see public/lp-consent.js.
          analytics-config.js supplies the GA4 id from LIZPROFILE_GA4_MEASUREMENT_ID
@@ -118,10 +134,10 @@
       <section class="stc-hero" aria-labelledby="stc-title">
         <div>
           <div class="stc-badges" aria-hidden="true"><i></i><i></i><i></i></div>
-          <p class="eyebrow">iPhone Safari extension · TestFlight beta</p>
+          <p class="eyebrow">For iPhone Safari and desktop Chrome</p>
           <h1 id="stc-title">498 <span class="accent">tabs?</span><span class="soft">Clean them up in seconds.</span></h1>
           <p class="stc-lead">
-            Safari Cleaner groups your open tabs by website, so the mess becomes one tidy list.
+            Tab Cleaner groups your open tabs by website, so the mess becomes one tidy list.
             Expand a domain, tick what to keep or drop, and clear it in a single pass — or sweep
             with a rule.
           </p>
@@ -133,10 +149,10 @@
           </ul>
         </div>
 
-        <div class="stc-waitlist">
-          <p class="stc-kicker">Private TestFlight beta</p>
-          <h2>Join the waitlist</h2>
-          <p class="stc-sub">Safari Cleaner ships to iPhone through Apple TestFlight. Leave your email and I’ll send your invite the moment a beta slot opens.</p>
+        <div class="stc-waitlist" id="join">
+          <p class="stc-kicker">Safari TestFlight beta and Chrome</p>
+          <h2 id="waitlist">Join the waitlist</h2>
+          <p class="stc-sub">Tab Cleaner for Safari is in private testing on Apple TestFlight, and the Chrome version is coming to the Chrome Web Store. Leave your email and I’ll be in touch when yours is ready.</p>
 
           <form class="stc-form" data-waitlist novalidate>
             <div class="stc-field">
@@ -148,15 +164,33 @@
               <input id="stc-company" name="company" type="text" tabindex="-1" autocomplete="off" data-hp />
             </div>
             <button type="submit" class="stc-submit" data-submit>Join the waitlist <span aria-hidden="true">→</span></button>
-            <p id="stc-consent" class="stc-consent">By joining, you’ll receive your TestFlight invite and occasional updates about Safari Cleaner. You can unsubscribe at any time. Read the <a href="/privacy.html">privacy information</a>.</p>
+            <p id="stc-consent" class="stc-consent">By joining, you’ll receive your TestFlight invite or Chrome install link, and occasional updates about Tab Cleaner. You can unsubscribe at any time. Read the <a href="/privacy.html">privacy information</a>.</p>
             <p id="stc-status" class="stc-status" role="alert" aria-live="assertive" data-status></p>
           </form>
 
           <div class="stc-success" data-success tabindex="-1">
             <p class="stc-kicker">You’re on the list</p>
             <h3>Thank you — you’re in.</h3>
-            <p>I’ll email your TestFlight invite as soon as a beta slot opens. Nothing else to do for now.</p>
+            <p>I’ll email your TestFlight invite or Chrome install link as soon as it’s ready. Nothing else to do for now.</p>
           </div>
+        </div>
+      </section>
+
+      <section class="stc-pick" aria-labelledby="stc-pick-title">
+        <h2 id="stc-pick-title">Pick your browser</h2>
+        <div class="stc-pick-grid">
+          <article class="stc-card">
+            <p class="stc-kicker">iPhone</p>
+            <h3>Safari on iPhone</h3>
+            <p>In private testing on TestFlight. Join the waitlist and we'll send you an invite.</p>
+            <a class="stc-submit" href="#join">Join the Safari waitlist</a>
+          </article>
+          <article class="stc-card">
+            <p class="stc-kicker">Desktop</p>
+            <h3>Chrome on desktop</h3>
+            <p>Coming to the Chrome Web Store. Join the waitlist and we'll email you the day it's live.</p>
+            <a class="stc-submit" href="#join">Join the Chrome waitlist</a>
+          </article>
         </div>
       </section>
 
@@ -167,13 +201,13 @@
         <div class="stc-shots-grid">
           <figure class="stc-shot">
             <div class="stc-shot-frame">
-              <img src="/assets/images/safari-cleaner-categories.webp" width="1000" height="855" loading="lazy" decoding="async" alt="Safari Cleaner grouping open tabs by website — Mumsnet, Google, Amazon, Daily Mail and BBC, each showing how many tabs it holds." />
+              <img src="/assets/images/safari-cleaner-categories.webp" width="1000" height="855" loading="lazy" decoding="async" alt="Tab Cleaner for Safari grouping open tabs by website — Mumsnet, Google, Amazon, Daily Mail and BBC, each showing how many tabs it holds." />
             </div>
             <figcaption><b>Grouped by website</b>Every open tab, sorted into one line per site — so 22 tabs read as five.</figcaption>
           </figure>
           <figure class="stc-shot">
             <div class="stc-shot-frame">
-              <img src="/assets/images/safari-cleaner-expanded.webp" width="1000" height="639" loading="lazy" decoding="async" alt="The Amazon group expanded in Safari Cleaner, showing four individual tabs with two ticked and a Select all 4 button — clearing a whole site or picking tabs one by one." />
+              <img src="/assets/images/safari-cleaner-expanded.webp" width="1000" height="639" loading="lazy" decoding="async" alt="The Amazon group expanded in Tab Cleaner for Safari, showing four individual tabs with two ticked and a Select all 4 button — clearing a whole site or picking tabs one by one." />
             </div>
             <figcaption><b>Delete by site, or one by one</b>Clear a whole site with “Select all”, or tick just the tabs you’re done with. Then delete.</figcaption>
           </figure>
@@ -184,7 +218,7 @@
         <section class="stc-panel" aria-labelledby="stc-how">
           <p class="stc-kicker" id="stc-how">How it works</p>
           <p>
-            Safari Cleaner is a Safari Web Extension. Once installed it reads your open tabs on the
+            Tab Cleaner for Safari is a Safari Web Extension. Once installed it reads your open tabs on the
             device, groups them by website, and closes only the ones you select. It has no account,
             no server and no analytics.
           </p>
@@ -195,7 +229,7 @@
           <p class="stc-kicker" id="stc-turn">Turning it on</p>
           <p>
             Installing isn’t the last step — iPhone keeps four switches for Safari extensions, and
-            two of them fail silently. Flip all four and Safari Cleaner appears in Safari.
+            two of them fail silently. Flip all four and Tab Cleaner appears in Safari.
           </p>
           <ol class="stc-steps">
             <li>
@@ -204,7 +238,7 @@
             </li>
             <li>
               <b aria-hidden="true"></b>
-              <span><span class="path">Settings → Apps → Safari → Extensions → Safari Cleaner.</span> Turn <span class="hi">Allow Extension</span> on.</span>
+              <span><span class="path">Settings → Apps → Safari → Extensions → Tab Cleaner.</span> Turn <span class="hi">Allow Extension</span> on.</span>
             </li>
             <li>
               <b aria-hidden="true"></b>
@@ -212,17 +246,33 @@
             </li>
             <li>
               <b aria-hidden="true"></b>
-              <span><span class="path">Quit and reopen Safari.</span> Then open Safari Cleaner from the page menu — the <span style="font-family:var(--mono,ui-monospace,monospace);font-size:.85em">aA</span> icon in the address bar, not the share sheet.</span>
+              <span><span class="path">Quit and reopen Safari.</span> Then open Tab Cleaner from the page menu — the <span style="font-family:var(--mono,ui-monospace,monospace);font-size:.85em">aA</span> icon in the address bar, not the share sheet.</span>
             </li>
           </ol>
         </section>
       </div>
+
+      <section class="stc-faq" aria-labelledby="stc-faq-title">
+        <h2 id="stc-faq-title">Questions</h2>
+        <div class="stc-faq-item">
+          <h3>How do I close all my tabs at once on iPhone Safari?</h3>
+          <p>Safari can close every tab: press and hold the tabs button and choose Close All Tabs. Tab Cleaner is for when you don't want to lose everything: it groups your tabs by website so you can close whole sites, duplicates or old tabs and keep the rest.</p>
+        </div>
+        <div class="stc-faq-item">
+          <h3>Does Tab Cleaner work on Chrome?</h3>
+          <p>Yes, on desktop Chrome (Windows, Mac, Linux and ChromeOS). It is coming to the Chrome Web Store; join the waitlist to hear the day it's live. Chrome on Android and iPhone does not support extensions.</p>
+        </div>
+        <div class="stc-faq-item">
+          <h3>Can Tab Cleaner see my browsing?</h3>
+          <p>No. It has no account, no analytics and no network access. It reads your open tabs only on your device, to group and close them.</p>
+        </div>
+      </section>
     </main>
 
     <footer><a class="masthead" href="/">Dr Lizzie Soyode</a><nav aria-label="Footer"><a href="/">Home</a><a href="/#projects">Projects</a><a href="/#contact">Contact</a><a href="mailto:hello@drlizlondon.com">Email</a><a href="https://uk.linkedin.com/in/elizabethsoyode" rel="me noopener noreferrer">LinkedIn</a><a href="/privacy.html">Privacy Policy</a></nav><p>© <span data-year></span> Dr Lizzie Soyode</p></footer>
 
     <script type="module">
-      // Waitlist capture for the Safari Cleaner TestFlight beta.
+      // Waitlist capture for the Tab Cleaner (Safari TestFlight and Chrome) waitlist.
       // Posts to the same Kit (ConvertKit) form the Safari Cleaner app uses:
       // "Safari Cleaner waitlist" — drlizlondon.kit.com, data-uid 042a6f98ec,
       // submission action = the numeric form id 9870031 (NOT the uid). Kit's

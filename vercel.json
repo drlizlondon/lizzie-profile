@@ -5,6 +5,8 @@
     { "source": "/:path*", "has": [{ "type": "host", "value": "www.drlizlondon.com" }], "destination": "https://drlizlondon.com/:path*", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "host", "value": "lizzie-profile.vercel.app" }], "destination": "https://drlizlondon.com/:path*", "permanent": true },
     { "source": "/fable-prompt", "destination": "/betty-prompt", "permanent": true },
+    { "source": "/safaritabcleaner", "destination": "/tab-cleaner", "permanent": true },
+    { "source": "/safaritabcleaner.html", "destination": "/tab-cleaner", "permanent": true },
     { "source": "/admin", "destination": "/?edit", "permanent": false }
   ],
   "headers": [
