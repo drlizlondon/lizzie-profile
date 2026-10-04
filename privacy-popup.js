@@ -19,7 +19,7 @@ function build(html) {
   body.className = 'privacy-dialog-body';
   const clone = source.cloneNode(true);
   clone.removeAttribute('id');
-  clone.querySelectorAll('script').forEach((s) => s.remove());
+  clone.querySelectorAll('script, .fable-back, .skip-link').forEach((s) => s.remove());
   body.append(clone);
   el.append(close, body);
   el.addEventListener('click', (event) => {
