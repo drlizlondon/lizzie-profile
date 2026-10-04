@@ -9,19 +9,13 @@ const read = (path) => readFile(new URL(path, import.meta.url), 'utf8');
 const [
   page,
   client,
-  apiClient,
-  siteEvents,
   main,
-  unsubscribe,
   unsubscribePage,
   privacy,
 ] = await Promise.all([
   read('../betty-prompt.html'),
   read('../fable-pro.js'),
-  read('../fable-api.js'),
-  read('../site-events.js'),
   read('../main.js'),
-  read('../unsubscribe.js'),
   read('../unsubscribe.html'),
   read('../privacy.html'),
 ]);
@@ -41,17 +35,13 @@ test('keeps the free prompt public and gates only the complete Pro prompt', () =
   assert.match(FABLE_PRO_GUIDE, /ChatGPT[\s\S]*Claude[\s\S]*Codex[\s\S]*Cursor[\s\S]*Gemini/);
 });
 
-test('uses the configured Sites origin for signup and unsubscribe without browser secrets', () => {
-  assert.match(apiClient, /import\.meta\.env\.VITE_FABLE_SERVICE_URL/);
-  // Signup was deliberately repointed from the chris-ohiri API to a Kit form
-  // POST in ca394af ("Repoint Betty prompt signup from chris-ohiri to Kit").
+test('signs up via Kit without browser secrets', () => {
+  // Signup posts to a Kit form; the retired Sites service is no longer used.
   assert.match(client, /import\.meta\.env\.VITE_BETTY_KIT_ENDPOINT/);
   assert.match(client, /app\.kit\.com\/forms\/\$\{BETTY_KIT_FORM\}\/subscriptions/);
-  assert.match(unsubscribe, /apiUrl\(['"]\/api\/fable-pro\/unsubscribe['"]\)/);
   assert.doesNotMatch(client, /apiUrl\(['"]\/api\/fable-pro\/signup['"]\)/);
-  assert.doesNotMatch(unsubscribe, /fetch\(['"]\/api\/fable-pro\/unsubscribe/);
 
-  const browserSources = [apiClient, siteEvents, main, client, unsubscribe].join('\n');
+  const browserSources = [main, client].join('\n');
   assert.doesNotMatch(browserSources, /SUPABASE_SERVICE_ROLE_KEY|RESEND_API_KEY|CLOUDFLARE_API_TOKEN/);
   assert.doesNotMatch(browserSources, /example\.supabase\.co|\/rest\/v1\/fable_pro_subscribers/);
 });
@@ -64,31 +54,6 @@ test('provides explicit free and Pro prompt downloads and records the expected a
   assert.match(main, /new Blob\(/);
   assert.match(client, /new Blob\(/);
   assert.match(client, /betty-pro-prompt-and-guide\.txt/);
-  assert.match(main, /fable_free_prompt_copied/);
-  assert.match(main, /fable_free_prompt_downloaded/);
-  assert.match(client, /fable_pro_prompt_copied/);
-  assert.match(client, /fable_pro_prompt_downloaded/);
-});
-
-test('analytics uses a page-scoped pseudonymous id and sends only allowlisted frontend events', () => {
-  assert.match(siteEvents, /crypto\.randomUUID\(\)/);
-  assert.doesNotMatch(siteEvents, /localStorage|sessionStorage|document\.cookie/);
-  assert.match(siteEvents, /apiUrl\(['"]\/api\/events['"]\)/);
-  assert.doesNotMatch(siteEvents, /JSON\.stringify\(\{[^}]*email|navigator\.userAgent/);
-  assert.match(main, /trackSiteEvent\(['"]site_viewed['"]\)/);
-  assert.match(main, /trackSiteEvent\(['"]fable_prompt_viewed['"]\)/);
-
-  const frontendSources = [main, client].join('\n');
-  for (const eventName of [
-    'site_viewed',
-    'fable_prompt_viewed',
-    'fable_free_prompt_copied',
-    'fable_free_prompt_downloaded',
-    'fable_pro_prompt_copied',
-    'fable_pro_prompt_downloaded',
-  ]) {
-    assert.match(frontendSources, new RegExp(`['"]${eventName}['"]`));
-  }
 });
 
 test('privacy copy names processors, aggregate measurement and conservative consent behaviour', () => {
@@ -111,6 +76,7 @@ test('privacy copy names processors, aggregate measurement and conservative cons
   assert.match(privacy, /you will not be re-enrolled in future updates/);
   assert.match(privacy, /Legal review recommended/);
   assert.match(privacy, /hello@drlizlondon\.com/);
-  assert.match(unsubscribePage, /Unsubscribe from Betty updates\?/);
-  assert.match(unsubscribePage, /You will keep your Betty Pro Prompt/);
+  assert.match(unsubscribePage, /Unsubscribe from Betty updates/);
+  assert.match(unsubscribePage, /use the unsubscribe link at the bottom of any email/);
+  assert.match(unsubscribePage, /mailto:hello@drlizlondon\.com/);
 });

@@ -102,8 +102,6 @@ test('homepage exposes semantic navigation and a single h1', () => {
   assert.match(bettyHtml, /data-download-fable/);
   assert.match(bettyHtml, /data-download-fable-pro/);
   assert.match(js, /navigator\.clipboard\.writeText\(prompt\)/);
-  assert.match(js, /trackSiteEvent\(['"]site_viewed['"]\)/);
-  assert.match(js, /trackSiteEvent\(['"]fable_prompt_viewed['"]\)/);
   assert.match(html, /Send enquiry/);
   assert.match(html, /hello@drlizlondon\.com/);
 });

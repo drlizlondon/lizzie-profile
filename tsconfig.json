@@ -18,11 +18,8 @@
     "builder-*.js",
     "resources*.js",
     "watch-ai*.js",
-    "fable-api.js",
     "fable-pro-content.js",
     "fable-pro.js",
-    "site-events.js",
-    "unsubscribe.js",
     "projects/project.js",
     "tests/*.js"
   ]

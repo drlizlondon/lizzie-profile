@@ -1,7 +1,4 @@
-import { trackSiteEvent } from './site-events.js';
 import './resources.js';
-
-trackSiteEvent('site_viewed');
 
 const header = document.querySelector('[data-header]');
 const navToggle = document.querySelector('.nav-toggle');
@@ -550,8 +547,6 @@ const fableDownloadButton = /** @type {HTMLButtonElement | null} */ (document.qu
 const fablePrompt = document.querySelector('[data-fable-prompt]');
 const fableCopyStatus = document.querySelector('[data-fable-copy-status]');
 
-if (fablePrompt) trackSiteEvent('fable_prompt_viewed');
-
 fableCopyButton?.addEventListener('click', async () => {
   const prompt = fablePrompt?.textContent?.trim();
   if (!prompt) return;
@@ -560,7 +555,6 @@ fableCopyButton?.addEventListener('click', async () => {
     const buttonLabel = fableCopyButton.firstChild;
     if (buttonLabel) buttonLabel.textContent = 'Copied ';
     if (fableCopyStatus) fableCopyStatus.textContent = 'The Betty Prompt has been copied to your clipboard.';
-    trackSiteEvent('fable_free_prompt_copied');
     window.setTimeout(() => {
       if (buttonLabel) buttonLabel.textContent = 'Copy it now ';
       if (fableCopyStatus) fableCopyStatus.textContent = '';
@@ -585,7 +579,6 @@ fableDownloadButton?.addEventListener('click', () => {
     link.remove();
     window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 0);
     if (fableCopyStatus) fableCopyStatus.textContent = 'The Betty Prompt has been downloaded as a text file.';
-    trackSiteEvent('fable_free_prompt_downloaded');
     window.setTimeout(() => {
       if (fableCopyStatus) fableCopyStatus.textContent = '';
     }, 2400);

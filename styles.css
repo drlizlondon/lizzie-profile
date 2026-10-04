@@ -1,3 +1,4 @@
+[hidden]{display:none !important}
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
 
 :root{--ink:#151515;--muted:#666;--paper:#fcfcfc;--surface:#fff;--surface-soft:#fafafa;--line:rgba(15,15,15,.08);--lavender:#d9d2ed;--coral:#e7a08d;--serif:'Instrument Serif',Georgia,serif;--sans:'DM Sans',Arial,sans-serif}

@@ -1,7 +1,3 @@
-import { trackSiteEvent } from '../site-events.js';
-
-trackSiteEvent('site_viewed');
-
 /** @type {Record<string, [string, string, string]>} */
 const projects = {
   bumpnotes: ['BumpNotes', 'Helping women capture what matters and communicate it clearly throughout pregnancy.', 'Verified project details and visuals will be added here.'],

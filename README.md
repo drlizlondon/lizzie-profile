@@ -13,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-The Betty subscriber API is hosted separately. Set `VITE_FABLE_SERVICE_URL` in a local `.env` file when testing signup, analytics, or unsubscribe requests. Never commit service credentials or provider API keys.
+Betty signup posts to Kit and unsubscribe is handled by the link in each Kit email, so no separate subscriber API is needed. Never commit service credentials or provider API keys.
 
 ## Verification
 

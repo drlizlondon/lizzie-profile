@@ -1,5 +1,4 @@
 import { FABLE_PRO_GUIDE, FABLE_PRO_PROMPT } from './fable-pro-content.js';
-import { trackSiteEvent } from './site-events.js';
 
 // TODO(Lizzie): replace with the real Betty Kit form id once the Betty form
 // is created in Kit (drlizlondon.kit.com) — a separate form from the Safari
@@ -111,7 +110,6 @@ copyButton?.addEventListener('click', async () => {
     await navigator.clipboard.writeText(FABLE_PRO_PROMPT);
     copyButton.textContent = 'Copied';
     if (copyStatus) copyStatus.textContent = 'The Betty Pro Prompt has been copied to your clipboard.';
-    trackSiteEvent('fable_pro_prompt_copied');
     window.setTimeout(() => {
       copyButton.textContent = 'Copy the Betty Pro Prompt';
       if (copyStatus) copyStatus.textContent = '';
@@ -134,7 +132,6 @@ downloadButton?.addEventListener('click', () => {
     link.remove();
     window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 0);
     if (copyStatus) copyStatus.textContent = 'The Betty Pro Prompt and installation guide have been downloaded.';
-    trackSiteEvent('fable_pro_prompt_downloaded');
     window.setTimeout(() => {
       if (copyStatus) copyStatus.textContent = '';
     }, 2400);
