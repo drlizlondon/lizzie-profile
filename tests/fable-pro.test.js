@@ -57,22 +57,14 @@ test('provides explicit free and Pro prompt downloads and records the expected a
 });
 
 test('privacy copy names processors, aggregate measurement and conservative consent behaviour', () => {
-  assert.match(privacy, /How Betty Pro uses your information/);
+  assert.match(privacy, /<h1>Privacy notice<\/h1>/);
   assert.match(privacy, /Every email has an unsubscribe link/);
-  assert.match(privacy, /handled by Kit/);
-  assert.match(privacy, /run only if you accept cookies/);
-  assert.match(privacy, /lasts only for the current page view/);
-  assert.match(privacy, /does not store raw IP addresses or user-agent strings/);
-  assert.match(privacy, /Website analytics/);
-  assert.match(privacy, /Google Analytics 4/);
-  assert.match(privacy, /stay off until you actively choose/);
-  assert.match(privacy, /never receives your name, email address/);
-  assert.match(privacy, /ad_storage/);
-  assert.match(privacy, /Microsoft Clarity records anonymised heatmaps/);
-  assert.match(privacy, /Session replays are masked/);
-  assert.match(privacy, /never captures your name, email address/);
+  assert.match(privacy, /Kit stores your email address/);
+  assert.match(privacy, /run only if you choose "Allow analytics"/);
+  assert.match(privacy, /never what you type/);
+  assert.match(privacy, /never used for advertising/);
   assert.match(privacy, /Privacy choices/);
-  assert.match(privacy, /Legal review recommended/);
+  assert.doesNotMatch(privacy, /Legal review recommended/);
   assert.match(privacy, /hello@drlizlondon\.com/);
   assert.match(unsubscribePage, /Unsubscribe from Betty updates/);
   assert.match(unsubscribePage, /use the unsubscribe link at the bottom of any email/);
