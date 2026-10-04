@@ -23,6 +23,7 @@
     <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Tab Cleaner", "applicationCategory": "UtilitiesApplication", "operatingSystem": "iOS, Chrome", "description": "Tab Cleaner groups your open tabs by website so you can close hundreds at once, find duplicates and clear old tabs. For iPhone Safari and desktop Chrome. No account, nothing leaves your device.", "url": "https://drlizlondon.com/tab-cleaner"}</script>
     <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I close all my tabs at once on iPhone Safari?", "acceptedAnswer": {"@type": "Answer", "text": "Safari can close every tab: press and hold the tabs button and choose Close All Tabs. Tab Cleaner is for when you don't want to lose everything: it groups your tabs by website so you can close whole sites, duplicates or old tabs and keep the rest."}}, {"@type": "Question", "name": "Does Tab Cleaner work on Chrome?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, on desktop Chrome (Windows, Mac, Linux and ChromeOS). It is coming to the Chrome Web Store; join the waitlist to hear the day it's live. Chrome on Android and iPhone does not support extensions."}}, {"@type": "Question", "name": "Can Tab Cleaner see my browsing?", "acceptedAnswer": {"@type": "Answer", "text": "No. It has no account, no analytics and no network access. It reads your open tabs only on your device, to group and close them."}}]}</script>
     <script type="module" src="/main.js"></script>
+    <script type="module" src="/privacy-popup.js"></script>
     <style>
       .stc-main { max-width: 74rem; }
       .stc-hero { display: grid; gap: 2.6rem; align-items: start; }
@@ -164,7 +165,7 @@
               <input id="stc-company" name="company" type="text" tabindex="-1" autocomplete="off" data-hp />
             </div>
             <button type="submit" class="stc-submit" data-submit>Join the waitlist <span aria-hidden="true">→</span></button>
-            <p id="stc-consent" class="stc-consent">By joining, you’ll receive your TestFlight invite or Chrome install link, and occasional updates about Tab Cleaner. You can unsubscribe at any time. Read the <a href="/privacy.html">privacy information</a>.</p>
+            <p id="stc-consent" class="stc-consent">By joining you agree to our <a href="/privacy" data-privacy-popup>privacy notice</a>. Unsubscribe any time.</p>
             <p id="stc-status" class="stc-status" role="alert" aria-live="assertive" data-status></p>
           </form>
 

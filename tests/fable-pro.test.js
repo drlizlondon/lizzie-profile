@@ -25,7 +25,7 @@ test('keeps the free prompt public and gates only the complete Pro prompt', () =
   assert.match(page, /The Betty Prompt/);
   assert.match(page, /Betty Pro Prompt/);
   assert.match(page, /data-fable-pro-form/);
-  assert.match(page, /By entering your email, you will receive the Betty Pro Prompt and occasional updates/);
+  assert.match(page, /By signing up you agree to our <a href="\/privacy" data-privacy-popup>privacy notice<\/a>\. Unsubscribe any time\./);
   assert.doesNotMatch(page, /Act as an experienced collaborator, strategist, architect and reviewer/);
   assert.match(client, /localStorage\.getItem\(ACCESS_KEY\)/);
   assert.match(client, /localStorage\.setItem\(ACCESS_KEY, 'granted'\)/);
@@ -58,10 +58,9 @@ test('provides explicit free and Pro prompt downloads and records the expected a
 
 test('privacy copy names processors, aggregate measurement and conservative consent behaviour', () => {
   assert.match(privacy, /How Betty Pro uses your information/);
-  assert.match(privacy, /Every Betty email includes a secure unsubscribe link/);
-  assert.match(privacy, /OpenAI Sites/);
-  assert.match(privacy, /Cloudflare D1/);
-  assert.match(privacy, /Resend processes delivery/);
+  assert.match(privacy, /Every email has an unsubscribe link/);
+  assert.match(privacy, /handled by Kit/);
+  assert.match(privacy, /run only if you accept cookies/);
   assert.match(privacy, /lasts only for the current page view/);
   assert.match(privacy, /does not store raw IP addresses or user-agent strings/);
   assert.match(privacy, /Website analytics/);
@@ -73,7 +72,6 @@ test('privacy copy names processors, aggregate measurement and conservative cons
   assert.match(privacy, /Session replays are masked/);
   assert.match(privacy, /never captures your name, email address/);
   assert.match(privacy, /Privacy choices/);
-  assert.match(privacy, /you will not be re-enrolled in future updates/);
   assert.match(privacy, /Legal review recommended/);
   assert.match(privacy, /hello@drlizlondon\.com/);
   assert.match(unsubscribePage, /Unsubscribe from Betty updates/);

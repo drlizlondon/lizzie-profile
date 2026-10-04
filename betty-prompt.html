@@ -21,6 +21,7 @@
     <title>The Betty Prompt — Dr Lizzie Soyode</title>
     <link rel="stylesheet" href="/styles.css" />
     <script type="module" src="/main.js"></script>
+    <script type="module" src="/privacy-popup.js"></script>
     <!-- Analytics load only after explicit consent — see public/lp-consent.js.
          analytics-config.js supplies the GA4 id from LIZPROFILE_GA4_MEASUREMENT_ID
          at build time; with no id configured this stays fully inert. -->
@@ -123,7 +124,7 @@ Help me produce work that is genuinely useful, not merely finished.</pre>
             <input id="fable-pro-company" name="company" type="text" tabindex="-1" autocomplete="off" />
           </div>
           <button type="submit" data-fable-pro-submit>Get the Betty Pro Prompt</button>
-          <p id="fable-pro-consent" class="fable-pro-consent">By entering your email, you will receive the Betty Pro Prompt and occasional updates about improving how you work with AI. You can unsubscribe at any time. Read the <a href="/privacy.html">privacy information</a>.</p>
+          <p id="fable-pro-consent" class="fable-pro-consent">By signing up you agree to our <a href="/privacy" data-privacy-popup>privacy notice</a>. Unsubscribe any time.</p>
           <p id="fable-pro-form-status" class="fable-pro-form-status" role="alert" aria-live="assertive" data-fable-pro-form-status></p>
         </form>
 
