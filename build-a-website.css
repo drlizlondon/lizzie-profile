@@ -1,3 +1,5 @@
+/* iOS Safari: stop automatic text inflation (Basics Gate check 10) */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 /* Build a Website: only what Build a Business does not already style. */
 .baw-summary {
   display: grid;
