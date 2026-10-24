@@ -221,7 +221,7 @@ test('first-publish checklist and results order are exact', () => {
 });
 
 test('the page is wired into the site and uses no network or AI integration', () => {
-  assert.match(html, /<title>Build a Website — Dr Lizzie Soyode<\/title>/);
+  assert.match(html, /<title>Build a Website: Dr Lizzie Soyode<\/title>/);
   assert.match(html, /<link rel="canonical" href="https:\/\/drlizlondon\.com\/build-a-website" \/>/);
   assert.match(html, /<meta property="og:url" content="https:\/\/drlizlondon\.com\/build-a-website" \/>/);
   assert.match(html, /content="Answer a few simple questions about your blog and leave with a complete prompt for building a website you own, with a private place to write and publish\."/);

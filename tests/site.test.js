@@ -38,10 +38,7 @@ test('homepage contains the required positioning and project links', () => {
   assert.doesNotMatch(js, /visual: 'phone'/);
   assert.match(html, /aria-label="Previous project"/);
   assert.match(html, /aria-label="Next project"/);
-  assert.match(html, /class="intro-panel intro-panel-left"><span>Dr Lizzie<\/span>/);
-  assert.match(html, /class="intro-panel intro-panel-right"><span>Soyode<\/span>/);
-  assert.match(html, /sessionStorage\.getItem\('lizzie-home-intro'\)/);
-  assert.match(html, /prefers-reduced-motion: reduce/);
+  assert.doesNotMatch(html, /intro-gate|intro-panel|lizzie-home-intro|has-intro/);
 });
 
 test('homepage exposes semantic navigation and a single h1', () => {
@@ -126,11 +123,8 @@ test('styles include mobile and reduced motion treatments', () => {
   assert.match(css, /\.about-copy\{width:100%;max-width:44rem\}/);
   assert.match(js, /Math\.abs\(distanceX\) >= 48/);
   assert.doesNotMatch(js, /activeSlide\.scrollHeight|viewport\.style\.(?:height|setProperty\(['"]height)/);
-  assert.match(css, /@keyframes intro-door-left/);
-  assert.match(css, /@keyframes intro-door-right/);
-  assert.match(css, /\.intro-panel span\{[^}]*font-family:var\(--serif\)/);
-  assert.match(css, /intro-door-left 1\.3s \.5s/);
-  assert.match(js, /intro-complete/);
+  assert.doesNotMatch(css, /intro-door|intro-panel|has-intro|intro-complete/);
+  assert.doesNotMatch(js, /intro-complete|data-intro-gate/);
   assert.match(css, /grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
   assert.match(css, /\.resources-browse-link\{[^}]*grid-area:browse/);
   assert.match(css, /\.resource-card:hover,\.resource-card:focus-within\{background:#faf9f7\}/);

@@ -20,7 +20,7 @@ if (form instanceof HTMLFormElement && status instanceof HTMLElement) {
       if (!response.ok) throw new Error(result.message || 'Your message could not be sent.');
       trackContactFormSuccess();
       form.reset();
-      status.textContent = 'Thank you — your message has been sent.';
+      status.textContent = 'Thank you. Your message has been sent.';
     } catch (error) {
       status.textContent = `${error instanceof Error ? error.message : 'Your message could not be sent.'} Please email hello@drlizlondon.com.`;
     } finally {

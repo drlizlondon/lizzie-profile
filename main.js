@@ -1,3 +1,7 @@
+import '@fontsource/dm-sans/400.css';
+import '@fontsource/dm-sans/500.css';
+import '@fontsource/dm-sans/600.css';
+import '@fontsource/instrument-serif/400.css';
 import './resources.js';
 
 const header = document.querySelector('[data-header]');
@@ -7,31 +11,6 @@ const navScrim = document.querySelector('.nav-scrim');
 const masthead = document.querySelector('.site-header .masthead');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const projectCarousel = /** @type {HTMLElement | null} */ (document.querySelector('[data-project-carousel]'));
-const introGate = /** @type {HTMLElement | null} */ (document.querySelector('[data-intro-gate]'));
-
-if (introGate && document.documentElement.classList.contains('has-intro')) {
-  const introContent = [header, document.querySelector('main'), document.querySelector('footer')].filter((element) => element instanceof HTMLElement);
-  const closingPanel = /** @type {HTMLElement | null} */ (introGate.querySelector('.intro-panel-right'));
-  let introComplete = false;
-  let completionTimer = 0;
-
-  const finishIntro = () => {
-    if (introComplete) return;
-    introComplete = true;
-    window.clearTimeout(completionTimer);
-    document.documentElement.classList.add('intro-complete');
-    document.documentElement.classList.remove('has-intro', 'intro-running');
-    introContent.forEach((element) => element.removeAttribute('inert'));
-    introGate.hidden = true;
-  };
-
-  introContent.forEach((element) => element.setAttribute('inert', ''));
-  requestAnimationFrame(() => document.documentElement.classList.add('intro-running'));
-  closingPanel?.addEventListener('animationend', (/** @type {AnimationEvent} */ event) => {
-    if (event.animationName === 'intro-door-right') window.setTimeout(finishIntro, 340);
-  }, { once: true });
-  completionTimer = window.setTimeout(finishIntro, 2350);
-}
 
 const navLinks = [...document.querySelectorAll('[data-nav-section]')];
 const navSections = [...document.querySelectorAll('[data-nav-target]')];
