@@ -55,6 +55,8 @@
       .stc-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
       .stc-submit { display: inline-flex; min-height: 52px; width: 100%; align-items: center; justify-content: center; margin-top: 1rem; padding: .85rem 1.35rem; border: 0; border-radius: 999px; background: var(--ink); color: #fff; font: 600 .75rem/1 var(--sans); letter-spacing: .09em; text-transform: uppercase; cursor: pointer; transition: transform .2s ease-out, opacity .2s; }
       .stc-submit:hover { transform: translateY(-2px); }
+      .stc-appstore { display: inline-block; margin-top: .4rem; line-height: 0; }
+      .stc-appstore img { height: 50px; width: auto; }
       .stc-submit[disabled] { opacity: .55; cursor: default; transform: none; }
       .stc-consent { margin: 1rem 0 0; font-size: .78rem; line-height: 1.5; color: var(--muted); }
       .stc-consent a { border-bottom: 1px solid currentColor; }
@@ -151,9 +153,9 @@
         </div>
 
         <div class="stc-waitlist" id="join">
-          <p class="stc-kicker">Coming soon to the App Store and Chrome</p>
+          <p class="stc-kicker">Safari on the App Store, Chrome coming soon</p>
           <h2 id="waitlist">Join the waitlist</h2>
-          <p class="stc-sub">Tab Cleaner for Safari is coming to the App Store, and the Chrome version is coming to the Chrome Web Store. Leave your email and I’ll tell you the day yours is ready.</p>
+          <p class="stc-sub">Tab Cleaner for Safari is on the App Store now. The Chrome version is coming to the Chrome Web Store: leave your email and I’ll tell you the day it’s ready.</p>
 
           <form class="stc-form" data-waitlist novalidate>
             <div class="stc-field">
@@ -183,8 +185,8 @@
           <article class="stc-card">
             <p class="stc-kicker">iPhone</p>
             <h3>Safari on iPhone</h3>
-            <p>Coming soon to the App Store. Join the waitlist and we'll email you the day it's live.</p>
-            <a class="stc-submit" href="#join">Join the Safari waitlist</a>
+            <p>On the App Store for £1.99. Install it, then follow the four steps below to turn it on.</p>
+            <a class="stc-appstore" href="__APP_STORE_URL__" rel="noopener"><img src="/assets/images/app-store-badge.svg" width="150" height="50" alt="Download on the App Store"></a>
           </article>
           <article class="stc-card">
             <p class="stc-kicker">Desktop</p>
