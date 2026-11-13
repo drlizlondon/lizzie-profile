@@ -23,6 +23,9 @@ const [
 test('keeps the free prompt public and gates only the complete Pro prompt', () => {
   assert.match(page, /data-fable-prompt>Act as an expert collaborator/);
   assert.match(page, /The Betty Prompt/);
+  // Free prompt matches Pro 1.5: recommendation and reason, alternatives on request.
+  assert.match(page, /Then stop\. Share the alternatives you considered, and what could make you wrong, only if I ask or push back\./);
+  assert.doesNotMatch(page, /3\. The strongest alternative you considered\./);
   assert.match(page, /Betty Pro Prompt/);
   assert.match(page, /data-fable-pro-form/);
   assert.match(page, /By signing up you agree to our <a href="\/privacy" data-privacy-popup>privacy notice<\/a>\. Unsubscribe any time\./);
