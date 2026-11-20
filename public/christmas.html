@@ -54,13 +54,13 @@ h1{margin:0;color:var(--pine);font-size:clamp(38px,6vw,53px);font-weight:400;lin
 .robin-flight{
   position:absolute;z-index:5;left:-190px;top:96px;width:190px;height:138px;
   animation:robin-cross 3.15s cubic-bezier(.35,.05,.55,.95) .35s forwards;
-  filter:drop-shadow(0 7px 5px rgba(44,55,48,.13));
+  filter:drop-shadow(0 7px 5px rgba(44,55,48,.13));will-change:transform,opacity;
 }
 .robin-flight svg{width:100%;height:100%;overflow:visible}
 .delivery-envelope{
   position:absolute;z-index:6;left:calc(50% - 15px);top:160px;width:30px;height:22px;
   background:#fffdf7;border:1px solid #b9a98e;box-shadow:0 3px 7px #453c2b22;
-  opacity:0;transform:translateY(-28px) rotate(7deg);pointer-events:none;
+  opacity:0;transform:translateY(-28px) rotate(7deg);pointer-events:none;will-change:transform,opacity;
 }
 .delivery-envelope:before{
   content:"";position:absolute;inset:0;
@@ -71,20 +71,21 @@ h1{margin:0;color:var(--pine);font-size:clamp(38px,6vw,53px);font-weight:400;lin
   content:"";position:absolute;width:4px;height:4px;border-radius:50%;
   background:var(--berry);left:12px;top:9px;
 }
-.delivery-envelope.drop{animation:envelope-drop .72s cubic-bezier(.2,.75,.25,1) forwards}
-.robin-flight.fading{animation:robin-fade .65s ease forwards}
-.robin-flight.releasing .bird-envelope{opacity:0;transition:opacity .12s ease}
+.delivery-envelope.drop{animation:envelope-drop 1.15s linear forwards}
+.robin-flight.fading{animation:robin-fade .8s ease-in-out forwards}
+.robin-flight.releasing .bird-envelope{opacity:0;transition:opacity .18s ease}
 .wing{transform-box:fill-box;transform-origin:55% 72%;animation:wing-flap .32s ease-in-out infinite alternate}
 .invite{
   position:absolute;z-index:4;top:82px;left:50%;width:min(490px,calc(100% - 34px));min-height:310px;
-  padding:29px 28px 25px;transform:translate(-50%,78px) scale(.075) rotate(-7deg);
+  padding:29px 28px 25px;--drop-y:78px;transform:translate(-50%,var(--drop-y)) scale(.075) rotate(-3deg);will-change:transform,opacity;
   transform-origin:center top;opacity:0;pointer-events:none;background:var(--paper);
   border:1px solid #e5dccb;box-shadow:0 18px 45px rgba(47,51,40,.12);overflow:visible;
 }
-.invite:before{content:"";position:absolute;inset:8px;border:1px solid #e8dfcf;pointer-events:none;opacity:0;transition:opacity .5s ease 1.35s}
-.invite.arrive{animation:letter-to-invite 2.35s cubic-bezier(.2,.72,.2,1) forwards;pointer-events:auto}
+.invite:before{content:"";position:absolute;inset:8px;border:1px solid #e8dfcf;pointer-events:none;opacity:0;transition:opacity .6s ease 1.1s}
+.invite.arrive{animation:invite-grow 1.5s cubic-bezier(.16,1,.3,1) forwards,invite-fade .5s ease-out forwards;pointer-events:auto}
+.invite.settled{will-change:auto}
 .invite.arrive:before{opacity:1}
-.invite-copy{opacity:0;transition:opacity .6s ease 1.05s}
+.invite-copy{opacity:0;transition:opacity .6s ease .85s}
 .invite.arrive .invite-copy{opacity:1}
 .ornament{margin:0 0 12px;color:var(--gold);font-size:17px;letter-spacing:.34em}
 .invite h2{margin:0 0 15px;color:var(--pine);font-size:clamp(29px,5vw,37px);font-weight:400;line-height:1.1}
@@ -108,14 +109,19 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 .rsvp-choice button[aria-pressed="true"]{background:var(--pine);color:#fffefa;border-color:var(--pine)}
 .form-actions{margin-top:8px}
 .music-button{
-  position:absolute;z-index:8;right:16px;bottom:15px;display:flex;align-items:center;gap:8px;
-  min-height:35px;padding:9px 12px;background:rgba(255,253,248,.88);color:var(--pine);
-  border:1px solid #cfc5b3;font:8px Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;
-  backdrop-filter:blur(5px)
+  position:fixed;z-index:20;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));
+  width:36px;height:36px;min-height:0;padding:0;display:grid;place-items:center;border-radius:50%;
+  background:rgba(255,253,248,.82);color:var(--pine-light);border:1px solid #cfc5b3;
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);transition:background .2s,color .2s,border-color .2s
 }
-.music-button:hover{background:#fffdf8}
-.music-button .music-dot{width:6px;height:6px;border-radius:50%;background:var(--berry)}
-.music-button[aria-pressed="true"] .music-dot{background:#66876d;box-shadow:0 0 0 3px #66876d22}
+.music-button:before{content:"";position:absolute;inset:-4px;border-radius:50%}
+.music-button:after{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid var(--gold);opacity:0;pointer-events:none}
+.music-button:hover{background:#fffdf8;color:var(--pine);transform:none}
+.music-button svg{width:18px;height:18px;display:block}
+.music-button[data-state="off"] .waves,.music-button:not([data-state="off"]) .slash{display:none}
+.music-button[data-state="on"]{color:var(--pine)}
+.music-button[data-state="wait"]{color:var(--pine);border-color:var(--gold)}
+.music-button[data-state="wait"]:after{animation:music-pulse 2.6s ease-in-out infinite}
 label{display:block;margin:13px 0 6px;color:#66665c;font:9px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase}
 input,select{width:100%;padding:11px;border:1px solid #d5cbb8;border-radius:0;background:#fffefa;color:var(--ink);font:15px Georgia,serif}
 .check{display:flex;align-items:center;gap:9px;margin:16px 0;font:12px Arial,sans-serif;letter-spacing:0;text-transform:none}
@@ -137,19 +143,18 @@ input,select{width:100%;padding:11px;border:1px solid #d5cbb8;border-radius:0;ba
 }
 @keyframes robin-fade{to{opacity:0;transform:translateY(-5px)}}
 @keyframes envelope-drop{
-  0%{opacity:0;transform:translateY(-28px) rotate(7deg)}
-  15%{opacity:1}
-  75%{opacity:1;transform:translateY(4px) rotate(-2deg)}
-  100%{opacity:0;transform:translateY(9px) rotate(0) scale(.9)}
-}
-@keyframes letter-to-invite{
-  0%{opacity:0;transform:translate(-50%,78px) scale(.075) rotate(-7deg)}
+  0%{opacity:0;transform:translateY(-28px) rotate(7deg);animation-timing-function:cubic-bezier(.25,.8,.3,1)}
   12%{opacity:1}
-  38%{transform:translate(-50%,59px) scale(.13) rotate(3deg)}
-  66%{transform:translate(-50%,20px) scale(.43) rotate(-2deg)}
-  84%{transform:translate(-50%,0) scale(1.015) rotate(0)}
-  100%{opacity:1;transform:translate(-50%,0) scale(1) rotate(0)}
+  56%{opacity:1;transform:translateY(5px) rotate(-1deg);animation-timing-function:ease-in-out}
+  72%{opacity:1;transform:translateY(6px) rotate(0)}
+  100%{opacity:0;transform:translateY(7px) rotate(0) scale(.96)}
 }
+@keyframes invite-grow{
+  from{transform:translate(-50%,var(--drop-y)) scale(.075) rotate(-3deg)}
+  to{transform:translate(-50%,0) scale(1) rotate(0)}
+}
+@keyframes invite-fade{from{opacity:0}to{opacity:1}}
+@keyframes music-pulse{0%,100%{opacity:0;transform:scale(1)}50%{opacity:.85;transform:scale(1.22)}}
 @keyframes wing-flap{from{transform:rotate(-14deg)}to{transform:rotate(17deg)}}
 @keyframes cloud-right{to{transform:translateX(calc(100vw + 360px))}}
 @keyframes cloud-left{to{transform:translateX(calc(-100vw - 360px)) scale(.72)}}
@@ -159,32 +164,30 @@ input,select{width:100%;padding:11px;border:1px solid #d5cbb8;border-radius:0;ba
   main{padding:20px 10px 36px}
   .scene{height:420px}
   .robin-flight{top:83px;width:150px;height:110px}
-  .postmark{right:4%;top:17px;transform:scale(.78) rotate(11deg)}
-  .invite{top:78px;width:calc(100% - 22px);min-height:300px;padding:27px 16px 22px}
+  .postmark{right:16%;top:17px;transform:scale(.78) rotate(11deg)}
+  .invite{top:78px;--drop-y:73px;width:calc(100% - 22px);min-height:300px;padding:27px 16px 22px}
   .delivery-envelope{top:151px}
-  .music-button{right:9px;bottom:9px;min-height:33px;padding:8px 10px}
   .form-panel{padding:18px}.intro{font-size:9px;letter-spacing:.12em}
   @keyframes robin-cross{
     0%{transform:translateX(0) translateY(0) scale(.78);opacity:1}
     72%{transform:translateX(calc(100vw - 155px)) translateY(-7px) scale(.9);opacity:1}
     100%{transform:translateX(calc(100vw - 155px)) translateY(-7px) scale(.86);opacity:1}
   }
-  @keyframes letter-to-invite{
-    0%{opacity:0;transform:translate(-50%,78px) scale(.075) rotate(-7deg)}
-    12%{opacity:1}
-    38%{transform:translate(-50%,59px) scale(.13) rotate(3deg)}
-    66%{transform:translate(-50%,20px) scale(.43) rotate(-2deg)}
-    84%{transform:translate(-50%,0) scale(1.015) rotate(0)}
-    100%{opacity:1;transform:translate(-50%,0) scale(1) rotate(0)}
-  }
 }
 @media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behaviour:auto!important}
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behaviour:auto!important}
 }
 </style>
 </head>
 <body>
 <div class="snow" id="snow" aria-hidden="true"></div>
+<button class="music-button" id="musicButton" type="button" data-state="wait" aria-pressed="false" aria-label="Turn music on">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" fill="currentColor" stroke-width="1.2"/>
+    <g class="waves"><path d="M15.5 9.2a4 4 0 010 5.6"/><path d="M18 6.7a7.5 7.5 0 010 10.6"/></g>
+    <path class="slash" d="M4.5 4.5l15 15"/>
+  </svg>
+</button>
 <main><div class="wrap">
   <p class="kicker">A little something in the post</p>
   <h1>You're invited</h1>
@@ -225,10 +228,6 @@ input,select{width:100%;padding:11px;border:1px solid #d5cbb8;border-radius:0;ba
       </svg>
     </div>
     <div class="delivery-envelope" id="deliveryEnvelope" aria-hidden="true"></div>
-    <button class="music-button" id="musicButton" type="button" aria-pressed="false" aria-label="Play original Christmas instrumental">
-      <span class="music-dot" aria-hidden="true"></span><span id="musicLabel">Play Christmas music</span>
-    </button>
-
     <section class="invite" id="invite" aria-live="polite">
       <div class="invite-copy">
         <div class="ornament">✳ &nbsp; ❧ &nbsp; ✳</div>
@@ -294,9 +293,11 @@ if(reduced){
   invite.classList.add('arrive');
 }else{
   // The robin completes its flight, pauses to release the envelope, then fades.
+  // One overlapping motion: release, robin fade and card growth share a timeline.
   window.setTimeout(()=>{robin.classList.add('releasing');deliveryEnvelope.classList.add('drop')},3500);
-  window.setTimeout(()=>robin.classList.add('fading'),4050);
-  window.setTimeout(()=>invite.classList.add('arrive'),4100);
+  window.setTimeout(()=>robin.classList.add('fading'),3650);
+  window.setTimeout(()=>invite.classList.add('arrive'),4050);
+  invite.addEventListener('animationend',e=>{if(e.animationName==='invite-grow')invite.classList.add('settled')});
 }
 
 // Paste your deployed Google Apps Script Web App URL (ending in /exec) here.
@@ -423,10 +424,28 @@ document.getElementById('changeRsvp').addEventListener('click',()=>{
 
 // Original, locally generated Christmas-style instrumental. No third-party track or licence required.
 const musicButton=document.getElementById('musicButton');
-const musicLabel=document.getElementById('musicLabel');
-let audioContext=null,musicTimer=null,musicStep=0,musicPlaying=false;
+let audioContext=null,masterGain=null,musicTimer=null,musicStep=0,sounding=false,wantMusic=true,stopTimer=null;
+const MASTER_LEVEL=.8,FADE_IN=2,FADE_OUT=.6;
 const melody=[659.25,783.99,880,783.99,659.25,587.33,523.25,587.33,659.25,783.99,987.77,880,783.99,659.25,587.33,523.25];
 const bass=[130.81,164.81,174.61,146.83];
+function buildAudioGraph(){
+  const Ctx=window.AudioContext||window.webkitAudioContext;
+  if(!Ctx) return false;
+  audioContext=new Ctx();
+  masterGain=audioContext.createGain();
+  masterGain.gain.value=0;
+  const tone=audioContext.createBiquadFilter();
+  tone.type='lowpass';tone.frequency.value=3000;tone.Q.value=.5;
+  const echo=audioContext.createDelay(1);echo.delayTime.value=.34;
+  const feedback=audioContext.createGain();feedback.gain.value=.3;
+  const wet=audioContext.createGain();wet.gain.value=.2;
+  masterGain.connect(tone);
+  tone.connect(audioContext.destination);
+  tone.connect(echo);echo.connect(feedback);feedback.connect(echo);
+  echo.connect(wet);wet.connect(audioContext.destination);
+  audioContext.addEventListener('statechange',syncMusic);
+  return true;
+}
 function playBell(frequency,start,duration,volume){
   const osc=audioContext.createOscillator();
   const gain=audioContext.createGain();
@@ -435,44 +454,85 @@ function playBell(frequency,start,duration,volume){
   osc.type='sine';osc.frequency.setValueAtTime(frequency,start);
   overtone.type='sine';overtone.frequency.setValueAtTime(frequency*2.01,start);
   gain.gain.setValueAtTime(.0001,start);
-  gain.gain.exponentialRampToValueAtTime(volume,start+.025);
+  gain.gain.exponentialRampToValueAtTime(volume,start+.04);
   gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
   overtoneGain.gain.setValueAtTime(.0001,start);
-  overtoneGain.gain.exponentialRampToValueAtTime(volume*.22,start+.025);
-  overtoneGain.gain.exponentialRampToValueAtTime(.0001,start+duration*.7);
-  osc.connect(gain).connect(audioContext.destination);
-  overtone.connect(overtoneGain).connect(audioContext.destination);
+  overtoneGain.gain.exponentialRampToValueAtTime(volume*.14,start+.04);
+  overtoneGain.gain.exponentialRampToValueAtTime(.0001,start+duration*.6);
+  osc.connect(gain).connect(masterGain);
+  overtone.connect(overtoneGain).connect(masterGain);
   osc.start(start);overtone.start(start);
   osc.stop(start+duration+.05);overtone.stop(start+duration+.05);
 }
 function playMusicStep(){
-  if(!musicPlaying)return;
+  if(!sounding||!audioContext)return;
   const now=audioContext.currentTime;
   const note=melody[musicStep%melody.length];
-  playBell(note,now,.9,.075);
+  playBell(note,now,1,.06);
   if(musicStep%4===0){
     const chord=bass[Math.floor(musicStep/4)%bass.length];
-    playBell(chord,now,.95,.025);
-    playBell(chord*1.5,now+.02,.8,.012);
+    playBell(chord,now,1.1,.022);
+    playBell(chord*1.5,now+.02,.9,.01);
   }
   musicStep++;
 }
-async function toggleMusic(){
-  if(!audioContext) audioContext=new (window.AudioContext||window.webkitAudioContext)();
-  if(audioContext.state==='suspended') await audioContext.resume();
-  musicPlaying=!musicPlaying;
-  if(musicPlaying){
-    playMusicStep();
-    musicTimer=window.setInterval(playMusicStep,620);
-    musicLabel.textContent='Pause Christmas music';
-  }else{
-    window.clearInterval(musicTimer);
-    musicLabel.textContent='Play Christmas music';
-  }
-  musicButton.setAttribute('aria-pressed',String(musicPlaying));
+function rampMaster(target,seconds){
+  const g=masterGain.gain,now=audioContext.currentTime;
+  g.cancelScheduledValues(now);
+  g.setValueAtTime(g.value,now);
+  g.linearRampToValueAtTime(target,now+seconds);
 }
-musicButton.addEventListener('click',toggleMusic);
+function startSound(){
+  if(sounding||!audioContext)return;
+  sounding=true;
+  window.clearTimeout(stopTimer);
+  rampMaster(MASTER_LEVEL,FADE_IN);
+  playMusicStep();
+  musicTimer=window.setInterval(playMusicStep,620);
+}
+function stopSound(){
+  if(!sounding)return;
+  sounding=false;
+  rampMaster(0,FADE_OUT);
+  window.clearTimeout(stopTimer);
+  stopTimer=window.setTimeout(()=>{if(!sounding){window.clearInterval(musicTimer);musicTimer=null}},FADE_OUT*1000+80);
+}
+function renderMusicButton(){
+  const state=sounding?'on':(wantMusic?'wait':'off');
+  musicButton.dataset.state=state;
+  musicButton.setAttribute('aria-pressed',String(state==='on'));
+  musicButton.setAttribute('aria-label',state==='on'?'Turn music off':'Turn music on');
+}
+function syncMusic(){
+  if(audioContext){
+    if(wantMusic&&audioContext.state==='running'&&!document.hidden) startSound(); else stopSound();
+  }
+  renderMusicButton();
+}
+function tryResume(){
+  if(!audioContext&&!buildAudioGraph()){renderMusicButton();return}
+  const p=audioContext.resume();
+  if(p&&p.then) p.then(syncMusic,syncMusic);
+  syncMusic();
+}
+// Browsers block sound until a gesture, so the first gesture anywhere starts the music.
+function firstGesture(e){
+  if(!wantMusic||sounding) return;
+  if(e.target&&e.target.closest&&e.target.closest('#musicButton')) return;
+  tryResume();
+}
+['pointerdown','touchstart','touchend','pointerup','click','keydown'].forEach(t=>window.addEventListener(t,firstGesture,{passive:true}));
+musicButton.addEventListener('click',()=>{
+  if(sounding){wantMusic=false;syncMusic()}
+  else{wantMusic=true;tryResume()}
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden) syncMusic(); else if(wantMusic) tryResume();
+});
 window.addEventListener('pagehide',()=>{if(musicTimer)window.clearInterval(musicTimer);if(audioContext)audioContext.close()});
+// Music is on by default: try straight away, and the first gesture will finish the job if blocked.
+renderMusicButton();
+tryResume();
 
 const snow=document.getElementById('snow');
 for(let i=0;i<22;i++){
