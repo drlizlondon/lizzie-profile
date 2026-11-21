@@ -19,7 +19,7 @@ test('real invite and alias show London, the text-Lizzie line, and no Enfield', 
   for (const html of [real, alias]) {
     assert.ok(!/enfield/i.test(html));
     assert.ok(html.includes('London'));
-    assert.ok(html.includes("Text Lizzie if you don't have the address."));
+    assert.ok(html.includes("Message Lizzie if you don't have the address."));
     assert.ok(!/maps\.(google|apple)|goo\.gl\/maps|text\/calendar|\.ics/i.test(html));
   }
 });
@@ -46,7 +46,7 @@ test('demo is labelled, noindex, address-free and generic', () => {
   assert.ok(demo.includes('Demo: an invite I built with AI. Details are made up.'));
   assert.ok(/<meta name="robots" content="noindex, nofollow">/.test(demo));
   assert.ok(demo.includes('A Saturday in December'));
-  assert.ok(!/enfield|15:00|19th|Chris'|Text Lizzie/i.test(demo));
+  assert.ok(!/enfield|15:00|19th|Chris'|Text Lizzie|Message Lizzie/i.test(demo));
   assert.ok(demo.includes('og:title" content="Demo:'));
   assert.ok(demo.includes('christmas-card-demo.png'));
 });
