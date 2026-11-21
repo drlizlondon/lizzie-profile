@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f4ec">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Lizzie & Chris' Christmas Party</title>
+<meta property="og:title" content="Lizzie &amp; Chris' Christmas Party">
+<meta property="og:description" content="You're invited. Saturday 19th December 2026, from 15:00.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://drlizlondon.com/ohchristmasinvite">
+<meta property="og:image" content="https://drlizlondon.com/christmas-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{
+  --pine:#294638;--pine-light:#617866;--berry:#914b50;--gold:#b69a68;
+  --ink:#3c4039;--paper:#fffdf8;--line:#e7dece;--sky:#edf1ec;
+}
+*{box-sizing:border-box}
+html{scroll-behaviour:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--ink);
+  font-family:Georgia,'Times New Roman',serif;
+  background:linear-gradient(180deg,#faf9f4 0%,#f1f1e9 100%);
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;
+  background-image:radial-gradient(#a99d83 .55px,transparent .55px);
+  background-size:11px 11px;
+}
+main{position:relative;z-index:1;min-height:100vh;padding:25px 16px 42px;display:flex;justify-content:center}
+.wrap{width:min(100%,760px);text-align:center}
+.kicker{margin:0 0 8px;color:var(--pine-light);font:9px/1.5 Arial,sans-serif;letter-spacing:.27em;text-transform:uppercase}
+h1{margin:0;color:var(--pine);font-size:clamp(38px,6vw,53px);font-weight:400;line-height:1.04;letter-spacing:-.035em}
+.intro{margin:10px 0 0;color:#77766d;font:10px/1.6 Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.scene{
+  --H:350px;--eh:250px;--fh:100px;--s0:.58;--tx0:calc(min(49vw,365px) - 17.5px - min(350px,50vw - 16px));--ty0:-132px;
+  position:relative;height:440px;max-width:700px;margin:5px auto 0;overflow:hidden;
+  isolation:isolate;border-radius:3px;
+  background:
+    radial-gradient(ellipse at 52% 47%,rgba(255,255,255,.94) 0%,rgba(255,255,255,.55) 43%,transparent 72%),
+    linear-gradient(180deg,#e9efeb 0%,#f4f2e9 76%,#e9ece4 100%);
+}
+.horizon{position:absolute;inset:auto 0 0;height:118px;z-index:0;background:linear-gradient(180deg,transparent,rgba(218,225,215,.55))}
+.hill{position:absolute;bottom:-45px;width:120%;height:130px;border-radius:50% 50% 0 0;background:#e2e8df;z-index:0}
+.hill.back{left:-12%;bottom:-58px;background:#e9ede5}
+.hill.front{right:-24%;bottom:-82px;background:#dce4da}
+.cloud{position:absolute;z-index:1;width:142px;height:28px;border-radius:50px;background:rgba(255,255,255,.78);filter:blur(.3px)}
+.cloud:before,.cloud:after{content:"";position:absolute;background:inherit;border-radius:50%}
+.cloud:before{width:52px;height:52px;left:20px;top:-23px}
+.cloud:after{width:68px;height:68px;right:15px;top:-36px}
+.cloud.one{left:-160px;top:72px;animation:cloud-right 34s linear infinite}
+.cloud.two{right:-170px;top:205px;transform:scale(.72);animation:cloud-left 39s linear infinite}
+.cloud.three{left:-180px;top:310px;transform:scale(.48);opacity:.5;animation:cloud-right 45s linear 6s infinite}
+.dotted-trail{position:absolute;z-index:1;inset:0;width:100%;height:100%;pointer-events:none}
+.dotted-trail path{fill:none;stroke:#b9a57e;stroke-width:1.35;stroke-dasharray:2 8;stroke-linecap:round;opacity:.62}
+.postmark{position:absolute;z-index:1;right:8%;top:25px;width:66px;height:66px;border:1px solid #bd8982;border-radius:50%;display:grid;place-items:center;color:var(--berry);font:7px/1.55 Arial,sans-serif;letter-spacing:.12em;transform:rotate(11deg);opacity:.78}
+.postmark:after{content:"";position:absolute;inset:5px;border:1px solid #d9bcb0;border-radius:50%}
+.robin-flight{
+  position:absolute;z-index:5;left:-190px;top:96px;width:190px;height:138px;
+  animation:robin-cross 3.15s cubic-bezier(.35,.05,.55,.95) .35s forwards,robin-exit 1.8s cubic-bezier(.45,0,.7,.7) 3.5s forwards;
+  filter:drop-shadow(0 7px 5px rgba(44,55,48,.13));will-change:transform,opacity;
+}
+.robin-flight svg{width:100%;height:100%;overflow:visible}
+.bird-envelope{animation:beak-release .01s linear 3.5s forwards}
+.wing{transform-box:fill-box;transform-origin:55% 72%;animation:wing-flap .32s ease-in-out infinite alternate}
+
+/* One envelope: it leaves the beak, falls and grows, opens, and the card rises out of it. */
+.parcel{
+  position:absolute;z-index:4;top:82px;left:0;right:0;margin:0 auto;width:min(490px,calc(100% - 34px));height:var(--H);
+  transform-origin:50% calc(100% - var(--eh) / 2);opacity:0;pointer-events:none;
+  animation:
+    parcel-show .01s linear 3.5s forwards,
+    parcel-move 1.7s cubic-bezier(.2,.8,.25,1) 3.5s both,
+    parcel-grow 1.7s cubic-bezier(.4,0,.2,1) 3.5s both,
+    parcel-tilt 1.7s ease-in-out 3.5s both;
+}
+.env-back,.env-front,.env-flap{position:absolute;left:0;right:0}
+.env-back{
+  z-index:1;bottom:0;height:var(--eh);background:linear-gradient(180deg,#e9dfca 0%,#f1e9d7 46%,#f6efe0 100%);
+  border:1px solid #b9a98e;box-shadow:0 14px 30px rgba(47,51,40,.12);
+  animation:env-away .8s cubic-bezier(.55,0,.85,.45) 6s forwards;
+}
+.env-front{
+  z-index:3;bottom:0;height:var(--eh);pointer-events:none;
+  filter:drop-shadow(0 0 .6px #9d8c6e) drop-shadow(0 -1px 1.5px rgba(80,62,30,.12));
+  animation:env-away .8s cubic-bezier(.55,0,.85,.45) 6s forwards;
+}
+.env-front i{position:absolute;inset:0;display:block}
+.env-front .l{background:#f7f1e3;clip-path:polygon(0 0,50% var(--fh),0 100%)}
+.env-front .r{background:#f3ecdb;clip-path:polygon(100% 0,50% var(--fh),100% 100%)}
+.env-front .b{background:#fbf7ec;clip-path:polygon(0 100%,50% var(--fh),100% 100%)}
+.env-flap{
+  z-index:4;top:calc(var(--H) - var(--eh));height:var(--fh);perspective:900px;
+  filter:drop-shadow(0 0 .6px #9d8c6e) drop-shadow(0 2px 2px rgba(80,62,30,.14));
+  animation:flap-z .76s linear 5.05s forwards,env-away .8s cubic-bezier(.55,0,.85,.45) 6s forwards;
+}
+.env-flap .tri{
+  position:absolute;inset:0;transform-origin:50% 0;background:#fbf7ec;clip-path:polygon(0 0,100% 0,50% 100%);
+  animation:flap-open .76s cubic-bezier(.35,.1,.25,1) 5.05s forwards;
+}
+.env-flap .seal{
+  position:absolute;left:calc(50% - 4px);top:calc(var(--fh) - 22px);width:8px;height:8px;border-radius:50%;
+  background:var(--berry);box-shadow:0 1px 2px rgba(60,30,30,.3);animation:seal-off .2s ease-out 5.05s forwards;
+}
+.invite{
+  position:absolute;z-index:2;inset:0;padding:29px 28px 25px;
+  translate:0 calc(var(--H) - var(--eh) + 38px);scale:var(--s0);transform-origin:50% 0;
+  background:var(--paper);border:1px solid #e5dccb;box-shadow:0 18px 45px rgba(47,51,40,.12);
+  pointer-events:none;overflow:visible;
+  animation:card-rise 1.3s cubic-bezier(.22,.85,.3,1) 5.6s forwards;
+}
+.invite:before{content:"";position:absolute;inset:8px;border:1px solid #e8dfcf;pointer-events:none;opacity:0;animation:fade-only .6s ease 6.3s forwards}
+.invite-copy{opacity:0;animation:fade-only .7s ease 6.05s forwards}
+.ornament{margin:0 0 12px;color:var(--gold);font-size:17px;letter-spacing:.34em}
+.invite h2{margin:0 0 15px;color:var(--pine);font-size:clamp(29px,5vw,37px);font-weight:400;line-height:1.1}
+.date{margin:0 0 8px;color:var(--berry);font-size:16px}
+.details{color:#6e6d63;font:10px/1.8 Arial,sans-serif;letter-spacing:.15em;text-transform:uppercase}
+.rule{width:43px;height:1px;margin:17px auto;background:var(--gold)}
+.note{margin:0 0 18px;color:#6e6c61;font-size:14px;font-style:italic;line-height:1.5}
+.actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
+button{min-height:43px;padding:12px 18px;border:1px solid var(--pine);background:var(--pine);color:#fffefa;font:9px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .2s}
+button:hover{background:#355b48;transform:translateY(-1px)}
+button.secondary{background:transparent;color:var(--pine);border-color:#bcb29f}
+button.secondary:hover{background:#f2efe7}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.form-panel{display:none;position:relative;z-index:2;max-width:490px;margin:12px auto 0;padding:22px;text-align:left;background:var(--paper);border:1px solid var(--line);box-shadow:0 12px 30px #443c2b0b}
+.form-panel.show{display:block;animation:fade-in .4s ease}
+.form-panel h3{text-align:center;margin:0 0 8px;color:var(--pine);font-size:24px;font-weight:400}
+.form-intro{text-align:center;margin:0 0 17px;color:#77766d;font:11px/1.6 Arial,sans-serif}
+.rsvp-choice{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 17px}
+.rsvp-choice button{min-height:44px;padding:10px 12px;letter-spacing:.07em}
+.rsvp-choice button[aria-pressed="false"]{background:transparent;color:var(--pine);border-color:#c9bfad}
+.rsvp-choice button[aria-pressed="true"]{background:var(--pine);color:#fffefa;border-color:var(--pine)}
+.form-actions{margin-top:8px}
+.music-button{
+  position:fixed;z-index:20;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));
+  width:36px;height:36px;min-height:0;padding:0;display:grid;place-items:center;border-radius:50%;
+  background:rgba(255,253,248,.82);color:var(--pine-light);border:1px solid #cfc5b3;
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);transition:background .2s,color .2s,border-color .2s
+}
+.music-button:before{content:"";position:absolute;inset:-4px;border-radius:50%}
+.music-button:after{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid var(--gold);opacity:0;pointer-events:none}
+.music-button:hover{background:#fffdf8;color:var(--pine);transform:none}
+.music-button svg{width:18px;height:18px;display:block}
+.music-button[data-state="off"] .waves,.music-button:not([data-state="off"]) .slash{display:none}
+.music-button[data-state="on"]{color:var(--pine)}
+.music-button[data-state="wait"]{color:var(--pine);border-color:var(--gold)}
+.music-button[data-state="wait"]:after{animation:music-pulse 2.6s ease-in-out infinite}
+label{display:block;margin:13px 0 6px;color:#66665c;font:9px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+input,select{width:100%;padding:11px;border:1px solid #d5cbb8;border-radius:0;background:#fffefa;color:var(--ink);font:15px Georgia,serif}
+.check{display:flex;align-items:center;gap:9px;margin:16px 0;font:12px Arial,sans-serif;letter-spacing:0;text-transform:none}
+.check input{width:16px;height:16px;accent-color:var(--pine)}
+.names{display:grid;gap:2px}.form-submit{width:100%;margin-top:16px}
+.confirm,.decline{display:none;text-align:center;padding:18px 8px 3px}
+.confirm.show,.decline.show{display:block;animation:fade-in .4s ease}
+.confirm h3,.decline h3{font-size:25px;font-weight:400;color:var(--pine);margin:0 0 8px}
+.confirm p,.decline p{font-size:14px;line-height:1.6;color:#606158}
+.addr-note{margin:6px 0 0;font:11px Arial,sans-serif;letter-spacing:.08em;color:#7b735f}
+.address{margin:16px 0;padding:14px;background:#f7f7f1;border:1px solid var(--line);font-size:16px;line-height:1.6;color:var(--pine)}
+.address small{display:block;margin-top:4px;color:#7b735f;font:9px Arial,sans-serif;letter-spacing:.15em;text-transform:uppercase}
+.footer{margin-top:16px;color:#8b8578;font:8px Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
+.snow{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.flake{position:absolute;top:-12px;width:3px;height:3px;border-radius:50%;background:#c9d3d0;opacity:.55;animation:snowfall linear infinite}
+@keyframes robin-cross{
+  0%{transform:translateX(0) translateY(0) scale(.82);opacity:1}
+  72%{transform:translateX(min(49vw,365px)) translateY(-8px) scale(1);opacity:1}
+  100%{transform:translateX(min(49vw,365px)) translateY(-8px) scale(.96);opacity:1}
+}
+@keyframes robin-exit{
+  0%{transform:translateX(min(49vw,365px)) translateY(-8px) scale(.96);opacity:1}
+  62%{opacity:1}
+  100%{transform:translateX(calc(min(49vw,365px) + 560px)) translateY(-74px) scale(.8);opacity:0}
+}
+@keyframes beak-release{to{opacity:0}}
+@keyframes parcel-show{to{opacity:1}}
+@keyframes parcel-move{from{translate:var(--tx0) var(--ty0)}to{translate:0 0}}
+@keyframes parcel-grow{from{scale:.075}to{scale:1}}
+@keyframes parcel-tilt{0%{rotate:12deg}42%{rotate:-5deg}75%{rotate:1.5deg}100%{rotate:0deg}}
+@keyframes flap-z{0%,49%{z-index:4}50%,100%{z-index:0}}
+@keyframes flap-open{
+  0%{transform:rotateX(0);background:#fbf7ec}
+  49%{background:#fbf7ec}
+  50%{background:#e7dcc4}
+  100%{transform:rotateX(-180deg);background:#e7dcc4}
+}
+@keyframes seal-off{to{opacity:0}}
+@keyframes card-rise{to{translate:0 0;scale:1}}
+@keyframes env-away{to{translate:0 430px}}
+@keyframes fade-only{to{opacity:1}}
+@keyframes music-pulse{0%,100%{opacity:0;transform:scale(1)}50%{opacity:.85;transform:scale(1.22)}}
+@keyframes wing-flap{from{transform:rotate(-14deg)}to{transform:rotate(17deg)}}
+@keyframes cloud-right{to{transform:translateX(calc(100vw + 360px))}}
+@keyframes cloud-left{to{transform:translateX(calc(-100vw - 360px)) scale(.72)}}
+@keyframes snowfall{to{transform:translateY(110vh) translateX(16px)}}
+@keyframes fade-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:540px){
+  main{padding:20px 10px 36px}
+  .scene{height:444px;--H:352px;--eh:225px;--fh:90px;--s0:.5;--tx0:calc(50vw - 205px);--ty0:-175px}
+  .robin-flight{top:83px;width:150px;height:110px}
+  .postmark{right:16%;top:17px;transform:scale(.78) rotate(11deg)}
+  .parcel{top:78px;width:calc(100% - 22px)}
+  .invite{padding:27px 16px 22px}
+  .form-panel{padding:18px}.intro{font-size:9px;letter-spacing:.12em}
+  @keyframes robin-cross{
+    0%{transform:translateX(0) translateY(0) scale(.78);opacity:1}
+    72%{transform:translateX(calc(100vw - 155px)) translateY(-7px) scale(.9);opacity:1}
+    100%{transform:translateX(calc(100vw - 155px)) translateY(-7px) scale(.86);opacity:1}
+  }
+  @keyframes robin-exit{
+    0%{transform:translateX(calc(100vw - 155px)) translateY(-7px) scale(.86);opacity:1}
+    62%{opacity:1}
+    100%{transform:translateX(calc(100vw + 215px)) translateY(-70px) scale(.7);opacity:0}
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .robin-flight,.env-back,.env-front,.env-flap{display:none!important}
+  .parcel{animation:none!important;opacity:1;translate:none;scale:none;rotate:none}
+  .invite{animation:none!important;translate:none;scale:none;pointer-events:auto}
+  .invite:before,.invite-copy{animation:none!important;opacity:1}
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behaviour:auto!important}
+}
+</style>
+</head>
+<body>
+<div class="snow" id="snow" aria-hidden="true"></div>
+<button class="music-button" id="musicButton" type="button" data-state="wait" aria-pressed="false" aria-label="Turn music on">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" fill="currentColor" stroke-width="1.2"/>
+    <g class="waves"><path d="M15.5 9.2a4 4 0 010 5.6"/><path d="M18 6.7a7.5 7.5 0 010 10.6"/></g>
+    <path class="slash" d="M4.5 4.5l15 15"/>
+  </svg>
+</button>
+<main><div class="wrap">
+  <p class="kicker">A little something in the post</p>
+  <h1>You're invited</h1>
+  <p class="intro">Please join us for a little Christmas cheer</p>
+
+  <div class="scene" aria-label="A Christmas robin flies through a softly illustrated winter sky carrying an invitation in its beak">
+    <div class="cloud one"></div><div class="cloud two"></div><div class="cloud three"></div>
+    <svg class="dotted-trail" viewBox="0 0 700 430" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M-10 250 C75 130 155 112 235 155 S390 85 485 155 S600 245 710 190"/>
+    </svg>
+    <div class="postmark">SPECIAL<br>DELIVERY<br>✳ 2026 ✳</div>
+    <div class="horizon"></div><div class="hill back"></div><div class="hill front"></div>
+
+    <div class="robin-flight" id="robin" aria-hidden="true">
+      <svg viewBox="0 0 190 138">
+        <!-- tail -->
+        <path d="M48 78 C28 70 16 72 5 87 C22 87 31 96 51 98Z" fill="#59402f" stroke="#463326" stroke-width="1.8"/>
+        <!-- body -->
+        <path d="M43 71 C49 43 81 29 111 40 C137 49 148 74 133 95 C119 115 77 113 54 94 C46 88 42 80 43 71Z" fill="#80583e" stroke="#553b2c" stroke-width="2"/>
+        <!-- breast -->
+        <path d="M81 66 C96 52 126 59 134 81 C138 98 121 109 101 108 C84 104 73 88 81 66Z" fill="#bd553f"/>
+        <!-- wing -->
+        <path class="wing" d="M55 63 C70 38 104 39 119 59 C101 57 86 75 72 91 C61 85 55 76 55 63Z" fill="#946b4d" stroke="#553b2c" stroke-width="2"/>
+        <!-- head -->
+        <path d="M104 48 C112 31 133 28 147 39 C157 48 155 63 143 70 C130 77 113 69 107 59Z" fill="#80583e" stroke="#553b2c" stroke-width="1.8"/>
+        <circle cx="140" cy="45" r="4.1" fill="#fff"/><circle cx="141" cy="45" r="2" fill="#25221e"/>
+        <!-- beak visibly pinching the envelope cord -->
+        <path d="M151 52 L171 58 L152 63Z" fill="#c58a35" stroke="#9a6a2b" stroke-width="1"/>
+        <path d="M169 59 Q177 67 177 77" fill="none" stroke="#a88b5d" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- little envelope hanging directly from beak -->
+        <g class="bird-envelope" transform="translate(158 76) rotate(7)">
+          <rect x="0" y="0" width="29" height="21" rx="1" fill="#fffdf7" stroke="#b9a98e" stroke-width="1.2"/>
+          <path d="M1 2 L14.5 12 L28 2 M1 20 L11 10 M28 20 L18 10" fill="none" stroke="#c8b99e" stroke-width="1"/>
+          <circle cx="14.5" cy="12" r="2.1" fill="#914b50"/>
+        </g>
+        <!-- feet -->
+        <path d="M78 105 L76 115 M94 108 L93 117" stroke="#8d653d" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="parcel" id="parcel">
+      <div class="env-back" aria-hidden="true"></div>
+      <section class="invite" id="invite" aria-live="polite">
+        <div class="invite-copy">
+        <div class="ornament">✳ &nbsp; ❧ &nbsp; ✳</div>
+        <h2>Lizzie &amp; Chris'<br>Christmas Party</h2>
+        <p class="date">Saturday 19th December 2026</p>
+        <div class="details">London &nbsp;·&nbsp; From 15:00</div>
+        <p class="addr-note">Text Lizzie if you don't have the address.</p>
+        <div class="rule"></div>
+        <p class="note">Good company, festive cheer and a little Christmas fun.</p>
+        <div class="actions">
+          <button id="yesBtn" type="button">Yes, I'll be there</button>
+          <button class="secondary" id="noBtn" type="button">Not this time</button>
+        </div>
+      </div>
+      </section>
+      <div class="env-front" aria-hidden="true"><i class="l"></i><i class="r"></i><i class="b"></i></div>
+      <div class="env-flap" aria-hidden="true"><div class="tri"><span class="seal"></span></div></div>
+    </div>
+  </div>
+
+  <section class="form-panel" id="formPanel" aria-live="polite">
+    <h3 id="rsvpHeading">Will you be joining us?</h3>
+    <p class="form-intro" id="rsvpIntro">Please let us know either way.</p>
+    <div class="rsvp-choice" role="group" aria-label="Your RSVP">
+      <button id="attendingChoice" type="button" aria-pressed="true">Yes, we're coming</button>
+      <button id="decliningChoice" type="button" aria-pressed="false">Sorry, can't make it</button>
+    </div>
+    <form id="rsvpForm">
+      <div id="attendingFields">
+        <label for="count">Number of guests (including you)</label>
+        <select id="count" name="count"><option value="1">1 guest</option><option value="2">2 guests</option></select>
+        <div class="names" id="names"></div>
+        <label class="check"><input type="checkbox" id="baby" name="baby"> We're bringing baby</label>
+        <div id="babyNameWrap" hidden><label for="babyName">Baby's name</label><input id="babyName" name="babyName" autocomplete="off"></div>
+      </div>
+      <div id="decliningFields" hidden>
+        <label for="declineName">Your name</label>
+        <input id="declineName" name="declineName" autocomplete="name">
+        <p class="form-intro">Thank you for letting us know. We'll miss you.</p>
+      </div>
+      <div class="form-actions">
+        <button class="form-submit" id="submitRsvp" type="submit">Confirm our attendance</button>
+      </div>
+    </form>
+    <div class="confirm" id="confirm">
+      <h3 id="confirmationHeading">We can't wait to see you!</h3>
+      <p id="confirmationMessage">Your RSVP has been saved in this browser.</p>
+      <div class="address" id="partyAddress" hidden><strong>London</strong><small>Text Lizzie if you don't have the address.</small></div>
+      <p id="confirmationFooter">We look forward to celebrating with you.</p>
+      <button class="secondary" id="changeRsvp" type="button">Change my response</button>
+    </div>
+  </section>
+  <div class="footer">With love, Lizzie &amp; Chris</div>
+</div></main>
+<script>
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// The opening sequence (robin, envelope, flap, card) is CSS-only; reduced motion skips straight to the card.
+// The card only takes clicks once it has risen out of the envelope.
+const inviteCard=document.getElementById('invite');
+if(reduced) inviteCard.style.pointerEvents='auto'; else window.setTimeout(()=>{inviteCard.style.pointerEvents='auto'},6700);
+
+// Paste your deployed Google Apps Script Web App URL (ending in /exec) here.
+const RSVP_ENDPOINT='https://script.google.com/macros/s/AKfycbwjES4UvPjIkB2P9DfiUpJIkxNPcCI4qGU3jynteX6btFTy9JdDmYnc-AcBlCHs6yNT2g/exec';
+
+const panel=document.getElementById('formPanel');
+const form=document.getElementById('rsvpForm');
+const names=document.getElementById('names');
+const count=document.getElementById('count');
+const attendingChoice=document.getElementById('attendingChoice');
+const decliningChoice=document.getElementById('decliningChoice');
+const attendingFields=document.getElementById('attendingFields');
+const decliningFields=document.getElementById('decliningFields');
+const heading=document.getElementById('rsvpHeading');
+const intro=document.getElementById('rsvpIntro');
+const submitButton=document.getElementById('submitRsvp');
+let responseStatus='Yes';
+
+function renderNames(){
+  names.replaceChildren();
+  for(let i=1;i<=Number(count.value);i++){
+    const label=document.createElement('label');
+    label.htmlFor='guest'+i;
+    label.textContent=i===1?'Your name':"Guest 2's name";
+    const input=document.createElement('input');
+    input.id='guest'+i;input.name='guest'+i;input.required=true;input.autocomplete='name';
+    names.append(label,input);
+  }
+}
+renderNames();
+count.addEventListener('change',renderNames);
+
+function setResponse(status){
+  responseStatus=status;
+  const attending=status==='Yes';
+  attendingChoice.setAttribute('aria-pressed',String(attending));
+  decliningChoice.setAttribute('aria-pressed',String(!attending));
+  attendingFields.hidden=!attending;
+  decliningFields.hidden=attending;
+  heading.textContent=attending?'Wonderful. Who’s coming?':'Sorry you can’t make it.';
+  intro.textContent=attending?'Tell us who will be joining the celebration.':'Please leave your name so we know who to miss.';
+  submitButton.textContent=attending?'Confirm our attendance':'Send our regrets';
+  document.getElementById('declineName').required=!attending;
+  document.getElementById('guest1').required=attending;
+  const guest2=document.getElementById('guest2');
+  if(guest2) guest2.required=attending && count.value==='2';
+}
+attendingChoice.addEventListener('click',()=>setResponse('Yes'));
+decliningChoice.addEventListener('click',()=>setResponse('No'));
+setResponse('Yes');
+
+document.getElementById('baby').addEventListener('change',e=>{
+  const wrap=document.getElementById('babyNameWrap');
+  wrap.hidden=!e.target.checked;
+  document.getElementById('babyName').required=e.target.checked;
+});
+
+function openRsvp(status){
+  panel.classList.add('show');
+  setResponse(status);
+  panel.scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+}
+document.getElementById('yesBtn').addEventListener('click',()=>openRsvp('Yes'));
+document.getElementById('noBtn').addEventListener('click',()=>openRsvp('No'));
+
+form.addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!form.reportValidity()) return;
+  if(!RSVP_ENDPOINT.startsWith('https://script.google.com/macros/s/') || !RSVP_ENDPOINT.endsWith('/exec')){
+    alert('The RSVP form is not connected yet. Please contact Lizzie directly.');
+    return;
+  }
+  const data={
+    status:responseStatus,
+    guest1:responseStatus==='Yes'?document.getElementById('guest1').value.trim():document.getElementById('declineName').value.trim(),
+    guest2:responseStatus==='Yes'?(document.getElementById('guest2')?.value.trim()||''):'',
+    baby:responseStatus==='Yes' && document.getElementById('baby').checked,
+    babyName:responseStatus==='Yes'?(document.getElementById('babyName').value.trim()||''):'',
+    submittedAt:new Date().toISOString(),
+    website:''
+  };
+  submitButton.disabled=true;
+  const originalLabel=submitButton.textContent;
+  submitButton.textContent='Sending your response…';
+  try{
+    // text/plain avoids a CORS preflight; Apps Script redirects to
+    // script.googleusercontent.com, which allows any origin, so the page can
+    // read the reply and only says "sent" when Google confirms the save.
+    const res=await fetch(RSVP_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});
+    const reply=await res.json().catch(()=>null);
+    if(!res.ok || !reply || reply.ok!==true) throw new Error((reply&&reply.error)||'Not saved');
+    form.hidden=true;
+    document.getElementById('confirmationHeading').textContent=
+      responseStatus==='Yes'?'We can’t wait to see you!':'Thank you for letting us know.';
+    document.getElementById('confirmationMessage').textContent=
+      'Thank you. Your response has been sent to Lizzie.';
+    // No address is shown on this page; guests text Lizzie for it.
+    document.getElementById('partyAddress').hidden=responseStatus!=='Yes';
+    document.getElementById('confirmationFooter').textContent=
+      responseStatus==='Yes'?'We look forward to celebrating with you.':'Wishing you a lovely Christmas.';
+    document.getElementById('confirm').classList.add('show');
+    heading.hidden=true;
+    intro.hidden=true;
+    document.querySelector('.rsvp-choice').hidden=true;
+  }catch(err){
+    alert('Sorry, we could not send your response. Please try again or contact Lizzie.');
+    submitButton.disabled=false;
+    submitButton.textContent=originalLabel;
+  }
+});
+document.getElementById('changeRsvp').addEventListener('click',()=>{
+  document.getElementById('confirm').classList.remove('show');
+  form.hidden=false;
+  heading.hidden=false;intro.hidden=false;
+  document.querySelector('.rsvp-choice').hidden=false;
+  setResponse(responseStatus);
+});
+
+// Original, locally generated Christmas-style instrumental. No third-party track or licence required.
+const musicButton=document.getElementById('musicButton');
+let audioContext=null,masterGain=null,musicTimer=null,musicStep=0,sounding=false,wantMusic=true,stopTimer=null;
+const MASTER_LEVEL=.8,FADE_IN=2,FADE_OUT=.6;
+const melody=[659.25,783.99,880,783.99,659.25,587.33,523.25,587.33,659.25,783.99,987.77,880,783.99,659.25,587.33,523.25];
+const bass=[130.81,164.81,174.61,146.83];
+function buildAudioGraph(){
+  const Ctx=window.AudioContext||window.webkitAudioContext;
+  if(!Ctx) return false;
+  audioContext=new Ctx();
+  masterGain=audioContext.createGain();
+  masterGain.gain.value=0;
+  const tone=audioContext.createBiquadFilter();
+  tone.type='lowpass';tone.frequency.value=3000;tone.Q.value=.5;
+  const echo=audioContext.createDelay(1);echo.delayTime.value=.34;
+  const feedback=audioContext.createGain();feedback.gain.value=.3;
+  const wet=audioContext.createGain();wet.gain.value=.2;
+  masterGain.connect(tone);
+  tone.connect(audioContext.destination);
+  tone.connect(echo);echo.connect(feedback);feedback.connect(echo);
+  echo.connect(wet);wet.connect(audioContext.destination);
+  audioContext.addEventListener('statechange',syncMusic);
+  return true;
+}
+function playBell(frequency,start,duration,volume){
+  const osc=audioContext.createOscillator();
+  const gain=audioContext.createGain();
+  const overtone=audioContext.createOscillator();
+  const overtoneGain=audioContext.createGain();
+  osc.type='sine';osc.frequency.setValueAtTime(frequency,start);
+  overtone.type='sine';overtone.frequency.setValueAtTime(frequency*2.01,start);
+  gain.gain.setValueAtTime(.0001,start);
+  gain.gain.exponentialRampToValueAtTime(volume,start+.04);
+  gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+  overtoneGain.gain.setValueAtTime(.0001,start);
+  overtoneGain.gain.exponentialRampToValueAtTime(volume*.14,start+.04);
+  overtoneGain.gain.exponentialRampToValueAtTime(.0001,start+duration*.6);
+  osc.connect(gain).connect(masterGain);
+  overtone.connect(overtoneGain).connect(masterGain);
+  osc.start(start);overtone.start(start);
+  osc.stop(start+duration+.05);overtone.stop(start+duration+.05);
+}
+function playMusicStep(){
+  if(!sounding||!audioContext)return;
+  const now=audioContext.currentTime;
+  const note=melody[musicStep%melody.length];
+  playBell(note,now,1,.06);
+  if(musicStep%4===0){
+    const chord=bass[Math.floor(musicStep/4)%bass.length];
+    playBell(chord,now,1.1,.022);
+    playBell(chord*1.5,now+.02,.9,.01);
+  }
+  musicStep++;
+}
+function rampMaster(target,seconds){
+  const g=masterGain.gain,now=audioContext.currentTime;
+  g.cancelScheduledValues(now);
+  g.setValueAtTime(g.value,now);
+  g.linearRampToValueAtTime(target,now+seconds);
+}
+function startSound(){
+  if(sounding||!audioContext)return;
+  sounding=true;
+  window.clearTimeout(stopTimer);
+  rampMaster(MASTER_LEVEL,FADE_IN);
+  playMusicStep();
+  musicTimer=window.setInterval(playMusicStep,620);
+}
+function stopSound(){
+  if(!sounding)return;
+  sounding=false;
+  rampMaster(0,FADE_OUT);
+  window.clearTimeout(stopTimer);
+  stopTimer=window.setTimeout(()=>{if(!sounding){window.clearInterval(musicTimer);musicTimer=null}},FADE_OUT*1000+80);
+}
+function renderMusicButton(){
+  const state=sounding?'on':(wantMusic?'wait':'off');
+  musicButton.dataset.state=state;
+  musicButton.setAttribute('aria-pressed',String(state==='on'));
+  musicButton.setAttribute('aria-label',state==='on'?'Turn music off':'Turn music on');
+}
+function syncMusic(){
+  if(audioContext){
+    if(wantMusic&&audioContext.state==='running'&&!document.hidden) startSound(); else stopSound();
+  }
+  renderMusicButton();
+}
+function tryResume(){
+  if(!audioContext&&!buildAudioGraph()){renderMusicButton();return}
+  const p=audioContext.resume();
+  if(p&&p.then) p.then(syncMusic,syncMusic);
+  syncMusic();
+}
+// Browsers block sound until a gesture, so the first gesture anywhere starts the music.
+function firstGesture(e){
+  if(!wantMusic||sounding) return;
+  if(e.target&&e.target.closest&&e.target.closest('#musicButton')) return;
+  tryResume();
+}
+['pointerdown','touchstart','touchend','pointerup','click','keydown'].forEach(t=>window.addEventListener(t,firstGesture,{passive:true}));
+musicButton.addEventListener('click',()=>{
+  if(sounding){wantMusic=false;syncMusic()}
+  else{wantMusic=true;tryResume()}
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden) syncMusic(); else if(wantMusic) tryResume();
+});
+window.addEventListener('pagehide',()=>{if(musicTimer)window.clearInterval(musicTimer);if(audioContext)audioContext.close()});
+// Music is on by default: try straight away, and the first gesture will finish the job if blocked.
+renderMusicButton();
+tryResume();
+
+const snow=document.getElementById('snow');
+for(let i=0;i<22;i++){
+  const flake=document.createElement('i');
+  flake.className='flake';
+  flake.style.left=Math.random()*100+'%';
+  flake.style.animationDuration=11+Math.random()*13+'s';
+  flake.style.animationDelay=-Math.random()*20+'s';
+  flake.style.opacity=.2+Math.random()*.4;
+  snow.appendChild(flake);
+}
+</script>
+</body>
+</html>

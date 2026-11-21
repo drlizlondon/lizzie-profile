@@ -20,6 +20,12 @@
     ] },
     { "source": "/christmas", "headers": [
       { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+    ] },
+    { "source": "/christmasdemo", "headers": [
+      { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+    ] },
+    { "source": "/ohchristmasinvite", "headers": [
+      { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
     ] }
   ]
 }

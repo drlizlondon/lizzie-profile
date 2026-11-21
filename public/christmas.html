@@ -158,6 +158,7 @@ input,select{width:100%;padding:11px;border:1px solid #d5cbb8;border-radius:0;ba
 .confirm.show,.decline.show{display:block;animation:fade-in .4s ease}
 .confirm h3,.decline h3{font-size:25px;font-weight:400;color:var(--pine);margin:0 0 8px}
 .confirm p,.decline p{font-size:14px;line-height:1.6;color:#606158}
+.addr-note{margin:6px 0 0;font:11px Arial,sans-serif;letter-spacing:.08em;color:#7b735f}
 .address{margin:16px 0;padding:14px;background:#f7f7f1;border:1px solid var(--line);font-size:16px;line-height:1.6;color:var(--pine)}
 .address small{display:block;margin-top:4px;color:#7b735f;font:9px Arial,sans-serif;letter-spacing:.15em;text-transform:uppercase}
 .footer{margin-top:16px;color:#8b8578;font:8px Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
@@ -278,7 +279,8 @@ input,select{width:100%;padding:11px;border:1px solid #d5cbb8;border-radius:0;ba
         <div class="ornament">✳ &nbsp; ❧ &nbsp; ✳</div>
         <h2>Lizzie &amp; Chris'<br>Christmas Party</h2>
         <p class="date">Saturday 19th December 2026</p>
-        <div class="details">Enfield &nbsp;·&nbsp; From 15:00</div>
+        <div class="details">London &nbsp;·&nbsp; From 15:00</div>
+        <p class="addr-note">Text Lizzie if you don't have the address.</p>
         <div class="rule"></div>
         <p class="note">Good company, festive cheer and a little Christmas fun.</p>
         <div class="actions">
@@ -319,7 +321,7 @@ input,select{width:100%;padding:11px;border:1px solid #d5cbb8;border-radius:0;ba
     <div class="confirm" id="confirm">
       <h3 id="confirmationHeading">We can't wait to see you!</h3>
       <p id="confirmationMessage">Your RSVP has been saved in this browser.</p>
-      <div class="address" id="partyAddress" hidden><strong id="partyAddressLine1"></strong><br><span id="partyAddressLine2"></span><small id="partyAddressNote"></small></div>
+      <div class="address" id="partyAddress" hidden><strong>London</strong><small>Text Lizzie if you don't have the address.</small></div>
       <p id="confirmationFooter">We look forward to celebrating with you.</p>
       <button class="secondary" id="changeRsvp" type="button">Change my response</button>
     </div>
@@ -427,14 +429,8 @@ form.addEventListener('submit',async e=>{
       responseStatus==='Yes'?'We can’t wait to see you!':'Thank you for letting us know.';
     document.getElementById('confirmationMessage').textContent=
       'Thank you. Your response has been sent to Lizzie.';
-    // The address is not in this page: the backend sends it only after a Yes.
-    const addr=responseStatus==='Yes'&&reply.address;
-    if(addr){
-      document.getElementById('partyAddressLine1').textContent=addr.line1||'';
-      document.getElementById('partyAddressLine2').textContent=addr.line2||'';
-      document.getElementById('partyAddressNote').textContent=addr.note||'';
-    }
-    document.getElementById('partyAddress').hidden=!addr;
+    // No address is shown on this page; guests text Lizzie for it.
+    document.getElementById('partyAddress').hidden=responseStatus!=='Yes';
     document.getElementById('confirmationFooter').textContent=
       responseStatus==='Yes'?'We look forward to celebrating with you.':'Wishing you a lovely Christmas.';
     document.getElementById('confirm').classList.add('show');
