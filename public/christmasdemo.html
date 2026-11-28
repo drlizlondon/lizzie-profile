@@ -164,12 +164,21 @@ input,select{width:100%;padding:11px;border:1px solid #d5cbb8;border-radius:0;ba
 .lead h3{text-align:center;margin:0 0 4px;color:var(--pine);font-size:24px;font-weight:400}
 .lead h4{margin:20px 0 6px;color:var(--pine);font-size:17px;font-weight:400}
 .lead p{margin:0 0 10px;color:#606158;font-size:14px;line-height:1.6}
-.lead textarea{width:100%;min-height:150px;padding:11px;border:1px solid #d5cbb8;background:#fffefa;color:var(--ink);font:13px/1.55 Arial,sans-serif;resize:vertical}
+.lead button{min-height:48px}
+.lead .kicker{text-align:center;margin:0 0 6px}
+.lead .tagline{text-align:center;font-style:italic;font-size:17px;color:var(--pine)}
+.lead ol.steps{margin:0 0 16px;padding:0;list-style:none;counter-reset:step}
+.lead ol.steps li{position:relative;margin:0 0 10px;padding:2px 0 2px 40px;color:#606158;font-size:14px;line-height:1.6;counter-increment:step}
+.lead ol.steps li:before{content:counter(step);position:absolute;left:0;top:0;width:28px;height:28px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--pine);font:13px/1 Georgia,serif}
+.prompt-box{margin:0 0 16px;padding:14px;border:1px solid var(--line);background:#f7f7f1}
+.prompt-box h4{margin:0 0 4px}
+.prompt-box textarea{display:block;width:100%;height:150px;margin:8px 0 10px;padding:11px;border:1px solid #d5cbb8;background:#fffefa;color:var(--ink);font:13px/1.55 Arial,sans-serif;resize:vertical}
+.lead .why{padding:12px 0;margin:4px 0 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+.lead a.drop{display:inline-block;padding:11px 0}
 .lead a{color:var(--pine)}
 .lead-consent{font:11px/1.5 Arial,sans-serif!important;color:#77766d!important;margin-top:10px!important}
 #lessonBtn{margin-top:14px}
 #leadForm{margin-top:16px}
-#copyPrompt{margin-top:10px}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .lead-done{display:none;text-align:center;color:var(--pine);font-size:17px;padding:10px 0}
 .addr-note{margin:0;font:10.5px/1.5 Arial,sans-serif;letter-spacing:.04em;color:#7b735f}
@@ -345,11 +354,56 @@ input,select{width:100%;padding:11px;border:1px solid #d5cbb8;border-radius:0;ba
     </div>
   </section>
   <section class="lead" id="lead" aria-labelledby="leadHeading">
+    <p class="kicker">I make cool things with AI</p>
     <h3 id="leadHeading">Want to build one yourself?</h3>
-    <h4>Make your own</h4>
+    <p class="tagline">My vision, brought to life with AI.</p>
     <p>Paste this into an AI chat and it will build you an animated party invite.</p>
-    <textarea id="promptText" readonly aria-label="Prompt to build your own animated party invite">Build me a single-page animated party invitation website. It should open with an envelope that unseals to reveal a card showing my event name, date and place, which I will give you. Add a short, gentle animation and a link-preview image. Include an RSVP form (yes or no, number of guests, names) that saves each reply to a Google Sheet through a Google Apps Script web app and emails me a notification. Show a clear confirmation after sending, make it look good on a phone, and keep any street address out of the public page. Ask me for the event details first, then walk me through the setup one step at a time.</textarea>
-    <button class="form-submit" id="copyPrompt" type="button">Copy the prompt</button>
+    <h4>How to use it</h4>
+    <ol class="steps">
+      <li>Pick Easy (replies come to your email, no setup) or Advanced (replies saved to a Google Sheet).</li>
+      <li>Copy the prompt with its button.</li>
+      <li>Paste it into ChatGPT (free works) or Claude and swap the [PLACEHOLDERS] for your own details.</li>
+      <li>Follow its steps to put the page online for free with <a class="drop" href="https://app.netlify.com/drop" target="_blank" rel="noopener">Netlify Drop</a>.</li>
+    </ol>
+    <div class="prompt-box">
+      <h4>Easy</h4>
+      <p>Replies come to your email. No setup.</p>
+      <textarea id="promptEasy" readonly aria-label="Easy prompt: replies come to your email">Build a Christmas party invite website as ONE complete HTML file (inline CSS and JS, under 350 lines). Give it all in your first reply, no questions first. Use placeholders like [EVENT NAME], [DATE], [TIME], [TOWN], [HOST NAME], [HOST EMAIL], [YOUR MESSAGE]; list what to change. No street address.
+
+LOOK: Google Fonts Cormorant Garamond plus Pinyon Script; green #153b2e, cream #faf5ea, gold #b8914a, berry #8c2f39.
+
+PHONE FIRST (390px wide): with no scrolling, the first screen shows a short title, a CLOSED envelope with a wax seal and "Tap to open", centred. Nothing animates until tapped. Use clamp() text, 44px+ tap targets, safe-area insets, 16px inputs. Centred with a max width on desktop.
+
+WHEN TAPPED (2 to 3 seconds): the title fades out as the seal cracks and the flap opens in 3D. The card rises out of the envelope into the space the title left while the envelope moves down, so the card never covers any text. The hidden card must not block taps on the envelope. At the end the envelope fades away and the card sits alone, fully readable, with details and RSVP below it. Nothing overlaps text at any moment. Gentle snow. Respect prefers-reduced-motion.
+
+RSVP (no setup): yes/no, guests, names. Submit opens a pre-filled mailto: email to [HOST EMAIL] and shows a clear confirmation ("Almost done: press Send in your email app"), plus a button that copies the reply if no mail app opens.
+
+PREVIEW IMAGE (optional): no hot-linked photos. Set og:image to [YOUR SITE LINK]/preview.jpg (previews need a full web address); tell me how to make that image with your image tool and put it beside the file.
+
+ONLINE FREE: tell me to save it as index.html in a folder, drag the folder onto app.netlify.com/drop, then sign up free to claim it (until then guests see a password prompt) and set it to public.</textarea>
+      <button class="form-submit copy-btn" id="copyEasy" data-target="promptEasy" type="button">Copy the Easy prompt</button>
+    </div>
+    <div class="prompt-box">
+      <h4>Advanced</h4>
+      <p>Replies saved to a Google Sheet.</p>
+      <textarea id="promptAdvanced" readonly aria-label="Advanced prompt: replies saved to a Google Sheet">Build a Christmas party invite website as ONE complete HTML file (inline CSS and JS, under 350 lines) plus Google Apps Script code. Give it all in your first reply, no questions first. Use placeholders like [EVENT NAME], [DATE], [TIME], [TOWN], [HOST NAME], [HOST EMAIL], [YOUR MESSAGE], [APPS SCRIPT URL]; list what to change. No street address.
+
+LOOK: Google Fonts Cormorant Garamond plus Pinyon Script; green #153b2e, cream #faf5ea, gold #b8914a, berry #8c2f39.
+
+PHONE FIRST (390px wide): with no scrolling, the first screen shows a short title, a CLOSED envelope with a wax seal and "Tap to open", centred. Nothing animates until tapped. Use clamp() text, 44px+ tap targets, safe-area insets, 16px inputs. Centred with a max width on desktop.
+
+WHEN TAPPED (2 to 3 seconds): the title fades out as the seal cracks and the flap opens in 3D. The card rises out of the envelope into the space the title left while the envelope moves down, so the card never covers any text. The hidden card must not block taps on the envelope. At the end the envelope fades away and the card sits alone, fully readable, with details and RSVP below it. Nothing overlaps text at any moment. Gentle snow. Respect prefers-reduced-motion.
+
+RSVP: yes/no, guests, names, sent by fetch (mode "no-cors") to [APPS SCRIPT URL] with a clear thank-you; until replaced, fall back to a pre-filled mailto: email.
+
+APPS SCRIPT: doPost(e) appends a row (time, attendance, guests, names) to its Sheet and emails [HOST EMAIL] via MailApp. Give numbered beginner steps: new Sheet, Extensions > Apps Script, paste, Deploy > New deployment > Web app (execute as me, access Anyone), approve, paste the URL into the page.
+
+PREVIEW IMAGE (optional): no hot-linked photos. Set og:image to [YOUR SITE LINK]/preview.jpg (previews need a full web address); tell me how to make that image with your image tool and put it beside the file.
+
+ONLINE FREE: tell me to save it as index.html in a folder, drag the folder onto app.netlify.com/drop, then sign up free to claim it (until then guests see a password prompt) and set it to public.</textarea>
+      <button class="form-submit copy-btn" id="copyAdvanced" data-target="promptAdvanced" type="button">Copy the Advanced prompt</button>
+    </div>
+    <p class="why">It designs for the phone first and spells out the opening animation so nothing overlaps.</p>
     <button class="form-submit" id="lessonBtn" type="button" aria-expanded="false" aria-controls="leadForm">Yes please, I want the lesson</button>
     <form id="leadForm" novalidate hidden>
       <p>I'm making a short lesson on building this with AI. Leave your email and you'll be first to get it.</p>
@@ -477,10 +531,13 @@ document.getElementById('lessonBtn').addEventListener('click',()=>{
   document.getElementById('leadEmail').focus();
   track('christmasdemo_lesson_click');
 });
-document.getElementById('copyPrompt').addEventListener('click',async()=>{
-  const box=document.getElementById('promptText'),btn=document.getElementById('copyPrompt');
-  try{await navigator.clipboard.writeText(box.value)}catch(err){box.select();document.execCommand('copy')}
-  btn.textContent='Copied';window.setTimeout(()=>{btn.textContent='Copy the prompt'},2000);
+document.querySelectorAll('.copy-btn').forEach(btn=>{
+  const label=btn.textContent;
+  btn.addEventListener('click',async()=>{
+    const box=document.getElementById(btn.dataset.target);
+    try{await navigator.clipboard.writeText(box.value)}catch(err){box.focus();box.select();box.setSelectionRange(0,box.value.length);document.execCommand('copy')}
+    btn.textContent='Copied';window.setTimeout(()=>{btn.textContent=label},2000);
+  });
 });
 const leadForm=document.getElementById('leadForm');
 function leadDone(){leadForm.hidden=true;document.getElementById('lessonBtn').hidden=true;document.getElementById('leadDone').style.display='block'}

@@ -65,14 +65,16 @@ test('demo sign-up reuses the existing Kit form from fable-pro.js and tags sourc
   assert.ok(demo.includes(`const SIGNUP_ENDPOINT='https://app.kit.com/forms/${id}/subscriptions';`));
   assert.ok(fable.includes("KIT_EMAIL_FIELD = 'email_address'") && demo.includes("append('email_address'"));
   assert.ok(demo.includes("append('fields[source]',SIGNUP_SOURCE)") && demo.includes("SIGNUP_SOURCE='christmasdemo'"));
-  assert.equal((demo.match(/fetch\s*\(/g) || []).length, 1);
+  assert.equal((demo.replace(/<textarea[\s\S]*?<\/textarea>/g, '').match(/fetch\s*\(/g) || []).length, 1); // prompt text boxes are data, not page code
   assert.ok(!/script\.google\.com/.test(demo));
 });
 
-test('demo lesson section: prompt under 120 words and generic, honest waiting-list copy, honeypot, privacy link', () => {
-  const prompt = demo.match(/id="promptText"[^>]*>([\s\S]*?)<\/textarea>/)[1];
-  assert.ok(prompt.trim().split(/\s+/).length < 120);
-  assert.ok(!/christmas|enfield|chris|19th/i.test(prompt));
+test('demo freebie section: Easy and Advanced prompts generic (no real event details), honest waiting-list copy, honeypot, privacy link', () => {
+  for (const id of ['promptEasy', 'promptAdvanced']) {
+    const prompt = demo.match(new RegExp(`id="${id}"[^>]*>([\\s\\S]*?)</textarea>`))[1];
+    assert.ok(prompt.trim().split(/\s+/).length > 120);
+    assert.ok(!/enfield|chris |19th/i.test(prompt));
+  }
   assert.ok(demo.includes('Want to build one yourself?'));
   assert.ok(demo.includes('Yes please, I want the lesson'));
   assert.ok(demo.includes("I'm making a short lesson on building this with AI. Leave your email and you'll be first to get it."));
